@@ -1,0 +1,24 @@
+CREATE TABLE "Product" (
+	"Num"	INTEGER NOT NULL,
+	"Name"	TEXT NOT NULL,
+	"Type"	TEXT NOT NULL,
+	"Size"	TEXT NOT NULL,
+	"Price"	NUMERIC NOT NULL,
+	"Image"	BLOB,
+	"etc"	TEXT,
+	PRIMARY KEY("Num" AUTOINCREMENT)
+)
+
+CREATE TABLE "Customer" (
+	"NickName"	TEXT NOT NULL,
+	"Phone"	TEXT NOT NULL,
+	PRIMARY KEY("NickName")
+)
+
+CREATE TABLE "Stlm" (
+	"Num"	INTEGER NOT NULL,
+	"Price"	INTEGER NOT NULL,
+	"How"	TEXT,
+	"Date"	TEXT,
+	PRIMARY KEY("Num")
+)
