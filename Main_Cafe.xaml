@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="Cafe" Height="600" Width="300">
 
+    
     <Border>
         <Grid>
             <Grid.RowDefinitions>
@@ -25,7 +26,7 @@
                 <!--결제 영역 분할하기-->
                 <RowDefinition Height="0.5*" />
             </Grid.RowDefinitions>
-            
+
             <!--언어 선택영역-->
             <Grid Grid.Row="0">
                 <Grid>
@@ -35,19 +36,21 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                           
-                    <Grid Grid.Column="0" Background="#eee">
-                        <Button>
+
+                    <Grid Grid.Column="0" Background="LightGray">
+                        <Button x:Name="btn_kor" Background="White" Click="btn_kor_Click" BorderThickness="0 0 0 0" >
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="0.5*"/>
                                 </Grid.RowDefinitions>
-                                
+
                                 <Grid Grid.Row="0">
-                                    <Image Name="Kor"/>
+                                    <Border BorderBrush="Black" BorderThickness="1,1,1,1">
+                                        <Image Name="Kor"/>
+                                    </Border>
                                 </Grid>
-                                
+
                                 <Grid Grid.Row="1">
                                     <TextBlock  TextAlignment="Center" Text="한국어" FontWeight="Bold"  />
                                 </Grid>
@@ -55,8 +58,8 @@
                         </Button>
                     </Grid>
 
-                    <Grid Grid.Column="1" Background="#eee">
-                        <Button>
+                    <Grid Grid.Column="1" Background= "LightGray" >
+                        <Button x:Name="btn_eng" Click="btn_eng_Click" BorderThickness="0 0 0 0">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -64,7 +67,9 @@
                                 </Grid.RowDefinitions>
 
                                 <Grid Grid.Row="0">
-                                    <Image Name="Eng"/>
+                                    <Border  BorderBrush="Black" BorderThickness="1,1,1,1">
+                                        <Image Name="Eng"/>
+                                    </Border>
                                 </Grid>
 
                                 <Grid Grid.Row="1">
@@ -73,9 +78,9 @@
                             </Grid>
                         </Button>
                     </Grid>
-                    
-                    <Grid Grid.Column="2" Background="#eee">
-                        <Button>
+
+                    <Grid Grid.Column="2" Background= "LightGray">
+                        <Button x:Name="btn_chn" Click="btn_chn_Click" BorderThickness="0 0 0 0">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -83,7 +88,9 @@
                                 </Grid.RowDefinitions>
 
                                 <Grid Grid.Row="0">
-                                    <Image Name="Chn"/>
+                                    <Border BorderBrush="Black" BorderThickness="1,1,1,1">
+                                        <Image Name="Chn" />
+                                    </Border>
                                 </Grid>
 
                                 <Grid Grid.Row="1">
@@ -93,8 +100,8 @@
                         </Button>
                     </Grid>
 
-                    <Grid Grid.Column="3" Background="#eee">
-                        <Button>
+                    <Grid Grid.Column="3" Background= "LightGray">
+                        <Button x:Name="btn_jpn" Click="btn_jpn_Click" BorderThickness="0 0 0 0">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -102,7 +109,9 @@
                                 </Grid.RowDefinitions>
 
                                 <Grid Grid.Row="0">
-                                    <Image Name="Jpn"/>
+                                    <Border BorderBrush="Black" BorderThickness="1,1,1,1">
+                                        <Image Name="Jpn" />
+                                    </Border>
                                 </Grid>
 
                                 <Grid Grid.Row="1">
@@ -111,7 +120,7 @@
                             </Grid>
                         </Button>
                     </Grid>
-                                                                                  
+
                 </Grid>
             </Grid>
 
@@ -119,15 +128,14 @@
             <Grid Grid.Row="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                      
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                
 
-                    <Grid Grid.Column="0" Background="DarkGray">
-                        <Button Content="음료" FontWeight="Bold" Margin=" 10 5 10 0"  Background="White"  BorderThickness="0">
+
+                    <Grid Grid.Column="0" Background="DarkGray" >
+                        <Button x:Name="btn_beverage" Content="음료" FontWeight="Bold" Margin=" 10 5 10 0"  Background="White"   BorderThickness="0 0 0 0" Click="btn_beverage_Click">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="10 10 0 0" />
@@ -137,7 +145,7 @@
                     </Grid>
 
                     <Grid Grid.Column="1" Background="DarkGray">
-                        <Button Content="디저트" FontWeight="Bold" Margin=" 10 5 10 0"  Background="White"  BorderThickness="0">
+                        <Button x:Name="btn_dessert" Content="디저트" FontWeight="Bold" Margin=" 10 5 10 0"  Background="LightGray"  BorderThickness="0 0 0 0" Click="btn_dessert_Click">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="10 10 0 0" />
@@ -147,7 +155,7 @@
                     </Grid>
 
                     <Grid Grid.Column="2" Background="DarkGray">
-                        <Button Content="기타" FontWeight="Bold" Margin=" 10 5 10 0"  Background="White"  BorderThickness="0">
+                        <Button x:Name="btn_etc" Content="기타" FontWeight="Bold" Margin=" 10 5 10 0"  Background="LightGray"  BorderThickness="0 0 0 0" Click="btn_etc_Click">
                             <Button.Resources>
                                 <Style TargetType="Border">
                                     <Setter Property="CornerRadius" Value="10 10 0 0" />
@@ -157,32 +165,59 @@
                     </Grid>
                 </Grid>
             </Grid>
-            
-            <!--메뉴 선택영역-->
+
+            <!--메뉴 선택영역-->            
             <Grid Grid.Row="2">
-                <Border BorderThickness="1" BorderBrush="Black">
-                   
-                        <TextBlock  VerticalAlignment="Center" TextAlignment="Center"  Text="메뉴 선택 영역"/>
-                  
-                </Border>
+                <Grid  x:Name="Menu"  Margin="5 5 5 5">
+
+                </Grid>
+<!--  
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="67*"/>
+                    <ColumnDefinition Width="225*"/>
+                </Grid.ColumnDefinitions>
+                       
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+
+                <Grid Grid.Column="0 " Grid.Row="0">
+                    <Image Name ="pp"/>
+                </Grid>
+                <Grid Grid.Column="1 " Grid.Row="0">
+                    <Image Name ="ss"/>
+                </Grid>
+                <Grid Grid.Column="2 " Grid.Row="0">
+                    <Image/>
+                </Grid>
+-->
             </Grid>
-            
+
             <!--선택한 리스트 영역-->
             <Grid Grid.Row="3">
                 <Border BorderThickness="1" BorderBrush="Black">
                     <TextBlock  VerticalAlignment="Center" TextAlignment="Center" Text="결제창 영역"/>
                 </Border>
-               
+
             </Grid>
-            
+
             <!--결제 영역 -->
             <Grid Grid.Row="4">
                 <Border BorderThickness="1" BorderBrush="Black">
                     <TextBlock  VerticalAlignment="Center" TextAlignment="Center" Text="결제 버튼 영역"/>
                 </Border>
-               
             </Grid>
-     
+
 
         </Grid>
     </Border>

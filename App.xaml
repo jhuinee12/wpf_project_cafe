@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:WPF_project_Cafe"
              StartupUri="Main_Cafe.xaml">
     <Application.Resources>
-         
+       
     </Application.Resources>
 </Application>

@@ -1,0 +1,6 @@
+insert into Payment(stlm_number, customer_nickname, sum_price, takeout_here, datetime)
+values (2
+	, (select customer_nickname from stlm where serial_number=2)
+	, (select sum_price from stlm where serial_number=2)
+	, 'takeout'
+	, (select datetime from stlm where serial_number=2))

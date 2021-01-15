@@ -1,0 +1,7 @@
+update Stlm
+set customer_nickname = (
+	select Customer.nickname from Customer_Info
+	INNER JOIN Customer on Customer_Info.customer_number = Customer.serial_number
+	INNER JOIN Stlm on Customer_Info.stlm_number = stlm.serial_number
+	where stlm_number = 1)
+where serial_number = 1

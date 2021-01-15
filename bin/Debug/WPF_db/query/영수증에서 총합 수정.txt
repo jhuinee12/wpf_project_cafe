@@ -1,0 +1,8 @@
+update Stlm
+set sum_price = (
+	select SUM(Product.price*Product_Info.quantity)
+	from Product_Info
+	INNER JOIN Product on Product_Info.product_number = Product.serial_number
+	INNER JOIN Stlm on Product_Info.stlm_number = stlm.serial_number
+	where stlm_number = 1)
+where serial_number = 1

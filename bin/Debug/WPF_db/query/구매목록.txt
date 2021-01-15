@@ -1,0 +1,8 @@
+select stlm_number as '영수증번호'
+	, Product.name as '제품명'
+	, Product.price as '제품가격'
+	, quantity as '수량'
+	, Product.price*Product_Info.quantity as '결제가격'
+from Product_Info
+INNER JOIN Product on Product_Info.product_number = Product.serial_number
+INNER JOIN Stlm on Product_Info.stlm_number = stlm.serial_number
