@@ -14,8 +14,8 @@ namespace WPF_project_Cafe
         public SQLiteCommand cmd;
         public SQLiteDataReader rdr;
         public string[] payment_list;
-        public int sum_price = 0;
 
+        /* DB 연결 코드 */
         public void SetConnection()
         {
             string path = Environment.CurrentDirectory + @"\WPF_db\wpf.db;";
@@ -48,37 +48,38 @@ namespace WPF_project_Cafe
         }
 
         /* 영수증 출력 */
-        public void StlmLoadData(string stlm_number)
+        public void StlmLoadData(string stlm_number, int sum_price)
         {
+            // 해당 영수증 불러오기
             string stlmQuery = "select * from stlm where stlm_number = "+stlm_number;
             TableLoad(stlmQuery);
             while (rdr.Read())
             {
                 payment_list = (rdr["payment_list"] + "").Split('|');
-
-                for (int i = 0; i < payment_list.Length; i++) 
-                {
-
-                    if (i % 2 == 0)
-                    {
-                        MessageBox.Show("상품번호:"+payment_list[i]);
-
-                        int price = 0;
-                        string productQuery = "select * from product where product_number = " + payment_list[i];
-                        TableLoad(productQuery); 
-                        while (rdr.Read())
-                        {
-                            price = Int32.Parse(rdr["price"] + "");
-                        }
-
-                        sum_price += price * Int32.Parse(payment_list[i + 1]);
-                        MessageBox.Show("총합 : " + sum_price);
-
-                        TableQuit();
-                    }
-                }
             }
             TableQuit();
+
+            // 총합 계산
+            for (int i = 0; i < payment_list.Length; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    MessageBox.Show("상품번호:" + payment_list[i]); // 테스트용
+
+                    int price = 0;
+                    string productQuery = "select * from product where product_number = " + payment_list[i];
+                    TableLoad(productQuery);
+                    while (rdr.Read())
+                    {
+                        price = Int32.Parse(rdr["price"] + "");
+                    }
+
+                    sum_price += price * Int32.Parse(payment_list[i + 1]);
+                    MessageBox.Show("총합 : " + sum_price); // 테스트용
+
+                    TableQuit();
+                }
+            }
         }
     }
 }

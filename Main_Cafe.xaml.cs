@@ -69,8 +69,8 @@ namespace WPF_project_Cafe
         {
             try
             {
-                DBSqlite dbs = new DBSqlite();
-                dbs.StlmLoadData("1");
+                DBSqlite dbs = new DBSqlite(); // db 생성자
+                dbs.StlmLoadData("1",0); // StlmLoadData 불러오기
 
                 //국기 이미지
                 Kor.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_country\korea.jpg"));
