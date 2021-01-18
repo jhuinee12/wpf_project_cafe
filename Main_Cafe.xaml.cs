@@ -70,7 +70,7 @@ namespace WPF_project_Cafe
             try
             {
                 DBSqlite dbs = new DBSqlite();
-                dbs.StlmLoadData();
+                dbs.StlmLoadData("1");
 
                 //국기 이미지
                 Kor.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_country\korea.jpg"));

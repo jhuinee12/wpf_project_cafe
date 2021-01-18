@@ -46,9 +46,9 @@ namespace WPF_project_Cafe
         }
 
         /* 영수증 출력 */
-        public void StlmLoadData()
+        public void StlmLoadData(string stlm_number)
         {
-            string stlmQuery = "select * from stlm";
+            string stlmQuery = "select * from stlm where stlm_number = "+stlm_number;
             TableLoad(stlmQuery);
             while (rdr.Read())
             {
