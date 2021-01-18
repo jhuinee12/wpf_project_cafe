@@ -57,7 +57,7 @@ namespace WPF_project_Cafe
             {
                 MessageBox.Show(ex.ToString());
             }
-        }
+        }    
 
         //Menu 동적 그리드 나누기
         public void Menu_size()
