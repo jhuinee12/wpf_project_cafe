@@ -20,17 +20,40 @@ namespace WPF_project_Cafe
     /// </summary>
     public partial class MainWindow : Window
     {
+        // sticker_mode = new/hot 이라면  new/hot 스키터 
+        public string sticker_mode = "nomal";
+        public string beverage_name = "nothing";
+
+        //음료 경로
+        public ImageBrush amelicano = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\amelicano.jpg")));
+        public ImageBrush apple_mint_tea = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\apple_mint_tea.jpg")));
+        public ImageBrush banana_milkshake = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\banana_milkshake.jpg")));
+        public ImageBrush cafe_mocha = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\cafe_mocha.jpg")));
+        public ImageBrush cappuccino = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\cappuccino.jpg")));
+        public ImageBrush chamomile = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\chamomile.jpg")));
+        public ImageBrush cold_brew = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\cold_brew.jpg")));
+        public ImageBrush espresso = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\espresso.jpg")));
+        public ImageBrush french_earl_grey = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\french_earl_grey.jpg")));
+
         public MainWindow()
         {
 
             InitializeComponent();
 
             Init();
-
+            //동적 그리드 나누기
             Menu_size();
+            //동적 버튼 생성하기
             Menu_btn_add();
-            sticker_add();
 
+            //스티커 생성 sticker_mode = new 또는 hot 이라면  new 또는 hot 스티커 
+            //스티커 한개 생성하려면  sticker_add(a,b),  컬럼 a 로우b 의 위치에 생성됨
+            //한번에 스티커 2개  생성하려면  sticker_add(a,b,c,d),  컬럼 a 로우b 의 위치에 1개 생성 c,d위치에 1개 생성
+            //최대 한번에 3개 까지 생성 
+            //sticker_add(0,1,2,2,2,1,1);
+
+            sticker_mode = "hot";
+            sticker_add(0, 1);
         }
         // Menu_select() 에서 Menu_count = 2 면  2*2 size
         public int Menu_count = 9;
@@ -81,17 +104,15 @@ namespace WPF_project_Cafe
             
         }
 
+        //Menu 버튼생성
         public void Menu_btn_add()
         {
-           
-            
-
             Button[] btn = new Button[9];
 
             string[] Name =
-                           { "첫번째","두번째" , "3"
-                           , "4","5","6" 
-                           , "7", "8","9"
+                           { "아메리카노","애플민트차" ,"바나나 밀크쉐이크"
+                           , "카페 모카","카푸치노","카모마일"
+                           , "콜드브루", "에스프레소","프렌치 얼그레이"
                            };
             //버튼
             int btn_num = 0;
@@ -102,63 +123,158 @@ namespace WPF_project_Cafe
 
             for (int i = 0; i < Menu_count; i++)
             {
-                                            
-                    btn[btn_num] = new Button();
 
-                    btn[btn_num].Content = Name[btn_num];
-                    //btn[btn_num].Background = Brushes.White;
-                    //btn[btn_num].BorderThickness = new Thickness(0, 0, 0, 0);
-                    
-                    //버튼의 영역을 3*3으로
-                    Grid.SetColumnSpan(btn[btn_num], 3 );
-                    Grid.SetRowSpan(btn[btn_num], 3);
-                   
-                    //버튼의 col/row값을 설정
-                    Grid.SetColumn(btn[btn_num], Colum_set[col_cnt]);
-                    Grid.SetRow(btn[btn_num], Row_set[row_cnt]);
-                    
-                    //다음 컬럼으로 이동
-                    col_cnt++;
-                   
-                    //끝 컬럼 쪽이라면 로우를 이동시키고 컬럼도 다시 초기화
-                    if (col_cnt > 2)
+                btn[btn_num] = new Button();
+
+                btn[btn_num].Content = Name[btn_num];
+                // btn[btn_num].Background = Brushes.White;
+                // btn[btn_num].BorderThickness = new Thickness(0, 0, 0, 0);
+
+                //버튼의 영역을 3*3으로
+                Grid.SetColumnSpan(btn[btn_num], 3);
+                Grid.SetRowSpan(btn[btn_num], 3);
+
+                //버튼의 col/row값을 설정
+                Grid.SetColumn(btn[btn_num], Colum_set[col_cnt]);
+                Grid.SetRow(btn[btn_num], Row_set[row_cnt]);
+
+                //다음 컬럼으로 이동
+                col_cnt++;
+
+                //끝 컬럼 쪽이라면 로우를 이동시키고 컬럼도 다시 초기화
+                if (col_cnt > 2)
+                {
+                    col_cnt = 0;
+                    row_cnt++;
+
+                    if (row_cnt > 2)
                     {
-                        col_cnt = 0;
-                        row_cnt++;
-
-                        if (row_cnt > 2)
-                        {
-                            row_cnt = 0;
-                        }
+                        row_cnt = 0;
                     }
-                    //버튼을 추가한다 
-                    Menu.Children.Add(btn[btn_num]);
-                   
-                    //버튼 이름을 바꿔주기 위함
-                    btn_num = btn_num + 1;
-               
+                }
+
+                //버튼의 스타일을 재정의
+                btn[btn_num].FontWeight = FontWeights.Bold;
+                btn[btn_num].Style = FindResource("Button_Style") as Style;
+
+                //버튼을 추가한다 
+                Menu.Children.Add(btn[btn_num]);
+                //btn[btn_num].Style = FindResource("test123") as Style;
+                //버튼 이름을 바꿔주기 위함
+                btn_num = btn_num + 1;
+
             }
 
-            btn[0].Background  = new ImageBrush(Kor.Source);
-            btn[1].Background = new ImageBrush(Jpn.Source);
+            //버튼 이미지            
+            btn[0].Background = amelicano;
+            btn[1].Background = apple_mint_tea;
+            btn[2].Background = banana_milkshake;
+            btn[3].Background = cafe_mocha;
+            btn[4].Background = cappuccino;
+            btn[5].Background = chamomile;
+            btn[6].Background = cold_brew;
+            btn[7].Background = espresso;
+            btn[8].Background = french_earl_grey;
+            //btn[2].Template = FindResource("test123") as ControlTemplate;
 
-           
-           
-            
+
         }
-
-        public void sticker_add()
+        #region 스티커 생성 , 한번에 최대 3개의 스티커까지 생성가능     
+        public void sticker_add(int set_sticker_col, int set_sticker_row)
         {
-            //스티커 테스트
-            TextBlock tb = new TextBlock();
-            tb.Text = "New";
-            Grid.SetColumn(tb, 0);
-            Grid.SetRow(tb, 0);
 
-            Menu.Children.Add(tb);
+
+            //int sticker_num=0;
+            int[] Colum_set = { 0, 3, 6 };
+            int[] Row_set = { 0, 3, 6 };
+            int col_cnt = 0;
+            int row_cnt = 0;
+
+            Label[] sticker = new Label[9];
+
+            for (int sticker_num = 0; sticker_num < Menu_count; sticker_num++)
+            {
+                //스티커 테스트
+                sticker[sticker_num] = new Label();
+
+                if (sticker_mode == "new")
+                {
+                    sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.png")));
+                }
+                else if (sticker_mode == "hot")
+                {
+                    sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\hot.png")));
+                }
+
+                Grid.SetColumn(sticker[sticker_num], Colum_set[set_sticker_col]);
+                Grid.SetRow(sticker[sticker_num], Row_set[set_sticker_row]);
+
+
+                Menu.Children.Add(sticker[sticker_num]);
+                ////전체 스티커 씌우기
+                //col_cnt++;
+                //if (col_cnt > 2)
+                //{
+                //    col_cnt = 0;
+                //    row_cnt++;
+
+                //    if (row_cnt > 2)
+                //    {
+                //        row_cnt = 0;
+                //    }
+                //}
+            }
+
+
         }
-  
+        public void sticker_add(int set_sticker_col, int set_sticker_row, int set_sticker_col2, int set_sticker_row2)
+        {
+            sticker_add(set_sticker_col, set_sticker_row);
 
+            int[] Colum_set = { 0, 3, 6 };
+            int[] Row_set = { 0, 3, 6 };
+            Label[] sticker = new Label[9];
+
+            for (int sticker_num = 0; sticker_num < Menu_count; sticker_num++)
+            {
+
+                sticker[sticker_num] = new Label();
+                if (sticker_mode == "new")
+                {
+                    sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.jpg")));
+                }
+                else if (sticker_mode == "hot")
+                {
+                    sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\hot.jpg")));
+                }
+                Grid.SetColumn(sticker[sticker_num], Colum_set[set_sticker_col2]);
+                Grid.SetRow(sticker[sticker_num], Row_set[set_sticker_row2]);
+
+                Menu.Children.Add(sticker[sticker_num]);
+            }
+        }
+        public void sticker_add(int set_sticker_col, int set_sticker_row, int set_sticker_col2, int set_sticker_row2, int set_sticker_col3, int set_sticker_row3)
+        {
+            sticker_add(set_sticker_col, set_sticker_row, set_sticker_col2, set_sticker_row2);
+
+            int[] Colum_set = { 0, 3, 6 };
+            int[] Row_set = { 0, 3, 6 };
+            Label[] sticker = new Label[9];
+
+            for (int sticker_num = 0; sticker_num < Menu_count; sticker_num++)
+            {
+
+                sticker[sticker_num] = new Label();
+
+                sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.jpg")));
+
+                Grid.SetColumn(sticker[sticker_num], Colum_set[set_sticker_col3]);
+                Grid.SetRow(sticker[sticker_num], Row_set[set_sticker_row3]);
+
+                Menu.Children.Add(sticker[sticker_num]);
+            }
+        }
+        #endregion
 
         private void btn_beverage_Click(object sender, RoutedEventArgs e)
         {
@@ -174,7 +290,7 @@ namespace WPF_project_Cafe
             btn_beverage.Background = Brushes.LightGray;
             btn_dessert.Background = Brushes.White;
             btn_etc.Background = Brushes.LightGray;
-            
+
         }
 
         private void btn_etc_Click(object sender, RoutedEventArgs e)
@@ -182,7 +298,7 @@ namespace WPF_project_Cafe
             //선택된 섹션은 흰색으로 선택되지 않는 섹션은 회색으로 하여 표현  
             btn_beverage.Background = Brushes.LightGray;
             btn_dessert.Background = Brushes.LightGray;
-            btn_etc.Background = Brushes.White;           
+            btn_etc.Background = Brushes.White;
         }
 
         private void btn_kor_Click(object sender, RoutedEventArgs e)
