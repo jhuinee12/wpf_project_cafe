@@ -1,0 +1,18 @@
+SELECT SUBSTR(payment_list,1, instr(payment_list,'|')+1) FROM stlm
+
+
+// MySql 코드
+select
+   SUBSTRING_INDEX (SUBSTRING_INDEX(테이블명.컬럼영,'구분자',numbers.n),'구분자',-1) 컬럼명
+          
+from 
+   (select  1 n union  all  select 2  
+    union  all  select  3  union  all select 4 
+    union  all  select  5  union  all  select  6
+    union  all  select  7  union  all  select  8 
+    union  all  select  9 union  all  select  10) numbers INNER  JOIN 테이블명
+    on CHAR_LENGTH ( 테이블명 . 컬럼영 ) 
+      - CHAR_LENGTH ( REPLACE ( 테이블명 . 컬럼영 ,  '구분자' ,  '' ))>= numbers . n-1
+
+
+출처: https://yamea-guide.tistory.com/88 [기타치는 개발자의 야매 가이드]

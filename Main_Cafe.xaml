@@ -5,8 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_project_Cafe"
         mc:Ignorable="d"
-        Title="Cafe" Height="600" Width="300">
+        Title="Cafe" Height="800" Width="400">
+   
+    <Window.Resources>
+ <!--   <ControlTemplate  TargetType="{x:Type Button}" x:Key="test123">
+            <Button Background="White">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
+                    <Grid x:Name="row_0" Grid.Row="0">
+                        <Border BorderBrush="Black" BorderThickness="1,1,1,1">                       
+                            <Image Source= "C:\Users\x0226\OneDrive\바탕 화면\WPF_project_Cafe\bin\Debug\Image_country\korea.jpg" />
+                        </Border>
+                    </Grid>
+
+                    <Grid x:Name="row_1" Grid.Row="1">
+                        <TextBlock  Text="테스트" TextAlignment="Center" FontWeight="Bold"/>
+                    </Grid>
+                </Grid>
+            </Button>
+        </ControlTemplate>
+-->
+        <Style x:Key="Button_Style" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" BorderThickness="1" BorderBrush="DarkGray" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                            
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+<!--
+        <Style x:Key="sticker_test" TargetType="Label">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Label}">
+                        <Border>
+                            <Label/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+-->
+    </Window.Resources>
     
     <Border>
         <Grid>
