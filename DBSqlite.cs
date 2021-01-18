@@ -18,6 +18,7 @@ namespace WPF_project_Cafe
         //public DataSet ds = new DataSet();
         //public DataTable dt = new DataTable();
         //체크인테스트 sgpark 
+        //commit test cgh
 
         public void SetConnection()
         {
