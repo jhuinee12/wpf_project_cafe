@@ -13,6 +13,8 @@ namespace WPF_project_Cafe
         public SQLiteConnection con;
         public SQLiteCommand cmd;
         public SQLiteDataReader rdr;
+        public string[] payment_list;
+        public int sum_price = 0;
 
         public void SetConnection()
         {
@@ -48,11 +50,33 @@ namespace WPF_project_Cafe
         /* 영수증 출력 */
         public void StlmLoadData(string stlm_number)
         {
-            string stlmQuery = "select * from stlm where stlm_number = "+stlm_number;
+            string stlmQuery = "select payment_list from stlm where stlm_number = "+stlm_number;
             TableLoad(stlmQuery);
             while (rdr.Read())
             {
-                MessageBox.Show(rdr["sum_price"]+"");
+                MessageBox.Show(rdr["payment_list"] + "");
+                payment_list = (rdr["payment_list"] + "").Split('|');
+                
+                for (int i=0; i<payment_list.Length; i++)
+                {
+                    MessageBox.Show(payment_list[i]);
+
+/*                    if (i%2 == 0)
+                    {
+                        int price = 0;
+                        string productQuery = "select * from product where product_number = " + payment_list[i];
+                        TableLoad(productQuery);
+                        while (rdr.Read())
+                        {
+                            price = Int32.Parse(rdr["price"]+"");
+                        }
+
+                        sum_price += price * Int32.Parse(payment_list[i + 1]);
+                        MessageBox.Show("총합 : " + sum_price);
+
+                        TableQuit();
+                    }*/
+                }
             }
             TableQuit();
         }
