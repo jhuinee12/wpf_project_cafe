@@ -64,7 +64,8 @@ namespace WPF_project_Cafe
             {
                 if (i % 2 == 0)
                 {
-                    MessageBox.Show("상품번호:" + payment_list[i]); // 테스트용
+                    string product_name = "";
+                    MessageBox.Show("상품번호:" + payment_list[i] + " 구매수량:" + payment_list[i+1]); // 테스트용
 
                     int price = 0;
                     string productQuery = "select * from product where product_number = " + payment_list[i];
@@ -72,14 +73,16 @@ namespace WPF_project_Cafe
                     while (rdr.Read())
                     {
                         price = Int32.Parse(rdr["price"] + "");
+                        product_name = (rdr["name"] + " " + rdr["hot_ice_none"] + " " + rdr["size"]);
+                        MessageBox.Show("<" + product_name + ">" + "의 구매 총합 : " + price * Int32.Parse(payment_list[i + 1])); // 테스트용
                     }
 
                     sum_price += price * Int32.Parse(payment_list[i + 1]);
-                    MessageBox.Show("총합 : " + sum_price); // 테스트용
 
                     TableQuit();
                 }
             }
+            MessageBox.Show(stlm_number + "번 영수증의 구매 총합 : " + sum_price); // 테스트용
         }
     }
 }
