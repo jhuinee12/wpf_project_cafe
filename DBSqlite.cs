@@ -76,7 +76,6 @@ namespace WPF_project_Cafe
                         product_name = (rdr["name"] + " " + rdr["hot_ice_none"] + " " + rdr["size"]);
                         MessageBox.Show("<" + product_name + ">" + "의 구매 총합 : " + price * Int32.Parse(payment_list[i + 1])); // 테스트용
                     }
-
                     sum_price += price * Int32.Parse(payment_list[i + 1]);
 
                     TableQuit();
