@@ -8,6 +8,8 @@ namespace WPF_project_Cafe
 {
     class PaymentInfo
     {
+
+
         private string _ProductName;
         private string _ProductQuantity;
         private string _ProductPrice;

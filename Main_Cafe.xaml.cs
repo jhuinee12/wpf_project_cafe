@@ -396,7 +396,12 @@ namespace WPF_project_Cafe
             product_quantity--;
 
             PaymentInfo pi = PaymentInfo.GetInstance().ElementAt(0);
+            // 수량의 경우는 
+            //pi.ProductQuantity++;
+            //가격의 경우는
+            // pi.ProductPrice = (pi.product_quantity * pi.product_price);
             pi.ProductQuantity = (product_quantity).ToString();
+            // 가격 ( 수량 * 가격 )
             pi.ProductPrice = (product_quantity * product_price).ToString();
             paymentListView.Items.Refresh();
         }
