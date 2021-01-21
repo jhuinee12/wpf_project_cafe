@@ -20,9 +20,18 @@ namespace WPF_project_Cafe
     /// </summary>
     public partial class MainWindow : Window
     {
+        DBSqlite dbs = new DBSqlite(); // db 생성자
+
         // sticker_mode = new/hot 이라면  new/hot 스키터 
         public string sticker_mode = "nomal";
         public string beverage_name = "nothing";
+
+        Dictionary<string, int> payment_list = new Dictionary<string, int>();
+
+        public string product_number = "1";
+        public string product_name = "";
+        public int product_quantity = 1;
+        public int product_price = 0;
 
         //음료 경로
         public ImageBrush amelicano = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\amelicano.jpg")));
@@ -36,11 +45,8 @@ namespace WPF_project_Cafe
         public ImageBrush french_earl_grey = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\french_earl_grey.jpg")));
 
 
-
         public MainWindow()
         {
-                   
-
             InitializeComponent();
 
             Init();
@@ -48,6 +54,7 @@ namespace WPF_project_Cafe
             Menu_size();
             //동적 버튼 생성하기
             Menu_btn_add();
+            LoadListView();
 
             //스티커 생성 sticker_mode = new 또는 hot 이라면  new 또는 hot 스티커 
             //스티커 한개 생성하려면  sticker_add(a,b),  컬럼 a 로우b 의 위치에 생성됨
@@ -56,11 +63,9 @@ namespace WPF_project_Cafe
             //sticker_add(0,1,2,2,2,1,1);
             
             sticker_mode = "hot";
-            sticker_add(0, 1);      
-
-           
-
+            sticker_add(0, 1);
         }
+
         // Menu_select() 에서 Menu_count = 2 면  2*2 size
         public int Menu_count = 9;
 
@@ -69,7 +74,6 @@ namespace WPF_project_Cafe
         {
             try
             {
-                DBSqlite dbs = new DBSqlite(); // db 생성자
                 dbs.StlmLoadData("1",0); // StlmLoadData 불러오기
 
                 //국기 이미지
@@ -177,8 +181,6 @@ namespace WPF_project_Cafe
             btn[7].Background = espresso;
             btn[8].Background = french_earl_grey;
             //btn[2].Template = FindResource("test123") as ControlTemplate;
-
-
         }
 #region 스티커 생성 , 한번에 최대 3개의 스티커까지 생성가능     
         public void sticker_add(int set_sticker_col, int set_sticker_row)
@@ -337,7 +339,104 @@ namespace WPF_project_Cafe
             btn_chn.Background = Brushes.LightGray;
             btn_jpn.Background = Brushes.White;
         }
+
+
+        /* 결제선(리스트뷰) 출력하기 */
+        public void LoadListView()
+        {
+            payment_list.Add(product_number, 1); // 딕셔너리에 해당 값 추가
+
+            dbs.PaymentListLoad(product_number);
+            product_name = dbs.pdata;
+            dbs.DataLoad("Product", "where product_number = " + product_number, "price");
+            product_price = Int32.Parse(dbs.pdata);
+
+/*            paymentListView.Items.Add(new PaymentInfo()
+            { 
+                ProductName = product_name,
+                ProductQuantity = product_quantity.ToString(),
+                ProductPrice = (product_quantity * product_price).ToString()
+            });*/
+
+            PaymentInfo.GetInstance().Add(new PaymentInfo()
+            {
+                ProductName = product_name,
+                ProductQuantity = product_quantity.ToString(),
+                ProductPrice = (product_quantity * product_price).ToString()
+            });
+            PaymentInfo.GetInstance().Add(new PaymentInfo()
+            {
+                ProductName = product_name,
+                ProductQuantity = product_quantity.ToString(),
+                ProductPrice = (product_quantity * product_price).ToString()
+            });
+            PaymentInfo.GetInstance().Add(new PaymentInfo()
+            {
+                ProductName = product_name,
+                ProductQuantity = product_quantity.ToString(),
+                ProductPrice = (product_quantity * product_price).ToString()
+            });
+
+            paymentListView.ItemsSource = PaymentInfo.GetInstance();
+        }
+
+        private static PaymentInfo ListView_GetItem(RoutedEventArgs e)
+        {
+            DependencyObject dep = (DependencyObject)e.OriginalSource;
+
+            while (!(dep is System.Windows.Controls.ListViewItem))
+            {
+                try
+                {
+                    dep = VisualTreeHelper.GetParent(dep);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+
+            ListViewItem item = (ListViewItem)dep;
+            PaymentInfo content = (PaymentInfo)item.Content;
+
+            return content;
+        }
+
+        // 수량  -1
+        private void BtnMinus_Click(object sender, RoutedEventArgs e)
+        {
+            product_quantity--;
+
+            PaymentInfo pi = PaymentInfo.GetInstance().ElementAt(paymentListView.SelectedIndex);
+            // 수량의 경우는 
+            //pi.ProductQuantity++;
+            //가격의 경우는
+            // pi.ProductPrice = (pi.product_quantity * pi.product_price);
+            pi.ProductQuantity = (product_quantity).ToString();
+            // 가격 ( 수량 * 가격 )
+            pi.ProductPrice = (product_quantity * product_price).ToString();
+            paymentListView.Items.Refresh();
+        }
+
+        // 수량 +1
+        private void BtnPlus_Click(object sender, RoutedEventArgs e)
+        {
+            product_quantity++;
+
+            PaymentInfo pi = PaymentInfo.GetInstance().ElementAt(paymentListView.SelectedIndex);
+            pi.ProductQuantity = product_quantity.ToString();
+            pi.ProductPrice = (product_quantity * product_price).ToString();
+            paymentListView.Items.Refresh();
+        }
+
+        // 구매 목록 삭제 버튼
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            // 버튼 위치에서 수정하고 싶어요...
+            // paymentListView.Items.Remove(paymentListView.SelectedItem);
+        }
     }
+
 }
 
 
