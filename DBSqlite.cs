@@ -14,6 +14,7 @@ namespace WPF_project_Cafe
         public SQLiteCommand cmd;
         public SQLiteDataReader rdr;
         public string[] payment_list;
+        public string pdata;
 
         /* DB 연결 코드 */
         public void SetConnection()
@@ -45,6 +46,18 @@ namespace WPF_project_Cafe
         {
             rdr.Close();
             cmd.Dispose();
+        }
+
+        /* 테이블 내 데이터 가져오기 */
+        public void DataLoad(string data, string tableName, string where, string column)
+        {
+            string Query = "select * from " + tableName + where;
+            TableLoad(Query);
+            while (rdr.Read())
+            {
+                data = (rdr["column"] + "");
+            }
+            TableQuit();
         }
 
         /* 영수증 출력 */

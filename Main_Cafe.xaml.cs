@@ -20,9 +20,13 @@ namespace WPF_project_Cafe
     /// </summary>
     public partial class MainWindow : Window
     {
+        DBSqlite dbs = new DBSqlite(); // db 생성자
+
         // sticker_mode = new/hot 이라면  new/hot 스키터 
         public string sticker_mode = "nomal";
         public string beverage_name = "nothing";
+        public string product_name = "";
+        public int product_quantity = 0;
 
         //음료 경로
         public ImageBrush amelicano = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\amelicano.jpg")));
@@ -56,11 +60,11 @@ namespace WPF_project_Cafe
             //sticker_add(0,1,2,2,2,1,1);
             
             sticker_mode = "hot";
-            sticker_add(0, 1);      
+            sticker_add(0, 1);
 
-           
-
+            paymentListView.Items.Add(new PaymentInfo(){ ProductName = "0", ProductQuantity = "1", ProductPrice = "2" });
         }
+
         // Menu_select() 에서 Menu_count = 2 면  2*2 size
         public int Menu_count = 9;
 
@@ -69,7 +73,6 @@ namespace WPF_project_Cafe
         {
             try
             {
-                DBSqlite dbs = new DBSqlite(); // db 생성자
                 dbs.StlmLoadData("1",0); // StlmLoadData 불러오기
 
                 //국기 이미지
@@ -82,6 +85,51 @@ namespace WPF_project_Cafe
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private static PaymentInfo ListView_GetItem(RoutedEventArgs e)
+        {
+            DependencyObject dep = (DependencyObject)e.OriginalSource;
+
+            while(!(dep is System.Windows.Controls.ListViewItem))
+            {
+                try
+                {
+                    dep = VisualTreeHelper.GetParent(dep);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+
+            ListViewItem item = (ListViewItem)dep;
+            PaymentInfo content = (PaymentInfo)item.Content;
+
+            return content;
+        }
+
+        // 수량  -1
+        private void BtnMinus_Click(object sender, RoutedEventArgs e)
+        {
+            // 버튼 위치에서 수정하고 싶어요...
+            paymentListView.Items.Remove(paymentListView.SelectedItem);
+            paymentListView.Items.Add(new PaymentInfo() { ProductName = "1", ProductQuantity = "1", ProductPrice = "3" });
+        }
+
+        // 수량 +1
+        private void BtnPlus_Click(object sender, RoutedEventArgs e)
+        {
+            // 버튼 위치에서 수정하고 싶어요...
+            paymentListView.Items.Remove(paymentListView.SelectedItem);
+            paymentListView.Items.Add(new PaymentInfo() { ProductName = "1", ProductQuantity = "3", ProductPrice = "3" });
+        }
+
+        // 구매 목록 삭제 버튼
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            // 버튼 위치에서 수정하고 싶어요...
+            paymentListView.Items.Remove(paymentListView.SelectedItem);
         }
       
         //Menu 동적 그리드 나누기
@@ -338,6 +386,7 @@ namespace WPF_project_Cafe
             btn_jpn.Background = Brushes.White;
         }
     }
+
 }
 
 
