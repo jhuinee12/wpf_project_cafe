@@ -298,7 +298,7 @@
                                 <GridViewColumn Width="40">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Content="-" Height="25" Width="25" HorizontalAlignment="Left"  Click="BtnMinus_Click"/>
+                                            <Button Content="-" Height="25" Width="25" HorizontalAlignment="Center"  Click="BtnMinus_Click"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -306,7 +306,7 @@
                                 <GridViewColumn Width="40">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Content="+" Height="25" Width="25" HorizontalAlignment="Left"  Click="BtnPlus_Click"/>
+                                            <Button Content="+" Height="25" Width="25" HorizontalAlignment="Center"  Click="BtnPlus_Click"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -314,7 +314,7 @@
                                 <GridViewColumn Width="40">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Button Content="x" Height="25" Width="25" HorizontalAlignment="Left"  Click="BtnDelete_Click"/>
+                                            <Button Content="x" Height="25" Width="25" HorizontalAlignment="Center"  Click="BtnDelete_Click"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>

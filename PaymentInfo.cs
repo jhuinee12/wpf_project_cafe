@@ -17,5 +17,15 @@ namespace WPF_project_Cafe
         public string ProductQuantity { get { return _ProductQuantity; } set { _ProductQuantity = value; } }
         public string ProductPrice { get { return _ProductPrice; } set { _ProductPrice = value; } }
 
+        private static List<PaymentInfo> instance;
+
+        public static List<PaymentInfo> GetInstance()
+        {
+
+            if (instance == null)
+                instance = new List<PaymentInfo>();
+
+            return instance;
+        }
     }
 }

@@ -49,13 +49,25 @@ namespace WPF_project_Cafe
         }
 
         /* 테이블 내 데이터 가져오기 */
-        public void DataLoad(string data, string tableName, string where, string column)
+        public void DataLoad(string tableName, string where, string column)
         {
-            string Query = "select * from " + tableName + where;
+            string Query = "select * from " + tableName + " " + where;
             TableLoad(Query);
             while (rdr.Read())
             {
-                data = (rdr["column"] + "");
+                pdata = (rdr[column] + "");
+            }
+            TableQuit();
+        }
+
+        /* 구매 제품명 출력 */
+        public void PaymentListLoad (string pn)
+        {
+            string Query = "select * from product where product_number = " + pn;
+            TableLoad(Query);
+            while (rdr.Read())
+            {
+                pdata = (rdr["name"] + " / " + rdr["hot_ice_none"] + " / " + rdr["size"]);
             }
             TableQuit();
         }
