@@ -341,16 +341,22 @@ namespace WPF_project_Cafe
         }
 
 
-        /* 결제선(리스트뷰) */
+        /* 결제선(리스트뷰) 출력하기 */
         public void LoadListView()
         {
-            payment_list.Add(product_number, 1);
+            payment_list.Add(product_number, 1); // 딕셔너리에 해당 값 추가
 
             dbs.PaymentListLoad(product_number);
             product_name = dbs.pdata;
             dbs.DataLoad("Product", "where product_number = " + product_number, "price");
-
             product_price = Int32.Parse(dbs.pdata);
+
+/*            paymentListView.Items.Add(new PaymentInfo()
+            { 
+                ProductName = product_name,
+                ProductQuantity = product_quantity.ToString(),
+                ProductPrice = (product_quantity * product_price).ToString()
+            });*/
 
             PaymentInfo.GetInstance().Add(new PaymentInfo()
             {

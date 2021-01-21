@@ -259,13 +259,13 @@
 
             <!--선택한 리스트 영역-->
             <Grid Grid.Row="3">
-                <Grid.RowDefinitions>
+ <!--               <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="7*"/>
-                    </Grid.RowDefinitions>
+                    </Grid.RowDefinitions> -->
 
                 <!-- 결제선 타이틀 -->
-                <Grid Grid.Row="0">
+<!--                <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="*"/>
@@ -287,10 +287,10 @@
                             <TextBlock  VerticalAlignment="Center" TextAlignment="Center" Text="가격" FontWeight="Bold"/>
                         </Border>
                     </Grid>
-                </Grid>
+                </Grid> -->
 
                 <!--제품 선택 목록-->
-                <Grid Grid.Row="1">
+ <!--               <Grid Grid.Row="1"> -->
                     <ListView x:Name="paymentListView" HorizontalAlignment="Left" Width="600">
                         <ListView.View>
                             <GridView>
@@ -321,7 +321,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                </Grid>
+                <!--</Grid>-->
             </Grid>
 
             <!--결제 영역 -->
