@@ -41,15 +41,24 @@ namespace WPF_project_Cafe
             rdr = cmd.ExecuteReader();
         }
 
-        /* 테이블 종료 */
+        /* 테이블 로드 종료 */
         public void TableQuit()
         {
             rdr.Close();
             cmd.Dispose();
         }
 
+        /* 컬럼 추가 */
+        public void InsertColumn(string query)
+        {
+            SetConnection();
+            con.Open();
+            cmd = new SQLiteCommand(query, con);
+            cmd.ExecuteNonQuery();
+        }
+
         /* 테이블 내 데이터 가져오기 */
-        public void DataLoad(string tableName, string where, string column)
+        public string DataLoad(string tableName, string where, string column)
         {
             string Query = "select * from " + tableName + " " + where;
             TableLoad(Query);
@@ -58,23 +67,28 @@ namespace WPF_project_Cafe
                 pdata = (rdr[column] + "");
             }
             TableQuit();
+
+            return pdata;
         }
 
         /* 구매 제품명 출력 */
-        public void PaymentListLoad (string pn)
+        public string PaymentListLoad (string pn)
         {
-            string Query = "select * from product where product_number = " + pn;
+            string Query = "select * from product where product_number = \"" + pn + "\"";
             TableLoad(Query);
             while (rdr.Read())
             {
                 pdata = (rdr["name"] + " / " + rdr["hot_ice_none"] + " / " + rdr["size"]);
             }
             TableQuit();
+
+            return pdata;
         }
 
         /* 영수증 출력 */
-        public void StlmLoadData(string stlm_number, int sum_price)
+        public void StlmLoadData(string stlm_number)
         {
+            int sum_price = 0;
             // 해당 영수증 불러오기
             string stlmQuery = "select * from stlm where stlm_number = "+stlm_number;
             TableLoad(stlmQuery);
@@ -106,7 +120,9 @@ namespace WPF_project_Cafe
                     TableQuit();
                 }
             }
-            //MessageBox.Show(stlm_number + "번 영수증의 구매 총합 : " + sum_price); // 테스트용
+            MessageBox.Show(stlm_number + "번 영수증의 구매 총합 : " + sum_price); // 테스트용
+
+            // return sum_price;
         }
     }
 }

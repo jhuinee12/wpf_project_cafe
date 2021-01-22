@@ -26,12 +26,9 @@ namespace WPF_project_Cafe
         public string sticker_mode = "nomal";
         public string beverage_name = "nothing";
 
-        Dictionary<string, int> payment_list = new Dictionary<string, int>();
-
-        public string product_number = "1";
-        public string product_name = "";
-        public int product_quantity = 1;
+        public string product_number = "";
         public int product_price = 0;
+        public int stlm_number;
 
         //음료 경로
         public ImageBrush amelicano = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\amelicano.jpg")));
@@ -74,7 +71,7 @@ namespace WPF_project_Cafe
         {
             try
             {
-                dbs.StlmLoadData("1",0); // StlmLoadData 불러오기
+                //dbs.StlmLoadData("1",0); // StlmLoadData 불러오기
 
                 //국기 이미지
                 Kor.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_country\korea.jpg"));
@@ -344,12 +341,6 @@ namespace WPF_project_Cafe
         /* 결제선(리스트뷰) 출력하기 */
         public void LoadListView()
         {
-            payment_list.Add(product_number, 1); // 딕셔너리에 해당 값 추가
-
-            dbs.PaymentListLoad(product_number);
-            product_name = dbs.pdata;
-            dbs.DataLoad("Product", "where product_number = " + product_number, "price");
-            product_price = Int32.Parse(dbs.pdata);
 
 /*            paymentListView.Items.Add(new PaymentInfo()
             { 
@@ -358,11 +349,31 @@ namespace WPF_project_Cafe
                 ProductPrice = (product_quantity * product_price).ToString()
             });*/
 
+            product_number = "B01HT";
             PaymentInfo.GetInstance().Add(new PaymentInfo()
             {
-                ProductName = product_name,
-                ProductQuantity = product_quantity.ToString(),
-                ProductPrice = (product_quantity * product_price).ToString()
+                ProductNumber = product_number,
+                ProductName = dbs.PaymentListLoad(product_number),
+                ProductQuantity = 1,
+                ProductPrice = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + product_number + "\"", "price"))
+            });
+
+            product_number = "B02HS";
+            PaymentInfo.GetInstance().Add(new PaymentInfo()
+            {
+                ProductNumber = product_number,
+                ProductName = dbs.PaymentListLoad(product_number),
+                ProductQuantity = 1,
+                ProductPrice = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + product_number + "\"", "price"))
+            });
+
+            product_number = "B03IT";
+            PaymentInfo.GetInstance().Add(new PaymentInfo()
+            {
+                ProductNumber = product_number,
+                ProductName = dbs.PaymentListLoad(product_number),
+                ProductQuantity = 1,
+                ProductPrice = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + product_number + "\"", "price"))
             });
 
             paymentListView.ItemsSource = PaymentInfo.GetInstance();
@@ -393,27 +404,33 @@ namespace WPF_project_Cafe
         // 수량  -1
         private void BtnMinus_Click(object sender, RoutedEventArgs e)
         {
-            product_quantity--;
-
             PaymentInfo pi = PaymentInfo.GetInstance().ElementAt(paymentListView.SelectedIndex);
             // 수량의 경우는 
             //pi.ProductQuantity++;
             //가격의 경우는
             // pi.ProductPrice = (pi.product_quantity * pi.product_price);
-            pi.ProductQuantity = (product_quantity).ToString();
-            // 가격 ( 수량 * 가격 )
-            pi.ProductPrice = (product_quantity * product_price).ToString();
-            paymentListView.Items.Refresh();
+
+            if (pi.ProductQuantity > 1)
+            {
+                pi.ProductQuantity--;
+                // 가격 ( 수량 * 가격 )
+                product_price = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + pi.ProductNumber + "\"", "price"));
+                pi.ProductPrice = product_price * pi.ProductQuantity;
+                paymentListView.Items.Refresh();
+            }
+            else
+            {
+                MessageBox.Show("개수를 1개 이상 입력해주세요.");
+            }
         }
 
         // 수량 +1
         private void BtnPlus_Click(object sender, RoutedEventArgs e)
         {
-            product_quantity++;
-
             PaymentInfo pi = PaymentInfo.GetInstance().ElementAt(paymentListView.SelectedIndex);
-            pi.ProductQuantity = product_quantity.ToString();
-            pi.ProductPrice = (product_quantity * product_price).ToString();
+            pi.ProductQuantity++;
+            product_price = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + pi.ProductNumber + "\"", "price"));
+            pi.ProductPrice = product_price * pi.ProductQuantity;
             paymentListView.Items.Refresh();
         }
 
@@ -422,6 +439,51 @@ namespace WPF_project_Cafe
         {
             // 버튼 위치에서 수정하고 싶어요...
             // paymentListView.Items.Remove(paymentListView.SelectedItem);
+        }
+
+        // 결제하기 버튼
+        private void BtnPay_Click(object sender, RoutedEventArgs e)
+        {
+            // 영수증 번호 생성 (마지막 영수증 번호 +1)
+
+            try
+            {
+                stlm_number = Int32.Parse(dbs.DataLoad("stlm", "order by stlm_number desc limit 1", "stlm_number")) + 1;
+            }
+            catch
+            {
+                stlm_number = 1;
+            }
+
+            // 현재 리스트뷰의 행 개수
+            int count = paymentListView.Items.Count;
+            int sum_price = 0;
+            string payment_list = "";
+            for (int i=0; i<count; i++)
+            {
+                PaymentInfo pi = PaymentInfo.GetInstance().ElementAt(i);
+
+                if (i!=count-1)
+                {
+                    payment_list += pi.ProductNumber + "|";
+                    payment_list += pi.ProductQuantity + "|";
+                    sum_price += pi.ProductPrice;
+                }
+                else
+                {
+                    payment_list += pi.ProductNumber + "|";
+                    payment_list += pi.ProductQuantity;
+                    sum_price += pi.ProductPrice;
+                }
+            }
+
+            MessageBox.Show("payment_list : " + payment_list + "\nprice : " + sum_price);
+
+            string query = "insert into stlm(stlm_number, payment_list, sum_price, datetime) values ("
+                + stlm_number + ",\"" + payment_list + "\"," + sum_price + "," + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + ")";
+
+            dbs.InsertColumn(query);
+            dbs.StlmLoadData(stlm_number.ToString());
         }
     }
 
