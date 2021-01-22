@@ -58,7 +58,7 @@ namespace WPF_project_Cafe
             //한번에 스티커 2개  생성하려면  sticker_add(a,b,c,d),  컬럼 a 로우b 의 위치에 1개 생성 c,d위치에 1개 생성
             //최대 한번에 3개 까지 생성 
             //sticker_add(0,1,2,2,2,1,1);
-            
+
             sticker_mode = "hot";
             sticker_add(0, 1);
         }
@@ -82,7 +82,7 @@ namespace WPF_project_Cafe
                 MessageBox.Show(ex.ToString());
             }
         }
-      
+
         //Menu 동적 그리드 나누기
         public void Menu_size()
         {
@@ -91,7 +91,7 @@ namespace WPF_project_Cafe
 
             for (int i = 0; i < Menu_count; i++)
             {
-                RowDefinition rd = new RowDefinition(); 
+                RowDefinition rd = new RowDefinition();
                 rd.Height = new GridLength(1, GridUnitType.Star);
                 Menu.RowDefinitions.Add(rd);
             }
@@ -102,16 +102,16 @@ namespace WPF_project_Cafe
                 cd.Width = new GridLength(1, GridUnitType.Star);
                 Menu.ColumnDefinitions.Add(cd);
             }
-            
+
         }
         //Menu 버튼생성
         public void Menu_btn_add()
-        {          
+        {
             Button[] btn = new Button[9];
 
             string[] Name =
                            { "아메리카노","애플민트차" ,"바나나 밀크쉐이크"
-                           , "카페 모카","카푸치노","카모마일" 
+                           , "카페 모카","카푸치노","카모마일"
                            , "콜드브루", "에스프레소","프렌치 얼그레이"
                            };
             //버튼
@@ -123,36 +123,36 @@ namespace WPF_project_Cafe
 
             for (int i = 0; i < Menu_count; i++)
             {
-                                            
-                    btn[btn_num] = new Button();
 
-                    btn[btn_num].Content = Name[btn_num];
-                   // btn[btn_num].Background = Brushes.White;
-                   // btn[btn_num].BorderThickness = new Thickness(0, 0, 0, 0);
-                    
-                    //버튼의 영역을 3*3으로
-                    Grid.SetColumnSpan(btn[btn_num], 3 );
-                    Grid.SetRowSpan(btn[btn_num], 3);
-                   
-                    //버튼의 col/row값을 설정
-                    Grid.SetColumn(btn[btn_num], Colum_set[col_cnt]);
-                    Grid.SetRow(btn[btn_num], Row_set[row_cnt]);
-                    
-                    //다음 컬럼으로 이동
-                    col_cnt++;
-                   
-                    //끝 컬럼 쪽이라면 로우를 이동시키고 컬럼도 다시 초기화
-                    if (col_cnt > 2)
+                btn[btn_num] = new Button();
+
+                btn[btn_num].Content = Name[btn_num];
+                // btn[btn_num].Background = Brushes.White;
+                // btn[btn_num].BorderThickness = new Thickness(0, 0, 0, 0);
+
+                //버튼의 영역을 3*3으로
+                Grid.SetColumnSpan(btn[btn_num], 3);
+                Grid.SetRowSpan(btn[btn_num], 3);
+
+                //버튼의 col/row값을 설정
+                Grid.SetColumn(btn[btn_num], Colum_set[col_cnt]);
+                Grid.SetRow(btn[btn_num], Row_set[row_cnt]);
+
+                //다음 컬럼으로 이동
+                col_cnt++;
+
+                //끝 컬럼 쪽이라면 로우를 이동시키고 컬럼도 다시 초기화
+                if (col_cnt > 2)
+                {
+                    col_cnt = 0;
+                    row_cnt++;
+
+                    if (row_cnt > 2)
                     {
-                        col_cnt = 0;
-                        row_cnt++;
-
-                        if (row_cnt > 2)
-                        {
-                            row_cnt = 0;
-                        }
+                        row_cnt = 0;
                     }
-               
+                }
+
                 //버튼의 스타일을 재정의
                 btn[btn_num].FontWeight = FontWeights.Bold;
                 btn[btn_num].Style = FindResource("Button_Style") as Style;
@@ -162,7 +162,7 @@ namespace WPF_project_Cafe
                 //btn[btn_num].Style = FindResource("test123") as Style;
                 //버튼 이름을 바꿔주기 위함
                 btn_num = btn_num + 1;
-               
+
             }
 
             //버튼 이미지            
@@ -177,10 +177,10 @@ namespace WPF_project_Cafe
             btn[8].Background = french_earl_grey;
             //btn[2].Template = FindResource("test123") as ControlTemplate;
         }
-#region 스티커 생성 , 한번에 최대 3개의 스티커까지 생성가능     
+        #region 스티커 생성 , 한번에 최대 3개의 스티커까지 생성가능     
         public void sticker_add(int set_sticker_col, int set_sticker_row)
         {
-           
+
 
             //int sticker_num=0;
             int[] Colum_set = { 0, 3, 6 };
@@ -189,41 +189,41 @@ namespace WPF_project_Cafe
             int row_cnt = 0;
 
             Label[] sticker = new Label[9];
-            
-                for (int sticker_num = 0; sticker_num < Menu_count; sticker_num++)
+
+            for (int sticker_num = 0; sticker_num < Menu_count; sticker_num++)
+            {
+                //스티커 테스트
+                sticker[sticker_num] = new Label();
+
+                if (sticker_mode == "new")
                 {
-                    //스티커 테스트
-                    sticker[sticker_num] = new Label();
-                   
-                    if (sticker_mode == "new")
-                    {
-                        sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.png")));
-                    }
-                    else if (sticker_mode == "hot")
-                    {
-                        sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\hot.png")));
-                    }
-
-                    Grid.SetColumn(sticker[sticker_num], Colum_set[set_sticker_col]);
-                    Grid.SetRow(sticker[sticker_num], Row_set[set_sticker_row]);
-
-
-                    Menu.Children.Add(sticker[sticker_num]);
-                    ////전체 스티커 씌우기
-                    //col_cnt++;
-                    //if (col_cnt > 2)
-                    //{
-                    //    col_cnt = 0;
-                    //    row_cnt++;
-
-                    //    if (row_cnt > 2)
-                    //    {
-                    //        row_cnt = 0;
-                    //    }
-                    //}
+                    sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.png")));
                 }
-            
-          
+                else if (sticker_mode == "hot")
+                {
+                    sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\hot.png")));
+                }
+
+                Grid.SetColumn(sticker[sticker_num], Colum_set[set_sticker_col]);
+                Grid.SetRow(sticker[sticker_num], Row_set[set_sticker_row]);
+
+
+                Menu.Children.Add(sticker[sticker_num]);
+                ////전체 스티커 씌우기
+                //col_cnt++;
+                //if (col_cnt > 2)
+                //{
+                //    col_cnt = 0;
+                //    row_cnt++;
+
+                //    if (row_cnt > 2)
+                //    {
+                //        row_cnt = 0;
+                //    }
+                //}
+            }
+
+
         }
         public void sticker_add(int set_sticker_col, int set_sticker_row, int set_sticker_col2, int set_sticker_row2)
         {
@@ -251,7 +251,7 @@ namespace WPF_project_Cafe
                 Menu.Children.Add(sticker[sticker_num]);
             }
         }
-        public void sticker_add(int set_sticker_col, int set_sticker_row, int set_sticker_col2, int set_sticker_row2, int set_sticker_col3,int set_sticker_row3)
+        public void sticker_add(int set_sticker_col, int set_sticker_row, int set_sticker_col2, int set_sticker_row2, int set_sticker_col3, int set_sticker_row3)
         {
             sticker_add(set_sticker_col, set_sticker_row, set_sticker_col2, set_sticker_row2);
 
@@ -263,7 +263,7 @@ namespace WPF_project_Cafe
             {
 
                 sticker[sticker_num] = new Label();
-              
+
                 sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.jpg")));
 
                 Grid.SetColumn(sticker[sticker_num], Colum_set[set_sticker_col3]);
@@ -272,7 +272,7 @@ namespace WPF_project_Cafe
                 Menu.Children.Add(sticker[sticker_num]);
             }
         }
-#endregion
+        #endregion
 
         private void btn_beverage_Click(object sender, RoutedEventArgs e)
         {
@@ -288,7 +288,7 @@ namespace WPF_project_Cafe
             btn_beverage.Background = Brushes.LightGray;
             btn_dessert.Background = Brushes.White;
             btn_etc.Background = Brushes.LightGray;
-            
+
         }
 
         private void btn_etc_Click(object sender, RoutedEventArgs e)
@@ -296,7 +296,7 @@ namespace WPF_project_Cafe
             //선택된 섹션은 흰색으로 선택되지 않는 섹션은 회색으로 하여 표현  
             btn_beverage.Background = Brushes.LightGray;
             btn_dessert.Background = Brushes.LightGray;
-            btn_etc.Background = Brushes.White;           
+            btn_etc.Background = Brushes.White;
         }
 
         private void btn_kor_Click(object sender, RoutedEventArgs e)
@@ -365,18 +365,6 @@ namespace WPF_project_Cafe
                 ProductQuantity = 1,
                 ProductPrice = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + product_number + "\"", "price"))
             });
-            PaymentInfo.GetInstance().Add(new PaymentInfo()
-            {
-                ProductName = product_name,
-                ProductQuantity = product_quantity.ToString(),
-                ProductPrice = (product_quantity * product_price).ToString()
-            });
-            PaymentInfo.GetInstance().Add(new PaymentInfo()
-            {
-                ProductName = product_name,
-                ProductQuantity = product_quantity.ToString(),
-                ProductPrice = (product_quantity * product_price).ToString()
-            });
 
             paymentListView.ItemsSource = PaymentInfo.GetInstance();
         }
@@ -398,49 +386,16 @@ namespace WPF_project_Cafe
             {
                 MessageBox.Show("개수를 1개 이상 입력해주세요.");
             }
-<<<<<<< HEAD
-
-            ListViewItem item = (ListViewItem)dep;
-            PaymentInfo content = (PaymentInfo)item.Content;
-
-            return content;
-        }
-
-        // 수량  -1
-        private void BtnMinus_Click(object sender, RoutedEventArgs e)
-        {
-            product_quantity--;
-
-            PaymentInfo pi = PaymentInfo.GetInstance().ElementAt(paymentListView.SelectedIndex);
-            // 수량의 경우는 
-            //pi.ProductQuantity++;
-            //가격의 경우는
-            // pi.ProductPrice = (pi.product_quantity * pi.product_price);
-            pi.ProductQuantity = (product_quantity).ToString();
-            // 가격 ( 수량 * 가격 )
-            pi.ProductPrice = (product_quantity * product_price).ToString();
-            paymentListView.Items.Refresh();
-=======
->>>>>>> jhuinee
         }
 
         // 수량 +1 버튼
         private void BtnPlus_Click(object sender, RoutedEventArgs e)
-<<<<<<< HEAD
         {
-            product_quantity++;
-
-            PaymentInfo pi = PaymentInfo.GetInstance().ElementAt(paymentListView.SelectedIndex);
-            pi.ProductQuantity = product_quantity.ToString();
-            pi.ProductPrice = (product_quantity * product_price).ToString();
-=======
-        { 
             // 현재 선택된 리스트 행 인덱스 찾기
             PaymentInfo pi = PaymentInfo.GetInstance().ElementAt(paymentListView.SelectedIndex);
             pi.ProductQuantity++;   // 현재 리스트의 ProductQuantity++
             product_price = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + pi.ProductNumber + "\"", "price"));
             pi.ProductPrice = product_price * pi.ProductQuantity;
->>>>>>> jhuinee
             paymentListView.Items.Refresh();
         }
 
@@ -458,7 +413,7 @@ namespace WPF_project_Cafe
                 // 영수증 번호 생성 (마지막 영수증 번호 +1)
                 stlm_number = Int32.Parse(dbs.DataLoad("stlm", "order by stlm_number desc limit 1", "stlm_number")) + 1;
             }
-            catch(Exception ex)     // 영수증 목록이 없으면
+            catch (Exception ex)     // 영수증 목록이 없으면
             {
                 stlm_number = 1;    // 영수증 번호 : 1
             }
@@ -469,7 +424,7 @@ namespace WPF_project_Cafe
             string datetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); // 구매 시간
 
             // 현재 리스트뷰에 있는 행들을 payment_list에 한줄로 넣기
-            for (int i=0; i<count; i++)
+            for (int i = 0; i < count; i++)
             {
                 PaymentInfo pi = PaymentInfo.GetInstance().ElementAt(i);
 
@@ -490,7 +445,7 @@ namespace WPF_project_Cafe
                 }
             }
 
-            MessageBox.Show("<"+stlm_number+"> 영수증"+"\npayment_list : " + payment_list + "\nprice : " + sum_price);
+            MessageBox.Show("<" + stlm_number + "> 영수증" + "\npayment_list : " + payment_list + "\nprice : " + sum_price);
 
             // 위에서 뽑아낸 값들을 stlm 테이블에 insert
             string query = "insert into stlm(stlm_number, payment_list, sum_price, datetime) values ("
@@ -501,5 +456,3 @@ namespace WPF_project_Cafe
     }
 
 }
-
-
