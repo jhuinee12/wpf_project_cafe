@@ -327,7 +327,7 @@
             <!--결제 영역 -->
             <Grid Grid.Row="4">
                 <Border BorderThickness="1" BorderBrush="Black">
-                    <TextBlock  VerticalAlignment="Center" TextAlignment="Center" Text="결제 버튼 영역"/>
+                    <Button Content="결        제" FontWeight="Bold" FontSize="30" Click="BtnPay_Click"/>
                 </Border>
             </Grid>
 

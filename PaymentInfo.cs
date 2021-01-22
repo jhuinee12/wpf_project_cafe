@@ -9,14 +9,15 @@ namespace WPF_project_Cafe
     class PaymentInfo
     {
 
-
+        private string _ProductNumber;
         private string _ProductName;
-        private string _ProductQuantity;
-        private string _ProductPrice;
+        private int _ProductQuantity;
+        private int _ProductPrice;
 
+        public string ProductNumber { get { return _ProductNumber; } set { _ProductNumber = value; } }
         public string ProductName { get { return _ProductName; } set { _ProductName = value; } }
-        public string ProductQuantity { get { return _ProductQuantity; } set { _ProductQuantity = value; } }
-        public string ProductPrice { get { return _ProductPrice; } set { _ProductPrice = value; } }
+        public int ProductQuantity { get { return _ProductQuantity; } set { _ProductQuantity = value; } }
+        public int ProductPrice { get { return _ProductPrice; } set { _ProductPrice = value; } }
 
         private static List<PaymentInfo> instance;
 
