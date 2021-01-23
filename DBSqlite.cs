@@ -60,6 +60,7 @@ namespace WPF_project_Cafe
         /* 테이블 내 데이터 가져오기 */
         public string DataLoad(string tableName, string where, string column)
         {
+            pdata = "";
             string Query = "select * from " + tableName + " " + where;
             TableLoad(Query);
             while (rdr.Read())
@@ -74,6 +75,7 @@ namespace WPF_project_Cafe
         /* 구매 제품명 출력 */
         public string PaymentListLoad (string pn)
         {
+            pdata = "";
             string Query = "select * from product where product_number = \"" + pn + "\"";
             TableLoad(Query);
             while (rdr.Read())

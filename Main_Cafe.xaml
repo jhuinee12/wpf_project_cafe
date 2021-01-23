@@ -290,11 +290,13 @@
                 </Grid> -->
 
                 <!--제품 선택 목록-->
- <!--               <Grid Grid.Row="1"> -->
-                    <ListView x:Name="paymentListView" HorizontalAlignment="Left" Width="400">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Width="180" Header="제품명" DisplayMemberBinding="{Binding ProductName}"/>
+                <!--               <Grid Grid.Row="1">-->
+
+
+                <ListView x:Name="paymentListView" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="150" Header="제품명" DisplayMemberBinding="{Binding ProductName}"/>
                                 <GridViewColumn Width="40">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
@@ -311,18 +313,18 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn Width="50" Header="가격" DisplayMemberBinding="{Binding ProductPrice}"/>
-                                <GridViewColumn Width="40">
+                                <GridViewColumn Width="50">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button Content="x" Height="25" Width="25" HorizontalAlignment="Center"  Click="BtnDelete_Click"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                            </GridView>
+                            </GridView> 
                         </ListView.View>
-                    </ListView>
-                <!--</Grid>-->
+                </ListView>
             </Grid>
+
 
             <!--결제 영역 -->
             <Grid Grid.Row="4">

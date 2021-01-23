@@ -372,8 +372,9 @@ namespace WPF_project_Cafe
         // 수량  -1 버튼
         private void BtnMinus_Click(object sender, RoutedEventArgs e)
         {
+            Button selectBtn = sender as Button;
             // 현재 선택된 리스트 행 인덱스 찾기
-            PaymentInfo pi = PaymentInfo.GetInstance().ElementAt(paymentListView.SelectedIndex);
+            PaymentInfo pi = (PaymentInfo)selectBtn.DataContext;
 
             if (pi.ProductQuantity > 0)
             {
@@ -391,8 +392,11 @@ namespace WPF_project_Cafe
         // 수량 +1 버튼
         private void BtnPlus_Click(object sender, RoutedEventArgs e)
         {
+            Button selectBtn = sender as Button;
+
             // 현재 선택된 리스트 행 인덱스 찾기
-            PaymentInfo pi = PaymentInfo.GetInstance().ElementAt(paymentListView.SelectedIndex);
+            PaymentInfo pi = (PaymentInfo)selectBtn.DataContext;
+
             pi.ProductQuantity++;   // 현재 리스트의 ProductQuantity++
             product_price = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + pi.ProductNumber + "\"", "price"));
             pi.ProductPrice = product_price * pi.ProductQuantity;
@@ -451,6 +455,7 @@ namespace WPF_project_Cafe
             string query = "insert into stlm(stlm_number, payment_list, sum_price, datetime) values ("
                 + stlm_number + ",\"" + payment_list + "\"," + sum_price + ", \"" + datetime + "\")";
             dbs.InsertColumn(query);
+
             dbs.StlmLoadData(stlm_number.ToString());   // 현재 영수증 테이블 로드
         }
     }
