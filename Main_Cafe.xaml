@@ -220,12 +220,47 @@
                 </Grid>
             </Grid>
 
-            <!--메뉴 선택영역-->            
+            <!--메뉴 선택영역-->
             <Grid Grid.Row="2">
-                <Grid  x:Name="Menu"  Margin="5 5 5 5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="0.5*"/>
+                </Grid.RowDefinitions>
+
+                <Grid  Grid.Row="0" x:Name="Menu" Margin="5,5,5,0" >
+                </Grid>
+
+                <Grid  Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="1">
+                        <Button x:Name="btn_Previous" Margin="50,2,5,2" Click="btn_Previous_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="50,0,0,50" />
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+
+                    <Grid Grid.Column="2">
+                        <Button x:Name="btn_Next" Margin="5,2,50,0" Click="btn_Next_Click" Height="13" VerticalAlignment="Top">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="0,50,50,0" />
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
 
                 </Grid>
-<!--  
+
+                <!--  
                 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="67*"/>
@@ -256,7 +291,6 @@
                 </Grid>
 -->
             </Grid>
-
             <!--선택한 리스트 영역-->
             <Grid Grid.Row="3">
  <!--               <Grid.RowDefinitions>

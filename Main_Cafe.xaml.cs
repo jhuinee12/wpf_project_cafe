@@ -20,16 +20,32 @@ namespace WPF_project_Cafe
     /// </summary>
     public partial class MainWindow : Window
     {
-        DBSqlite dbs = new DBSqlite(); // db 생성자
+        DBSqlite DB = new DBSqlite(); // db 생성자
 
-        // sticker_mode = new/hot 이라면  new/hot 스키터 
-        public string sticker_mode = "nomal";
-        public string beverage_name = "nothing";
+        public string[] beverage_name;
+        public string[] beverage_sticker;
+        public string[] beverage_image;
+        public beverage[] Beverage;
+
+        public string MenuBar = "beverage";
+
+        public int Page = 0;
+        public int j;
+
+        Button[] btn = new Button[9];
+        Label[] sticker = new Label[9];
+
+        public int Previous_counter;
 
         public string product_number = "";
         public int product_price = 0;
         public int stlm_number;
 
+        public string[] dessert_Name =
+                     { "초콜릿 크로캉 롱 슈" ,"초콜릿 쉬폰","초콜릿 크렘린"
+                           , "클래식 카토 초콜릿","쿠키 앤 크림","생크림 피칸 타르트"
+                           , "생크림 소프트 쉬폰", "딸기 케이크","딸기 요거트"
+                       };
         //음료 경로
         public ImageBrush amelicano = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\amelicano.jpg")));
         public ImageBrush apple_mint_tea = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\apple_mint_tea.jpg")));
@@ -41,30 +57,66 @@ namespace WPF_project_Cafe
         public ImageBrush espresso = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\espresso.jpg")));
         public ImageBrush french_earl_grey = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_beverage\french_earl_grey.jpg")));
 
+        // Menu_select() 에서 Menu_count = 2 면  2*2 size
+        public int Menu_count = 9;
 
         public MainWindow()
         {
+            //DB 데이터(음료이름,스티커여부) 불러오기
+            DB.ProductLoadData();
+
+            //데이터(음료이름,스티커여부)를 옮겨주고 옮긴 음료이름을 이미지와 매칭시킴
+            hand_over_data();
+
             InitializeComponent();
 
+            //국가 이미지 설정
             Init();
+
             //동적 그리드 나누기
             Menu_size();
-            //동적 버튼 생성하기
+
+            //동적 버튼과스티커 생성하기
             Menu_btn_add();
+
+
+
             LoadListView();
+        }
+        public void hand_over_data()
+        {
+            Beverage = new beverage[GlobalVar.beverage_counter];
+            beverage_name = new string[GlobalVar.beverage_counter];
+            beverage_sticker = new string[GlobalVar.beverage_counter];
+            beverage_image = new string[GlobalVar.beverage_counter];
 
-            //스티커 생성 sticker_mode = new 또는 hot 이라면  new 또는 hot 스티커 
-            //스티커 한개 생성하려면  sticker_add(a,b),  컬럼 a 로우b 의 위치에 생성됨
-            //한번에 스티커 2개  생성하려면  sticker_add(a,b,c,d),  컬럼 a 로우b 의 위치에 1개 생성 c,d위치에 1개 생성
-            //최대 한번에 3개 까지 생성 
-            //sticker_add(0,1,2,2,2,1,1);
+            //DB 데이터들을 옮겨준다
+            for (int i = 0; i < GlobalVar.beverage_counter; i++)
+            {
+                beverage_name[i] = GlobalVar.BEVERAGE_NAME[i];
+                beverage_sticker[i] = GlobalVar.BEVERAGE_STICKER[i];
+                beverage_image[i] = GlobalVar.BEVERAGE_IMAGE[i];
 
-            sticker_mode = "hot";
-            sticker_add(0, 1);
+
+                Beverage[i].Name = beverage_name[i];
+                Beverage[i].sticker = beverage_sticker[i];
+                Beverage[i].img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + beverage_image[i])));
+
+
+            }
+            //총 페이지 구하기
+            if (GlobalVar.beverage_counter / 9 >= 0 && GlobalVar.beverage_counter % 9 == 0)
+            {
+                GlobalVar.Beverage_Total_page = GlobalVar.beverage_counter / 9;
+            }
+            else
+            {
+                GlobalVar.Beverage_Total_page = GlobalVar.beverage_counter / 9 + 1;
+            }
+
+
         }
 
-        // Menu_select() 에서 Menu_count = 2 면  2*2 size
-        public int Menu_count = 9;
 
         //언어 선택을 위한 국가 이미지 
         public void Init()
@@ -104,175 +156,302 @@ namespace WPF_project_Cafe
             }
 
         }
+       
         //Menu 버튼생성
         public void Menu_btn_add()
         {
-            Button[] btn = new Button[9];
 
-            string[] Name =
-                           { "아메리카노","애플민트차" ,"바나나 밀크쉐이크"
-                           , "카페 모카","카푸치노","카모마일"
-                           , "콜드브루", "에스프레소","프렌치 얼그레이"
-                           };
-            //버튼
+
+            int sticker_num = 0;
             int btn_num = 0;
-            int col_cnt = 0;
-            int row_cnt = 0;
-            int[] Colum_set = { 0, 3, 6 };
-            int[] Row_set = { 0, 3, 6 };
 
-            for (int i = 0; i < Menu_count; i++)
+
+
+            int Colum_set = 0;
+            int Row_set = 0;
+
+
+            for (int i = 0; i < 9; i++)
             {
-
-                btn[btn_num] = new Button();
-
-                btn[btn_num].Content = Name[btn_num];
-                // btn[btn_num].Background = Brushes.White;
-                // btn[btn_num].BorderThickness = new Thickness(0, 0, 0, 0);
-
-                //버튼의 영역을 3*3으로
-                Grid.SetColumnSpan(btn[btn_num], 3);
-                Grid.SetRowSpan(btn[btn_num], 3);
-
-                //버튼의 col/row값을 설정
-                Grid.SetColumn(btn[btn_num], Colum_set[col_cnt]);
-                Grid.SetRow(btn[btn_num], Row_set[row_cnt]);
-
-                //다음 컬럼으로 이동
-                col_cnt++;
-
-                //끝 컬럼 쪽이라면 로우를 이동시키고 컬럼도 다시 초기화
-                if (col_cnt > 2)
+                if (GlobalVar.beverage_counter - 9 * Page > btn_num && GlobalVar.beverage_counter - 9 * Page > sticker_num)
                 {
-                    col_cnt = 0;
-                    row_cnt++;
 
-                    if (row_cnt > 2)
+                    //버튼과 스티커를 생성
+                    btn[btn_num] = new Button();
+                    sticker[sticker_num] = new Label();
+
+                    //버튼 음료(이미지,이름)
+                    if (MenuBar == "beverage")
                     {
-                        row_cnt = 0;
+                        btn[i].Background = Beverage[i + 9 * Page].img;
+                        btn[i].Content = Beverage[i + 9 * Page].Name;
+
+                    }
+
+                    // btn[GlobalVar.btn_num].Background = Brushes.White;
+                    // btn[GlobalVar.btn_num].BorderThickness = new Thickness(0, 0, 0, 0);
+
+                    //스티커 종류 선택
+                    if (Beverage[i + 9 * Page].sticker == "new")
+                    {
+                        sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.png")));
+                    }
+                    else if (Beverage[i + 9 * Page].sticker == "hot")
+                    {
+                        sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\hot.png")));
+                    }
+
+
+                    //버튼의 영역을 3*3으로
+                    Grid.SetColumnSpan(btn[btn_num], 3);
+                    Grid.SetRowSpan(btn[btn_num], 3);
+
+
+                    //버튼의 col/row값을 설정
+                    Grid.SetColumn(btn[btn_num], Colum_set);
+                    Grid.SetRow(btn[btn_num], Row_set);
+                    //스티커의 col/row값을 설정
+                    Grid.SetColumn(sticker[sticker_num], Colum_set);
+                    Grid.SetRow(sticker[sticker_num], Row_set);
+
+
+                    //버튼의 스타일을 재정의
+                    btn[btn_num].FontWeight = FontWeights.Bold;
+                    btn[btn_num].Style = FindResource("Button_Style") as Style;
+
+
+                    //버튼을 추가한다 
+                    Menu.Children.Add(btn[btn_num]);
+                    Menu.Children.Add(sticker[sticker_num]);
+                    //다음 컬럼으로 이동
+                    Colum_set = Colum_set + 3;
+
+                    ////끝 컬럼 쪽이라면 로우를 이동시키고 컬럼도 다시 초기화
+                    if (Colum_set > 6)
+                    {
+                        Colum_set = 0;
+                        Row_set = Row_set + 3;
+                        if (Row_set > 6)
+                        {
+                            Row_set = 0;
+
+                        }
+                    }
+
+
+                    //다음 버튼 
+                    btn_num++;
+                    sticker_num++;
+
+
+
+
+                }
+
+            }
+            #region           //이벤트 버튼 처리
+            if (MenuBar == "beverage")
+            {
+                if ((Page == 0 && Page == GlobalVar.Beverage_Total_page - 1 && GlobalVar.beverage_counter / 9 == 1 && GlobalVar.beverage_counter % 9 == 0) || //첫페이지자 마지막페이지이고 상품개수가 9개
+                    (Page == GlobalVar.Beverage_Total_page - 1 && GlobalVar.beverage_counter / 9 > 0 && GlobalVar.beverage_counter % 9 == 0) ||//다음페이지가 있으면 현재 페이지의 상품개수는 9개
+                    (Page >= 0 && Page < GlobalVar.Beverage_Total_page - 1))//마지막 페이지 인데 상품개수가 9개
+                {
+                    btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
+                    btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
+                    btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
+                    btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
+                    btn[4].Click += new RoutedEventHandler(OpenSubCafe_4);
+                    btn[5].Click += new RoutedEventHandler(OpenSubCafe_5);
+                    btn[6].Click += new RoutedEventHandler(OpenSubCafe_6);
+                    btn[7].Click += new RoutedEventHandler(OpenSubCafe_7);
+                    btn[8].Click += new RoutedEventHandler(OpenSubCafe_8);
+                }
+                else if (Page >= 0 && Page == GlobalVar.Beverage_Total_page - 1 && GlobalVar.beverage_counter / 9 >= 0 && GlobalVar.beverage_counter % 9 < 9 && GlobalVar.beverage_counter % 9 > 0)//(첫페이지자)마지막페이지이고 상품개수가 9개미만
+                {
+                    if (GlobalVar.beverage_counter % 9 == 1)//page 1개에 상품 1개
+                    {
+                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
+                    }
+                    if (GlobalVar.beverage_counter % 9 == 2)//상품 2개
+                    {
+                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
+                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
+                    }
+                    if (GlobalVar.beverage_counter % 9 == 3)//상품 3개
+                    {
+                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
+                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
+                        btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
+                    }
+                    if (GlobalVar.beverage_counter % 9 == 4)//상품 4개
+                    {
+                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
+                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
+                        btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
+                        btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
+                    }
+                    if (GlobalVar.beverage_counter % 9 == 5)//상품 5개
+                    {
+                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
+                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
+                        btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
+                        btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
+                        btn[4].Click += new RoutedEventHandler(OpenSubCafe_4);
+                    }
+                    if (GlobalVar.beverage_counter % 9 == 6)//상품 6개
+                    {
+                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
+                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
+                        btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
+                        btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
+                        btn[4].Click += new RoutedEventHandler(OpenSubCafe_4);
+                        btn[5].Click += new RoutedEventHandler(OpenSubCafe_5);
+                    }
+                    if (GlobalVar.beverage_counter % 9 == 7)//상품 7개
+                    {
+                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
+                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
+                        btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
+                        btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
+                        btn[4].Click += new RoutedEventHandler(OpenSubCafe_4);
+                        btn[5].Click += new RoutedEventHandler(OpenSubCafe_5);
+                        btn[6].Click += new RoutedEventHandler(OpenSubCafe_6);
+                    }
+                    if (GlobalVar.beverage_counter % 9 == 8)//상품 8개
+                    {
+                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
+                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
+                        btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
+                        btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
+                        btn[4].Click += new RoutedEventHandler(OpenSubCafe_4);
+                        btn[5].Click += new RoutedEventHandler(OpenSubCafe_5);
+                        btn[6].Click += new RoutedEventHandler(OpenSubCafe_6);
+                        btn[7].Click += new RoutedEventHandler(OpenSubCafe_7);
                     }
                 }
-
-                //버튼의 스타일을 재정의
-                btn[btn_num].FontWeight = FontWeights.Bold;
-                btn[btn_num].Style = FindResource("Button_Style") as Style;
-
-                //버튼을 추가한다 
-                Menu.Children.Add(btn[btn_num]);
-                //btn[btn_num].Style = FindResource("test123") as Style;
-                //버튼 이름을 바꿔주기 위함
-                btn_num = btn_num + 1;
-
+                #endregion
+                //btn[i].Click += new RoutedEventHandler(OpenSubCafe);
             }
-
-            //버튼 이미지            
-            btn[0].Background = amelicano;
-            btn[1].Background = apple_mint_tea;
-            btn[2].Background = banana_milkshake;
-            btn[3].Background = cafe_mocha;
-            btn[4].Background = cappuccino;
-            btn[5].Background = chamomile;
-            btn[6].Background = cold_brew;
-            btn[7].Background = espresso;
-            btn[8].Background = french_earl_grey;
-            //btn[2].Template = FindResource("test123") as ControlTemplate;
-        }
-        #region 스티커 생성 , 한번에 최대 3개의 스티커까지 생성가능     
-        public void sticker_add(int set_sticker_col, int set_sticker_row)
-        {
-
-
-            //int sticker_num=0;
-            int[] Colum_set = { 0, 3, 6 };
-            int[] Row_set = { 0, 3, 6 };
-            int col_cnt = 0;
-            int row_cnt = 0;
-
-            Label[] sticker = new Label[9];
-
-            for (int sticker_num = 0; sticker_num < Menu_count; sticker_num++)
-            {
-                //스티커 테스트
-                sticker[sticker_num] = new Label();
-
-                if (sticker_mode == "new")
-                {
-                    sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.png")));
-                }
-                else if (sticker_mode == "hot")
-                {
-                    sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\hot.png")));
-                }
-
-                Grid.SetColumn(sticker[sticker_num], Colum_set[set_sticker_col]);
-                Grid.SetRow(sticker[sticker_num], Row_set[set_sticker_row]);
-
-
-                Menu.Children.Add(sticker[sticker_num]);
-                ////전체 스티커 씌우기
-                //col_cnt++;
-                //if (col_cnt > 2)
-                //{
-                //    col_cnt = 0;
-                //    row_cnt++;
-
-                //    if (row_cnt > 2)
-                //    {
-                //        row_cnt = 0;
-                //    }
-                //}
-            }
-
 
         }
-        public void sticker_add(int set_sticker_col, int set_sticker_row, int set_sticker_col2, int set_sticker_row2)
+        #region //버튼 이벤트    
+        private void OpenSubCafe_0(object sender, EventArgs e)
         {
-            sticker_add(set_sticker_col, set_sticker_row);
+            GlobalVar.btn_select_img = btn[0].Background;
 
-            int[] Colum_set = { 0, 3, 6 };
-            int[] Row_set = { 0, 3, 6 };
-            Label[] sticker = new Label[9];
-
-            for (int sticker_num = 0; sticker_num < Menu_count; sticker_num++)
-            {
-
-                sticker[sticker_num] = new Label();
-                if (sticker_mode == "new")
-                {
-                    sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.jpg")));
-                }
-                else if (sticker_mode == "hot")
-                {
-                    sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\hot.jpg")));
-                }
-                Grid.SetColumn(sticker[sticker_num], Colum_set[set_sticker_col2]);
-                Grid.SetRow(sticker[sticker_num], Row_set[set_sticker_row2]);
-
-                Menu.Children.Add(sticker[sticker_num]);
-            }
+            Sub_cafe sub_cafe = new Sub_cafe();
+            sub_cafe.ShowDialog();
         }
-        public void sticker_add(int set_sticker_col, int set_sticker_row, int set_sticker_col2, int set_sticker_row2, int set_sticker_col3, int set_sticker_row3)
+        private void OpenSubCafe_1(object sender, EventArgs e)
         {
-            sticker_add(set_sticker_col, set_sticker_row, set_sticker_col2, set_sticker_row2);
+            GlobalVar.btn_select_img = btn[1].Background;
 
-            int[] Colum_set = { 0, 3, 6 };
-            int[] Row_set = { 0, 3, 6 };
-            Label[] sticker = new Label[9];
+            Sub_cafe sub_cafe = new Sub_cafe();
+            sub_cafe.ShowDialog();
+        }
+        private void OpenSubCafe_2(object sender, EventArgs e)
+        {
+            GlobalVar.btn_select_img = btn[2].Background;
 
-            for (int sticker_num = 0; sticker_num < Menu_count; sticker_num++)
-            {
+            Sub_cafe sub_cafe = new Sub_cafe();
+            sub_cafe.ShowDialog();
+        }
+        private void OpenSubCafe_3(object sender, EventArgs e)
+        {
+            GlobalVar.btn_select_img = btn[3].Background;
 
-                sticker[sticker_num] = new Label();
+            Sub_cafe sub_cafe = new Sub_cafe();
+            sub_cafe.ShowDialog();
+        }
+        private void OpenSubCafe_4(object sender, EventArgs e)
+        {
+            GlobalVar.btn_select_img = btn[4].Background;
 
-                sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.jpg")));
 
-                Grid.SetColumn(sticker[sticker_num], Colum_set[set_sticker_col3]);
-                Grid.SetRow(sticker[sticker_num], Row_set[set_sticker_row3]);
+            Sub_cafe sub_cafe = new Sub_cafe();
+            sub_cafe.ShowDialog();
+        }
+        private void OpenSubCafe_5(object sender, EventArgs e)
+        {
+            GlobalVar.btn_select_img = btn[5].Background;
 
-                Menu.Children.Add(sticker[sticker_num]);
-            }
+            Sub_cafe sub_cafe = new Sub_cafe();
+            sub_cafe.ShowDialog();
+        }
+        private void OpenSubCafe_6(object sender, EventArgs e)
+        {
+            GlobalVar.btn_select_img = btn[6].Background;
+
+            Sub_cafe sub_cafe = new Sub_cafe();
+            sub_cafe.ShowDialog();
+        }
+        private void OpenSubCafe_7(object sender, EventArgs e)
+        {
+            GlobalVar.btn_select_img = btn[7].Background;
+
+            Sub_cafe sub_cafe = new Sub_cafe();
+            sub_cafe.ShowDialog();
+        }
+        private void OpenSubCafe_8(object sender, EventArgs e)
+        {
+            GlobalVar.btn_select_img = btn[8].Background;
+
+            Sub_cafe sub_cafe = new Sub_cafe();
+            sub_cafe.ShowDialog();
         }
         #endregion
+
+        private void btn_Next_Click(object sender, RoutedEventArgs e)
+        {   //현재 버튼 개수는 9개고 다음 버튼이 7개 일때 나머지 2개가 끝에 남아있음을 방지
+            if (Page < GlobalVar.Beverage_Total_page - 1)
+            {
+                for (int i = 0; i < 9; i++)
+                {
+
+                    btn[i].Visibility = Visibility.Hidden;
+                    btn[i].IsEnabled = false;
+                    sticker[i].Visibility = Visibility.Hidden;
+                    sticker[i].IsEnabled = false;
+
+                }
+
+                Page++;
+
+                Menu_btn_add();
+            }
+            // MessageBox.Show("다음");                     
+        }
+
+
+        private void btn_Previous_Click(object sender, RoutedEventArgs e)
+        {
+
+            //MessageBox.Show("이전");
+
+            //현재 버튼이 7개 이고 이전 버튼 개수는 9개일때 인덱스 오버 방지
+            if (Page == GlobalVar.Beverage_Total_page - 1)
+            {
+                Previous_counter = GlobalVar.beverage_counter - 9 * Page;
+            }
+            else
+            {
+                Previous_counter = 9;
+            }
+
+            if (Page > 0)
+            {
+                for (int i = 0; i < Previous_counter; i++)
+                {   //이전으로 돌아갈시 현재 버튼이 남는것을 방지
+                    btn[i].Visibility = Visibility.Hidden;
+                    btn[i].IsEnabled = false;
+                    sticker[i].Visibility = Visibility.Hidden;
+                    sticker[i].IsEnabled = false;
+                }
+
+                Page--;
+                Menu_btn_add();
+            }
+        }
 
         private void btn_beverage_Click(object sender, RoutedEventArgs e)
         {
@@ -343,27 +522,27 @@ namespace WPF_project_Cafe
             PaymentInfo.GetInstance().Add(new PaymentInfo()
             {
                 ProductNumber = product_number,
-                ProductName = dbs.PaymentListLoad(product_number),
+                ProductName = DB.PaymentListLoad(product_number),
                 ProductQuantity = 1,
-                ProductPrice = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + product_number + "\"", "price"))
+                ProductPrice = Int32.Parse(DB.DataLoad("Product", "where product_number = \"" + product_number + "\"", "price"))
             });
 
             product_number = "B02HS";
             PaymentInfo.GetInstance().Add(new PaymentInfo()
             {
                 ProductNumber = product_number,
-                ProductName = dbs.PaymentListLoad(product_number),
+                ProductName = DB.PaymentListLoad(product_number),
                 ProductQuantity = 1,
-                ProductPrice = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + product_number + "\"", "price"))
+                ProductPrice = Int32.Parse(DB.DataLoad("Product", "where product_number = \"" + product_number + "\"", "price"))
             });
 
             product_number = "B03IT";
             PaymentInfo.GetInstance().Add(new PaymentInfo()
             {
                 ProductNumber = product_number,
-                ProductName = dbs.PaymentListLoad(product_number),
+                ProductName = DB.PaymentListLoad(product_number),
                 ProductQuantity = 1,
-                ProductPrice = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + product_number + "\"", "price"))
+                ProductPrice = Int32.Parse(DB.DataLoad("Product", "where product_number = \"" + product_number + "\"", "price"))
             });
 
             paymentListView.ItemsSource = PaymentInfo.GetInstance();
@@ -379,7 +558,7 @@ namespace WPF_project_Cafe
             if (pi.ProductQuantity > 0)
             {
                 pi.ProductQuantity--;   // 현재 리스트의 ProductQuantity--
-                product_price = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + pi.ProductNumber + "\"", "price"));
+                product_price = Int32.Parse(DB.DataLoad("Product", "where product_number = \"" + pi.ProductNumber + "\"", "price"));
                 pi.ProductPrice = product_price * pi.ProductQuantity;
                 paymentListView.Items.Refresh();
             }
@@ -398,7 +577,7 @@ namespace WPF_project_Cafe
             PaymentInfo pi = (PaymentInfo)selectBtn.DataContext;
 
             pi.ProductQuantity++;   // 현재 리스트의 ProductQuantity++
-            product_price = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + pi.ProductNumber + "\"", "price"));
+            product_price = Int32.Parse(DB.DataLoad("Product", "where product_number = \"" + pi.ProductNumber + "\"", "price"));
             pi.ProductPrice = product_price * pi.ProductQuantity;
             paymentListView.Items.Refresh();
         }
@@ -415,7 +594,7 @@ namespace WPF_project_Cafe
             try // 영수증 목록이 있으면
             {
                 // 영수증 번호 생성 (마지막 영수증 번호 +1)
-                stlm_number = Int32.Parse(dbs.DataLoad("stlm", "order by stlm_number desc limit 1", "stlm_number")) + 1;
+                stlm_number = Int32.Parse(DB.DataLoad("stlm", "order by stlm_number desc limit 1", "stlm_number")) + 1;
             }
             catch (Exception ex)     // 영수증 목록이 없으면
             {
@@ -454,9 +633,9 @@ namespace WPF_project_Cafe
             // 위에서 뽑아낸 값들을 stlm 테이블에 insert
             string query = "insert into stlm(stlm_number, payment_list, sum_price, datetime) values ("
                 + stlm_number + ",\"" + payment_list + "\"," + sum_price + ", \"" + datetime + "\")";
-            dbs.InsertColumn(query);
+            DB.InsertColumn(query);
 
-            dbs.StlmLoadData(stlm_number.ToString());   // 현재 영수증 테이블 로드
+            DB.StlmLoadData(stlm_number.ToString());   // 현재 영수증 테이블 로드
         }
     }
 

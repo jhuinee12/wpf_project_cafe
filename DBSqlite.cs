@@ -71,6 +71,29 @@ namespace WPF_project_Cafe
 
             return pdata;
         }
+        /* 상품 테이블 로드 */
+        public void ProductLoadData()
+        {
+            GlobalVar.beverage_counter = 0;
+            TableLoad("select * from Product");
+
+
+
+            while (rdr.Read())
+            {
+                GlobalVar.BEVERAGE_NAME[GlobalVar.beverage_counter] = (string)rdr["name"];
+                GlobalVar.BEVERAGE_STICKER[GlobalVar.beverage_counter] = (string)rdr["new_hot_none"];
+                GlobalVar.BEVERAGE_IMAGE[GlobalVar.beverage_counter] = (string)rdr["image"];
+
+
+
+                GlobalVar.beverage_counter++;
+
+                //// 메세지박스로 데이터 들어온거 테스트
+                //MessageBox.Show(rdr["product_number"] + " " + rdr["name"] + " " + rdr["drink_snack_etc"] + " " + rdr["hot_ice_none"] + " " + rdr["size"] + " " + rdr["price"] + " " + rdr["image"] + " " + rdr["new_hot_none"]);
+            }
+            TableQuit();
+        }
 
         /* 구매 제품명 출력 */
         public string PaymentListLoad (string pn)
