@@ -339,7 +339,7 @@ namespace WPF_project_Cafe
         /* 결제선(리스트뷰) 출력하기 > 메뉴 버튼 클릭 시 해당 product_number를 끌어와서 넣도록 변경할 것 */
         public void LoadListView()
         {
-            product_number = "B01HT";
+            product_number = "B01";
             PaymentInfo.GetInstance().Add(new PaymentInfo()
             {
                 ProductNumber = product_number,
@@ -348,7 +348,7 @@ namespace WPF_project_Cafe
                 ProductPrice = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + product_number + "\"", "price"))
             });
 
-            product_number = "B02HS";
+            product_number = "B02";
             PaymentInfo.GetInstance().Add(new PaymentInfo()
             {
                 ProductNumber = product_number,
@@ -357,7 +357,7 @@ namespace WPF_project_Cafe
                 ProductPrice = Int32.Parse(dbs.DataLoad("Product", "where product_number = \"" + product_number + "\"", "price"))
             });
 
-            product_number = "B03IT";
+            product_number = "B03";
             PaymentInfo.GetInstance().Add(new PaymentInfo()
             {
                 ProductNumber = product_number,

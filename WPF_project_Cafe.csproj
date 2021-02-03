@@ -75,6 +75,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Stml.xaml.cs">
+      <DependentUpon>Stml.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Variable.cs" />
     <Page Include="Main_Cafe.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -88,9 +92,27 @@
       <DependentUpon>Main_Cafe.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PaymentMethod.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PlaceSwitcher.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Stml.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PaymentInfo.cs" />
+    <Compile Include="PaymentMethod.xaml.cs">
+      <DependentUpon>PaymentMethod.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlaceSwitcher.xaml.cs">
+      <DependentUpon>PlaceSwitcher.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

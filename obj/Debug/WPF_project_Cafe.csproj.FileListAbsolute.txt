@@ -22,3 +22,9 @@ C:\Share\COMMON\WPF_project_Cafe\obj\Debug\WPF_project_Cafe.csproj.CopyComplete
 C:\Share\COMMON\WPF_project_Cafe\obj\Debug\WPF_project_Cafe.exe
 C:\Share\COMMON\WPF_project_Cafe\obj\Debug\WPF_project_Cafe.pdb
 C:\Share\COMMON\WPF_project_Cafe\obj\Debug\WPF_project_Cafe.csprojAssemblyReference.cache
+C:\Share\COMMON\WPF_project_Cafe\obj\Debug\PaymentMethod.g.cs
+C:\Share\COMMON\WPF_project_Cafe\obj\Debug\PlaceSwitcher.g.cs
+C:\Share\COMMON\WPF_project_Cafe\obj\Debug\Stml.g.cs
+C:\Share\COMMON\WPF_project_Cafe\obj\Debug\PaymentMethod.baml
+C:\Share\COMMON\WPF_project_Cafe\obj\Debug\PlaceSwitcher.baml
+C:\Share\COMMON\WPF_project_Cafe\obj\Debug\Stml.baml
