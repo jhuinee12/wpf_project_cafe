@@ -1,1 +1,0 @@
-select * from product where product_number like "D01%" limit 1
