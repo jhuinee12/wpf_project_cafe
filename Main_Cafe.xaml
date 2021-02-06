@@ -1,0 +1,398 @@
+﻿<Window x:Class="WPF_project_Cafe.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_project_Cafe"
+        mc:Ignorable="d"
+        Title="Cafe" Height="800" Width="400"
+        
+        WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <!-- Left="50" Top="50"-->
+
+
+
+
+    <Window.Resources>
+        <!--   <ControlTemplate  TargetType="{x:Type Button}" x:Key="test123">
+            <Button Background="White">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid x:Name="row_0" Grid.Row="0">
+                        <Border BorderBrush="Black" BorderThickness="1,1,1,1">                       
+                            <Image Source= "C:\Users\x0226\OneDrive\바탕 화면\WPF_project_Cafe\bin\Debug\Image_country\korea.jpg" />
+                        </Border>
+                    </Grid>
+
+                    <Grid x:Name="row_1" Grid.Row="1">
+                        <TextBlock  Text="테스트" TextAlignment="Center" FontWeight="Bold"/>
+                    </Grid>
+                </Grid>
+            </Button>
+        </ControlTemplate>
+-->
+        <Style x:Key="Button_Style" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" BorderThickness="1" BorderBrush="DarkGray" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--
+        <Style x:Key="sticker_test" TargetType="Label">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Label}">
+                        <Border>
+                            <Label/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+-->
+    </Window.Resources>
+
+    <Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <!--언어 선택영역 분할하기-->
+                <RowDefinition Height="0.6*" />
+
+                <!--메뉴바 선택영역 분할하기-->
+                <RowDefinition Height="0.3*" />
+
+                <!--메뉴 선택영역 분할하기-->
+                <RowDefinition Height="3*" />
+
+                <!--선택한 리스트 영역 분할하기-->
+                <RowDefinition Height="2*" />
+
+                <!--결제 영역 분할하기-->
+                <RowDefinition Height="0.5*" />
+            </Grid.RowDefinitions>
+
+            <!--언어 선택영역-->
+            <Grid Grid.Row="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Background="LightGray">
+                        <Button x:Name="btn_kor" Background="White" Click="btn_kor_Click" BorderThickness="0 0 0 0" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="0.5*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <Border BorderBrush="Black" BorderThickness="1,1,1,1">
+                                        <Image Name="Kor"/>
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Row="1">
+                                    <TextBlock  TextAlignment="Center" Text="한국어" FontWeight="Bold"  />
+                                </Grid>
+                            </Grid>
+                        </Button>
+                    </Grid>
+
+                    <Grid Grid.Column="1" Background= "LightGray" >
+                        <Button x:Name="btn_eng" Click="btn_eng_Click" BorderThickness="0 0 0 0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="0.5*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <Border  BorderBrush="Black" BorderThickness="1,1,1,1">
+                                        <Image Name="Eng"/>
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Row="1">
+                                    <TextBlock  TextAlignment="Center" Text="English" FontWeight="Bold"  />
+                                </Grid>
+                            </Grid>
+                        </Button>
+                    </Grid>
+
+                    <Grid Grid.Column="2" Background= "LightGray">
+                        <Button x:Name="btn_chn" Click="btn_chn_Click" BorderThickness="0 0 0 0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="0.5*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <Border BorderBrush="Black" BorderThickness="1,1,1,1">
+                                        <Image Name="Chn" />
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Row="1">
+                                    <TextBlock  TextAlignment="Center" Text="中國語" FontWeight="Bold"  />
+                                </Grid>
+                            </Grid>
+                        </Button>
+                    </Grid>
+
+                    <Grid Grid.Column="3" Background= "LightGray">
+                        <Button x:Name="btn_jpn" Click="btn_jpn_Click" BorderThickness="0 0 0 0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="0.5*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0">
+                                    <Border BorderBrush="Black" BorderThickness="1,1,1,1">
+                                        <Image Name="Jpn" />
+                                    </Border>
+                                </Grid>
+
+                                <Grid Grid.Row="1">
+                                    <TextBlock  TextAlignment="Center" Text="日本語" FontWeight="Bold"  />
+                                </Grid>
+                            </Grid>
+                        </Button>
+                    </Grid>
+
+                </Grid>
+            </Grid>
+
+            <!--메뉴바 선택영역-->
+            <Grid Grid.Row="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <Grid Grid.Column="0" Background="DarkGray" >
+                        <Button x:Name="btn_beverage" Content="음료" FontWeight="Bold" Margin=" 10 5 10 0"  Background="White"   BorderThickness="0 0 0 0" Click="btn_beverage_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="10 10 0 0" />
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+
+                    <Grid Grid.Column="1" Background="DarkGray">
+                        <Button x:Name="btn_dessert" Content="디저트" FontWeight="Bold" Margin=" 10 5 10 0"  Background="LightGray"  BorderThickness="0 0 0 0" Click="btn_dessert_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="10 10 0 0" />
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+
+                    <Grid Grid.Column="2" Background="DarkGray">
+                        <Button x:Name="btn_etc" Content="기타" FontWeight="Bold" Margin=" 10 5 10 0"  Background="LightGray"  BorderThickness="0 0 0 0" Click="btn_etc_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="10 10 0 0" />
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <!--메뉴 선택영역-->
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="0.5*"/>
+                </Grid.RowDefinitions>
+
+                <Grid  Grid.Row="0" x:Name="Menu" Margin="5,5,5,0" >
+                </Grid>
+
+                <Grid  Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="1">
+                        <Button x:Name="btn_Previous" Margin="50,2,5,2" Click="btn_Previous_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="50,0,0,50" />
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+
+                    <Grid Grid.Column="2">
+                        <Button x:Name="btn_Next" Margin="5,2,50,0" Click="btn_Next_Click" Height="13" VerticalAlignment="Top">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="0,50,50,0" />
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+
+                </Grid>
+
+                <!--  
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="67*"/>
+                    <ColumnDefinition Width="225*"/>
+                </Grid.ColumnDefinitions>
+                       
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+
+                <Grid Grid.Column="0 " Grid.Row="0">
+                    <Image Name ="pp"/>
+                </Grid>
+                <Grid Grid.Column="1 " Grid.Row="0">
+                    <Image Name ="ss"/>
+                </Grid>
+                <Grid Grid.Column="2 " Grid.Row="0">
+                    <Image/>
+                </Grid>
+-->
+            </Grid>
+            
+            <!--선택한 리스트 영역-->
+            <Grid Grid.Row="3" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <!--               <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="7*"/>
+                    </Grid.RowDefinitions> -->
+
+                <!-- 결제선 타이틀 -->
+                <!--                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <Border BorderThickness="1" BorderBrush="Black">
+                            <TextBlock  VerticalAlignment="Center" TextAlignment="Center" Text="제품명" FontWeight="Bold"/>
+                        </Border>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Border BorderThickness="1" BorderBrush="Black">
+                            <TextBlock  VerticalAlignment="Center" TextAlignment="Center" Text="수량" FontWeight="Bold"/>
+                        </Border>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <Border BorderThickness="1" BorderBrush="Black">
+                            <TextBlock  VerticalAlignment="Center" TextAlignment="Center" Text="가격" FontWeight="Bold"/>
+                        </Border>
+                    </Grid>
+                </Grid> -->
+
+                <!--제품 선택 목록-->
+                <!--               <Grid Grid.Row="1">-->
+
+
+                <ListView x:Name="paymentListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="150" Header="제품명" DisplayMemberBinding="{Binding ProductName}"/>
+                            <GridViewColumn Width="40">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Height="25" Width="25" HorizontalAlignment="Center"  Click="BtnMinus_Click" BorderBrush="{x:Null}" OpacityMask="{x:Null}" Foreground="{x:Null}">
+                                            <Button.Background>
+                                                <ImageBrush ImageSource="minus.png" TileMode="None"/>
+                                            </Button.Background>
+                                        </Button>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="30" Header="수량" DisplayMemberBinding="{Binding ProductQuantity}"/>
+                            <GridViewColumn Width="40">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Height="25" Width="25" 
+                                                HorizontalAlignment="Center"  
+                                                Click="BtnPlus_Click" 
+                                                BorderBrush="{x:Null}" 
+                                                Foreground="{x:Null}"
+                                                Style="{StaticResource Button_Style}">
+                                            <Button.Background>
+                                                <ImageBrush ImageSource="plus.png"/>
+                                            </Button.Background>
+                                        </Button>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="50" Header="가격" DisplayMemberBinding="{Binding ProductPrice}"/>
+                            <GridViewColumn Width="50">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Height="25" Width="25" HorizontalAlignment="Center"  Click="BtnDelete_Click" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                                            <Button.Background>
+                                                <ImageBrush ImageSource="delete.png"/>
+                                            </Button.Background>
+                                        </Button>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+
+
+            <!--결제 영역 -->
+            <Grid Grid.Row="4">
+                <Border BorderThickness="1" BorderBrush="Black">
+                    <Button Content="결        제" FontWeight="Bold" FontSize="30" Click="BtnPay_Click"/>
+                </Border>
+            </Grid>
+
+
+        </Grid>
+    </Border>
+
+</Window>
