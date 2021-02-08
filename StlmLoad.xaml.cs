@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using static System.IO.Directory;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +27,18 @@ namespace WPF_project_Cafe
         {
             this.variable = variable;
             InitializeComponent();
-            dbs.StlmLoadData(variable.stlm_number);
+
+            string dir = Environment.CurrentDirectory + @"\stlm_list\";
+
+            if (Exists(dir))
+            {
+                dbs.StlmLoadData(variable.stlm_number);
+            }
+            else
+            {
+                CreateDirectory(dir);
+            }
+
             Stml();
         }
 
