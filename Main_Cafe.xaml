@@ -53,6 +53,25 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <Style x:Key="listBtn_Style" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" BorderThickness="0" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
         <!--
         <Style x:Key="sticker_test" TargetType="Label">
             <Setter Property="Template">
@@ -334,43 +353,61 @@
                 <!--               <Grid Grid.Row="1">-->
 
 
-                <ListView x:Name="paymentListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" >
+                <ListView x:Name="paymentListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" SizeChanged="paymentListView_SizeChanged" >
+                    <ListView.Resources>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.Resources>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Width="150" Header="제품명" DisplayMemberBinding="{Binding ProductName}"/>
-                            <GridViewColumn Width="40">
+                            <GridViewColumn Header="제품명" DisplayMemberBinding="{Binding ProductName}"/>
+                            <GridViewColumn Header="수량">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Height="25" Width="25" HorizontalAlignment="Center"  Click="BtnMinus_Click" BorderBrush="{x:Null}" OpacityMask="{x:Null}" Foreground="{x:Null}">
-                                            <Button.Background>
-                                                <ImageBrush ImageSource="minus.png" TileMode="None"/>
-                                            </Button.Background>
-                                        </Button>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Width="30" Header="수량" DisplayMemberBinding="{Binding ProductQuantity}"/>
-                            <GridViewColumn Width="40">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Height="25" Width="25" 
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                            <Button Height="25" Width="25" 
+                                                HorizontalAlignment="Center"  
+                                                Click="BtnMinus_Click" 
+                                                BorderBrush="{x:Null}" 
+                                                Foreground="{x:Null}"
+                                                Style="{StaticResource listBtn_Style}" Visibility="Visible">
+                                                <Button.Background>
+                                                    <ImageBrush ImageSource="minus.png"/>
+                                                </Button.Background>
+                                            </Button>
+                                            <TextBlock  Text="{Binding ProductQuantity}" TextAlignment="Justify"/>
+                                            <Button Height="25" Width="25" 
                                                 HorizontalAlignment="Center"  
                                                 Click="BtnPlus_Click" 
                                                 BorderBrush="{x:Null}" 
                                                 Foreground="{x:Null}"
-                                                Style="{StaticResource Button_Style}">
-                                            <Button.Background>
-                                                <ImageBrush ImageSource="plus.png"/>
-                                            </Button.Background>
-                                        </Button>
+                                                Style="{StaticResource listBtn_Style}">
+                                                <Button.Background>
+                                                    <ImageBrush ImageSource="plus.png"/>
+                                                </Button.Background>
+                                            </Button>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="50" Header="가격" DisplayMemberBinding="{Binding ProductPrice}"/>
-                            <GridViewColumn Width="50">
+                            <GridViewColumn Header="가격">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Height="25" Width="25" HorizontalAlignment="Center"  Click="BtnDelete_Click" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                                        <TextBlock TextAlignment="Right"
+                                                   Text="{Binding ProductPrice}" FontWeight="Normal"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Height="25" Width="25" 
+                                                HorizontalAlignment="Center"  
+                                                Click="BtnDelete_Click" 
+                                                BorderBrush="{x:Null}" 
+                                                Foreground="{x:Null}"
+                                                Style="{StaticResource listBtn_Style}" HorizontalContentAlignment="Center">
                                             <Button.Background>
                                                 <ImageBrush ImageSource="delete.png"/>
                                             </Button.Background>
