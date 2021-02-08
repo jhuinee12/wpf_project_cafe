@@ -43,7 +43,7 @@ namespace WPF_project_Cafe
 
         // sticker_mode = new/hot 이라면  new/hot 스키터 
         //public string sticker_mode = "nomal";
-
+      
         public int Page = 0;
         public int j;
         public int beveragePageCount = 0;  // 배열 위치 count
@@ -54,7 +54,7 @@ namespace WPF_project_Cafe
 
         Button[] btn = new Button[9];
         Label[] sticker = new Label[9];
-
+        
         public int Previous_counter;
 
         public MainWindow()
@@ -62,7 +62,7 @@ namespace WPF_project_Cafe
             //DB 데이터(음료이름,스티커여부) 불러오기
             DB.ProductLoadData();
 
-            //데이터(음료이름,스티커여부)를 옮겨주고 옮긴 음료이름을 이미지와 매칭시킴
+            //데이터(음료,디저트,기타등등 이름,스티커여부)를 옮겨주고 옮긴 이름을 이미지와 매칭시킴
             hand_over_data();
 
             InitializeComponent();
@@ -323,11 +323,10 @@ namespace WPF_project_Cafe
             }
 
 #region           //이벤트 버튼 처리
-            if (MenuBar == "beverage")
-            {
-                if ((Page == 0 && Page == GlobalVar.Beverage_Total_page - 1 && GlobalVar.beverage_counter / 9 == 1 && GlobalVar.beverage_counter % 9 == 0) || //첫페이지자 마지막페이지이고 상품개수가 9개
-                    (Page == GlobalVar.Beverage_Total_page - 1 && GlobalVar.beverage_counter / 9 > 0 && GlobalVar.beverage_counter % 9 == 0) ||//다음페이지가 있으면 현재 페이지의 상품개수는 9개
-                    (Page >= 0 && Page < GlobalVar.Beverage_Total_page - 1))//마지막 페이지 인데 상품개수가 9개
+           
+                if ((Page == 0 && Page == GlobalVar.Total_page - 1 && GlobalVar.counter / 9 == 1 && GlobalVar.counter % 9 == 0)|| //첫페이지자 마지막페이지이고 상품개수가 9개
+                    (Page == GlobalVar.Total_page - 1 && GlobalVar.counter / 9 > 0 && GlobalVar.counter % 9 == 0)||//다음페이지가 있으면 현재 페이지의 상품개수는 9개
+                    (Page >= 0 && Page < GlobalVar.Total_page - 1))//마지막 페이지 인데 상품개수가 9개
                 {
                     btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
                     btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
@@ -339,31 +338,31 @@ namespace WPF_project_Cafe
                     btn[7].Click += new RoutedEventHandler(OpenSubCafe_7);
                     btn[8].Click += new RoutedEventHandler(OpenSubCafe_8);
                 }
-                else if (Page >= 0 && Page == GlobalVar.Beverage_Total_page - 1 && GlobalVar.beverage_counter / 9 >= 0 && GlobalVar.beverage_counter % 9 < 9 && GlobalVar.beverage_counter % 9 > 0)//(첫페이지자)마지막페이지이고 상품개수가 9개미만
+                else if (Page >= 0 && Page == GlobalVar.Total_page - 1 && GlobalVar.counter / 9 >= 0 && GlobalVar.counter % 9 < 9 && GlobalVar.beverage_counter % 9 > 0)//(첫페이지자)마지막페이지이고 상품개수가 9개미만
                 {
-                    if (GlobalVar.beverage_counter % 9 == 1)//page 1개에 상품 1개
+                    if (GlobalVar.counter % 9 == 1)//page 1개에 상품 1개
                     {
                         btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
                     }
-                    if (GlobalVar.beverage_counter % 9 == 2)//상품 2개
+                    if (GlobalVar.counter % 9 == 2)//상품 2개
                     {
                         btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
                         btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
                     }
-                    if (GlobalVar.beverage_counter % 9 == 3)//상품 3개
+                    if (GlobalVar.counter % 9 == 3)//상품 3개
                     {
                         btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
                         btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
                         btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
                     }
-                    if (GlobalVar.beverage_counter % 9 == 4)//상품 4개
+                    if (GlobalVar.counter % 9 == 4)//상품 4개
                     {
                         btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
                         btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
                         btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
                         btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
                     }
-                    if (GlobalVar.beverage_counter % 9 == 5)//상품 5개
+                    if (GlobalVar.counter % 9 == 5)//상품 5개
                     {
                         btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
                         btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
@@ -371,7 +370,7 @@ namespace WPF_project_Cafe
                         btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
                         btn[4].Click += new RoutedEventHandler(OpenSubCafe_4);
                     }
-                    if (GlobalVar.beverage_counter % 9 == 6)//상품 6개
+                    if (GlobalVar.counter % 9 == 6)//상품 6개
                     {
                         btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
                         btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
@@ -380,7 +379,7 @@ namespace WPF_project_Cafe
                         btn[4].Click += new RoutedEventHandler(OpenSubCafe_4);
                         btn[5].Click += new RoutedEventHandler(OpenSubCafe_5);
                     }
-                    if (GlobalVar.beverage_counter % 9 == 7)//상품 7개
+                    if (GlobalVar.counter % 9 == 7)//상품 7개
                     {
                         btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
                         btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
@@ -390,7 +389,7 @@ namespace WPF_project_Cafe
                         btn[5].Click += new RoutedEventHandler(OpenSubCafe_5);
                         btn[6].Click += new RoutedEventHandler(OpenSubCafe_6);
                     }
-                    if (GlobalVar.beverage_counter % 9 == 8)//상품 8개
+                    if (GlobalVar.counter % 9 == 8)//상품 8개
                     {
                         btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
                         btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
@@ -402,13 +401,11 @@ namespace WPF_project_Cafe
                         btn[7].Click += new RoutedEventHandler(OpenSubCafe_7);
                     }
                 }
-                //btn[i].Click += new RoutedEventHandler(OpenSubCafe);
-            }
-#endregion
 
+            //btn[i].Click += new RoutedEventHandler(OpenSubCafe);           
             //pn = new string[DB.ColumnCount()];
             beverage_number = new string[16];
-            for (int i=0; i< beverage_number.Length; i++)
+            for (int i = 0; i < beverage_number.Length; i++)
             {
                 //beverage_number[i] = DB.DataLoad("product", "where beverage_dessert_etc = \"beverage\" limit " + (i + 1), "product_number");
                 beverage_number[i] = DB.DataLoad("product", "where beverage_dessert_etc = \"beverage\" limit " + (i + 1), "product_number");
@@ -420,6 +417,8 @@ namespace WPF_project_Cafe
                 dessert_number[i] = DB.DataLoad("product", "where beverage_dessert_etc = \"dessert\" limit " + (i + 1), "product_number");
             }
         }
+#endregion
+
 #region //버튼 이벤트    
         private void OpenSubCafe_0(object sender, EventArgs e)
         {
@@ -543,7 +542,7 @@ namespace WPF_project_Cafe
 #region //페이지 전환 버튼
         private void btn_Next_Click(object sender, RoutedEventArgs e)
         {   //현재 버튼 개수는 9개고 다음 버튼이 7개 일때 나머지 2개가 끝에 남아있음을 방지
-            if (Page < GlobalVar.Beverage_Total_page - 1)
+            if (Page < GlobalVar.Total_page - 1)
             {
                 for (int i = 0; i < 9; i++)
                 {
@@ -555,8 +554,7 @@ namespace WPF_project_Cafe
                 }
                 Page++;
                 Menu_btn_add();
-                beveragePageCount += 9;
-            }
+            }         
             // MessageBox.Show("다음");                     
         }
 
@@ -565,9 +563,9 @@ namespace WPF_project_Cafe
             //MessageBox.Show("이전");
 
             //현재 버튼이 7개 이고 이전 버튼 개수는 9개일때 인덱스 오버 방지
-            if (Page == GlobalVar.Beverage_Total_page - 1)
+            if (Page == GlobalVar.Total_page - 1)
             {
-                Previous_counter = GlobalVar.beverage_counter - 9 * Page;
+                Previous_counter = GlobalVar.counter - 9 * Page;
             }
             else
             {
@@ -585,8 +583,7 @@ namespace WPF_project_Cafe
                 }
                 Page--;
                 Menu_btn_add();
-                beveragePageCount -= 9;
-            }
+            }         
         }
 #endregion
 
@@ -858,9 +855,59 @@ namespace WPF_project_Cafe
                 pt.ShowDialog();
             }
         }
-#endregion
+        #endregion
 
-#region // 리스트뷰 컬럼 사이즈 조정
+        /*      #region 스티커 생성 , 한번에 최대 3개의 스티커까지 생성가능     
+      public void sticker_add(int set_sticker_col, int set_sticker_row)
+      {
+
+
+          //int sticker_num=0;
+          int[] Colum_set = { 0, 3, 6 };
+          int[] Row_set = { 0, 3, 6 };
+          int col_cnt = 0;
+          int row_cnt = 0;
+
+          Label[] sticker = new Label[9];
+
+          for (int sticker_num = 0; sticker_num < Menu_count; sticker_num++)
+          {
+              //스티커 테스트
+              sticker[sticker_num] = new Label();
+
+              if (sticker_mode == "new")
+              {
+                  sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.png")));
+              }
+              else if (sticker_mode == "hot")
+              {
+                  sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\hot.png")));
+              }
+
+              Grid.SetColumn(sticker[sticker_num], Colum_set[set_sticker_col]);
+              Grid.SetRow(sticker[sticker_num], Row_set[set_sticker_row]);
+
+
+              Menu.Children.Add(sticker[sticker_num]);
+              ////전체 스티커 씌우기
+              //col_cnt++;
+              //if (col_cnt > 2)
+              //{
+              //    col_cnt = 0;
+              //    row_cnt++;
+
+              //    if (row_cnt > 2)
+              //    {
+              //        row_cnt = 0;
+              //    }
+              //}
+          }
+
+
+      }
+      #endregion */
+
+        #region // 리스트뷰 컬럼 사이즈 조정
         private void paymentListView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ListView listView = sender as ListView;
@@ -877,8 +924,7 @@ namespace WPF_project_Cafe
             gView.Columns[2].Width = workingWidth * col3;
             gView.Columns[3].Width = workingWidth * col4;
         }
-
+        #endregion
     }
-#endregion
 
 }

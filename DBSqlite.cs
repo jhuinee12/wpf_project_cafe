@@ -46,7 +46,7 @@ namespace WPF_project_Cafe
             SetConnection();
             con.Open();
             cmd = new SQLiteCommand("select count(*) from product", con);
-            int pCount =  Int32.Parse((String)cmd.ExecuteScalar());
+            int pCount = Int32.Parse((String)cmd.ExecuteScalar());
             TableQuit();
             return pCount;
         }
@@ -115,7 +115,7 @@ namespace WPF_project_Cafe
         }
 
         /* 구매 제품명 출력 */
-        public string PaymentListLoad (string pn)
+        public string PaymentListLoad(string pn)
         {
             pdata = "";
             string Query = "select * from product where product_number = \"" + pn + "\"";
@@ -188,7 +188,7 @@ namespace WPF_project_Cafe
                     TableLoad(productQuery);
                     while (rdr.Read())
                     {
-                        if (rdr["beverage_dessert_etc"]+"" == "beverage")
+                        if (rdr["beverage_dessert_etc"] + "" == "beverage")
                         {
                             product_name += ("(음료) " + rdr["name"] + "\n\n");
                         }
