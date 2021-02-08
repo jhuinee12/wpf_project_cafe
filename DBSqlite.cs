@@ -78,6 +78,7 @@ namespace WPF_project_Cafe
         public void ProductLoadData()
         {
             GlobalVar.beverage_counter = 0;
+            GlobalVar.dessert_counter = 0;
             TableLoad("select * from Product");
 
             while (rdr.Read())
@@ -99,7 +100,7 @@ namespace WPF_project_Cafe
 
                     GlobalVar.dessert_counter++;
                 }
-
+                //기타 등등 읽어오기
                 else if ((string)rdr["beverage_dessert_etc"] == "etc")
                 {
                     GlobalVar.ETC_NAME[GlobalVar.dessert_counter] = (string)rdr["name"];
@@ -122,7 +123,7 @@ namespace WPF_project_Cafe
             TableLoad(Query);
             while (rdr.Read())
             {
-                pdata = (rdr["name"] + "");
+                pdata = (rdr["name"] + " / " + rdr["hot_ice_none"] + " / " + rdr["size"]);
             }
             TableQuit();
 
