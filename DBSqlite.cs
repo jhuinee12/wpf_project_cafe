@@ -78,6 +78,8 @@ namespace WPF_project_Cafe
         public void ProductLoadData()
         {
             GlobalVar.beverage_counter = 0;
+            GlobalVar.dessert_counter = 0;
+            GlobalVar.etc_counter = 0;
             TableLoad("select * from Product");
 
             while (rdr.Read())

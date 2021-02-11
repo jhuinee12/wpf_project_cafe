@@ -205,21 +205,23 @@ namespace WPF_project_Cafe
 
             int Colum_set = 0;
             int Row_set = 0;
+            
+            if (MenuBar == "beverage")
+            {
+                GlobalVar.counter = GlobalVar.beverage_counter;
+            }
+            else if (MenuBar == "dessert")
+            {
+                GlobalVar.counter = GlobalVar.dessert_counter;
+            }
+            else if (MenuBar == "etc")
+            {
+                GlobalVar.counter = GlobalVar.etc_counter;
+            }
 
             for (int i = 0; i < 9; i++)
             {
-                if (MenuBar == "beverage")
-                {
-                    GlobalVar.counter = GlobalVar.beverage_counter;
-                }
-                else if (MenuBar == "dessert")
-                {
-                    GlobalVar.counter = GlobalVar.dessert_counter;
-                }
-                else if (MenuBar == "etc")
-                {
-                    GlobalVar.counter = GlobalVar.etc_counter;
-                }
+               
 
                 if (GlobalVar.counter - 9 * Page > btn_num && GlobalVar.counter - 9 * Page > sticker_num)
                 {
@@ -248,9 +250,11 @@ namespace WPF_project_Cafe
                     } //버튼 디저트(이미지,이름)
                     else if (MenuBar == "dessert")
                     {
+                        
                         btn[i].Background = Dessert[i + 9 * Page].img;
                         btn[i].Content = Dessert[i + 9 * Page].Name;
-
+                        
+                       
                         //스티커 종류 선택
                         if (Dessert[i + 9 * Page].sticker == "new")
                         {
@@ -319,90 +323,12 @@ namespace WPF_project_Cafe
                     //다음 버튼 
                     btn_num++;
                     sticker_num++;
+                    //이벤트 버튼 처리
+                    btn[i].Click += new RoutedEventHandler(OpenSubCafe_Click);
+                    
                 }
             }
-
-#region           //이벤트 버튼 처리
-           
-                if ((Page == 0 && Page == GlobalVar.Total_page - 1 && GlobalVar.counter / 9 == 1 && GlobalVar.counter % 9 == 0)|| //첫페이지자 마지막페이지이고 상품개수가 9개
-                    (Page == GlobalVar.Total_page - 1 && GlobalVar.counter / 9 > 0 && GlobalVar.counter % 9 == 0)||//다음페이지가 있으면 현재 페이지의 상품개수는 9개
-                    (Page >= 0 && Page < GlobalVar.Total_page - 1))//마지막 페이지 인데 상품개수가 9개
-                {
-                    btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
-                    btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
-                    btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
-                    btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
-                    btn[4].Click += new RoutedEventHandler(OpenSubCafe_4);
-                    btn[5].Click += new RoutedEventHandler(OpenSubCafe_5);
-                    btn[6].Click += new RoutedEventHandler(OpenSubCafe_6);
-                    btn[7].Click += new RoutedEventHandler(OpenSubCafe_7);
-                    btn[8].Click += new RoutedEventHandler(OpenSubCafe_8);
-                }
-                else if (Page >= 0 && Page == GlobalVar.Total_page - 1 && GlobalVar.counter / 9 >= 0 && GlobalVar.counter % 9 < 9 && GlobalVar.beverage_counter % 9 > 0)//(첫페이지자)마지막페이지이고 상품개수가 9개미만
-                {
-                    if (GlobalVar.counter % 9 == 1)//page 1개에 상품 1개
-                    {
-                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
-                    }
-                    if (GlobalVar.counter % 9 == 2)//상품 2개
-                    {
-                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
-                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
-                    }
-                    if (GlobalVar.counter % 9 == 3)//상품 3개
-                    {
-                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
-                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
-                        btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
-                    }
-                    if (GlobalVar.counter % 9 == 4)//상품 4개
-                    {
-                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
-                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
-                        btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
-                        btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
-                    }
-                    if (GlobalVar.counter % 9 == 5)//상품 5개
-                    {
-                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
-                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
-                        btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
-                        btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
-                        btn[4].Click += new RoutedEventHandler(OpenSubCafe_4);
-                    }
-                    if (GlobalVar.counter % 9 == 6)//상품 6개
-                    {
-                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
-                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
-                        btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
-                        btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
-                        btn[4].Click += new RoutedEventHandler(OpenSubCafe_4);
-                        btn[5].Click += new RoutedEventHandler(OpenSubCafe_5);
-                    }
-                    if (GlobalVar.counter % 9 == 7)//상품 7개
-                    {
-                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
-                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
-                        btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
-                        btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
-                        btn[4].Click += new RoutedEventHandler(OpenSubCafe_4);
-                        btn[5].Click += new RoutedEventHandler(OpenSubCafe_5);
-                        btn[6].Click += new RoutedEventHandler(OpenSubCafe_6);
-                    }
-                    if (GlobalVar.counter % 9 == 8)//상품 8개
-                    {
-                        btn[0].Click += new RoutedEventHandler(OpenSubCafe_0);
-                        btn[1].Click += new RoutedEventHandler(OpenSubCafe_1);
-                        btn[2].Click += new RoutedEventHandler(OpenSubCafe_2);
-                        btn[3].Click += new RoutedEventHandler(OpenSubCafe_3);
-                        btn[4].Click += new RoutedEventHandler(OpenSubCafe_4);
-                        btn[5].Click += new RoutedEventHandler(OpenSubCafe_5);
-                        btn[6].Click += new RoutedEventHandler(OpenSubCafe_6);
-                        btn[7].Click += new RoutedEventHandler(OpenSubCafe_7);
-                    }
-                }
-
-            //btn[i].Click += new RoutedEventHandler(OpenSubCafe);           
+                       
             //pn = new string[DB.ColumnCount()];
             beverage_number = new string[16];
             for (int i = 0; i < beverage_number.Length; i++)
@@ -417,13 +343,76 @@ namespace WPF_project_Cafe
                 dessert_number[i] = DB.DataLoad("product", "where beverage_dessert_etc = \"dessert\" limit " + (i + 1), "product_number");
             }
         }
-#endregion
-
+  
+    
 #region //버튼 이벤트    
-        private void OpenSubCafe_0(object sender, EventArgs e)
-        {
-            GlobalVar.btn_select_img = btn[0].Background;
-            GlobalVar.btn_select_sticker_img = sticker[0].Background;
+        private void OpenSubCafe_Click(object sender, EventArgs e)
+        {          
+            Button SelectBtn = sender as Button;           
+          
+            GlobalVar.btn_select_img = SelectBtn.Background;
+            //해당 버튼에 있는 스티커 다시 뿌려주기        
+            for (int i = 0; i < GlobalVar.counter; i++)
+            {
+                if (MenuBar == "beverage")
+                {
+                    if ((string)SelectBtn.Content == beverage_name[i])
+                    {
+                        if (Beverage[i].sticker == "new")
+                        {
+                            GlobalVar.btn_select_sticker_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.png")));
+                        }
+                        else if (Beverage[i].sticker == "hot")
+                        {
+                            GlobalVar.btn_select_sticker_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\hot.png")));
+                        }
+                        else
+                        {
+                            GlobalVar.btn_select_sticker_img = null;
+                        }
+
+                    }
+                }
+                else if (MenuBar == "dessert")
+                {
+                    if ((string)SelectBtn.Content == dessert_name[i])
+                    {
+                        if (Dessert[i].sticker == "new")
+                        {
+                            GlobalVar.btn_select_sticker_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.png")));
+                        }
+                        else if (Dessert[i].sticker == "hot")
+                        {
+                            GlobalVar.btn_select_sticker_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\hot.png")));
+                        }
+                        else
+                        {
+                            GlobalVar.btn_select_sticker_img = null;
+                        }
+
+                    }
+                }
+                else if (MenuBar == "etc")
+                {
+                    if ((string)SelectBtn.Content == etc_name[i])
+                    {
+                        if (Etc[i].sticker == "new")
+                        {
+                            GlobalVar.btn_select_sticker_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.png")));
+                        }
+                        else if (Etc[i].sticker == "hot")
+                        {
+                            GlobalVar.btn_select_sticker_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\hot.png")));
+                        }
+                        else
+                        {
+                            GlobalVar.btn_select_sticker_img = null;
+                        }
+
+                    }
+                }
+            }
+          
 
             Sub_cafe sub_cafe = new Sub_cafe(variable);
             sub_cafe.ShowDialog();
@@ -433,115 +422,132 @@ namespace WPF_project_Cafe
                 LoadListView(beverage_number[beveragePageCount + 0]);
             }
         }
-        private void OpenSubCafe_1(object sender, EventArgs e)
-        {
-            GlobalVar.btn_select_img = btn[1].Background;
-            GlobalVar.btn_select_sticker_img = sticker[1].Background;
+       
 
-            Sub_cafe sub_cafe = new Sub_cafe(variable);
-            sub_cafe.ShowDialog();
 
-            if (variable.btClick == 1)
-            {
-                LoadListView(beverage_number[beveragePageCount + 1]);
-            }
-        }
-        private void OpenSubCafe_2(object sender, EventArgs e)
-        {
-            GlobalVar.btn_select_img = btn[2].Background;
-            GlobalVar.btn_select_sticker_img = sticker[2].Background;
+            //private void OpenSubCafe_0(object sender, EventArgs e)
+            //{
+            //    GlobalVar.btn_select_img = btn[0].Background;
+            //    GlobalVar.btn_select_sticker_img = sticker[0].Background;
 
-            Sub_cafe sub_cafe = new Sub_cafe(variable);
-            sub_cafe.ShowDialog();
+            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
+            //    sub_cafe.ShowDialog();
 
-            if (variable.btClick == 1)
-            {
-                LoadListView(beverage_number[beveragePageCount + 2]);
-            }
-        }
-        private void OpenSubCafe_3(object sender, EventArgs e)
-        {
-            GlobalVar.btn_select_img = btn[3].Background;
-            GlobalVar.btn_select_sticker_img = sticker[3].Background;
+            //    if (variable.btClick == 1)
+            //    {
+            //        LoadListView(beverage_number[beveragePageCount + 0]);
+            //    }
+            //}
+            //private void OpenSubCafe_1(object sender, EventArgs e)
+            //{
+            //    GlobalVar.btn_select_img = btn[1].Background;
+            //    GlobalVar.btn_select_sticker_img = sticker[1].Background;
 
-            Sub_cafe sub_cafe = new Sub_cafe(variable);
-            sub_cafe.ShowDialog();
+            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
+            //    sub_cafe.ShowDialog();
 
-            if (variable.btClick == 1)
-            {
-                LoadListView(beverage_number[beveragePageCount + 3]);
-            }
-        }
-        private void OpenSubCafe_4(object sender, EventArgs e)
-        {
-            GlobalVar.btn_select_img = btn[4].Background;
-            GlobalVar.btn_select_sticker_img = sticker[4].Background;
+            //    if (variable.btClick == 1)
+            //    {
+            //        LoadListView(beverage_number[beveragePageCount + 1]);
+            //    }
+            //}
+            //private void OpenSubCafe_2(object sender, EventArgs e)
+            //{
+            //    GlobalVar.btn_select_img = btn[2].Background;
+            //    GlobalVar.btn_select_sticker_img = sticker[2].Background;
 
-            Sub_cafe sub_cafe = new Sub_cafe(variable);
-            sub_cafe.ShowDialog();
+            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
+            //    sub_cafe.ShowDialog();
 
-            if (variable.btClick == 1)
-            {
-                LoadListView(beverage_number[beveragePageCount + 4]);
-            }
-        }
-        private void OpenSubCafe_5(object sender, EventArgs e)
-        {
-            GlobalVar.btn_select_img = btn[5].Background;
-            GlobalVar.btn_select_sticker_img = sticker[5].Background;
+            //    if (variable.btClick == 1)
+            //    {
+            //        LoadListView(beverage_number[beveragePageCount + 2]);
+            //    }
+            //}
+            //private void OpenSubCafe_3(object sender, EventArgs e)
+            //{
+            //    GlobalVar.btn_select_img = btn[3].Background;
+            //    GlobalVar.btn_select_sticker_img = sticker[3].Background;
 
-            Sub_cafe sub_cafe = new Sub_cafe(variable);
-            sub_cafe.ShowDialog();
+            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
+            //    sub_cafe.ShowDialog();
 
-            if (variable.btClick == 1)
-            {
-                LoadListView(beverage_number[beveragePageCount + 5]);
-            }
-        }
-        private void OpenSubCafe_6(object sender, EventArgs e)
-        {
-            GlobalVar.btn_select_img = btn[6].Background;
-            GlobalVar.btn_select_sticker_img = sticker[6].Background;
+            //    if (variable.btClick == 1)
+            //    {
+            //        LoadListView(beverage_number[beveragePageCount + 3]);
+            //    }
+            //}
+            //private void OpenSubCafe_4(object sender, EventArgs e)
+            //{
+            //    GlobalVar.btn_select_img = btn[4].Background;
+            //    GlobalVar.btn_select_sticker_img = sticker[4].Background;
 
-            Sub_cafe sub_cafe = new Sub_cafe(variable);
-            sub_cafe.ShowDialog();
+            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
+            //    sub_cafe.ShowDialog();
 
-            if (variable.btClick == 1)
-            {
-                LoadListView(beverage_number[beveragePageCount + 6]);
-            }
-        }
-        private void OpenSubCafe_7(object sender, EventArgs e)
-        {
-            GlobalVar.btn_select_img = btn[7].Background;
-            GlobalVar.btn_select_sticker_img = sticker[7].Background;
+            //    if (variable.btClick == 1)
+            //    {
+            //        LoadListView(beverage_number[beveragePageCount + 4]);
+            //    }
+            //}
+            //private void OpenSubCafe_5(object sender, EventArgs e)
+            //{
+            //    GlobalVar.btn_select_img = btn[5].Background;
+            //    GlobalVar.btn_select_sticker_img = sticker[5].Background;
 
-            Sub_cafe sub_cafe = new Sub_cafe(variable);
-            sub_cafe.ShowDialog();
+            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
+            //    sub_cafe.ShowDialog();
 
-            if (variable.btClick == 1)
-            {
-                LoadListView(beverage_number[beveragePageCount + 7]);
-            }
-        }
-        private void OpenSubCafe_8(object sender, EventArgs e)
-        {
-            GlobalVar.btn_select_img = btn[8].Background;
-            GlobalVar.btn_select_sticker_img = sticker[8].Background;
+            //    if (variable.btClick == 1)
+            //    {
+            //        LoadListView(beverage_number[beveragePageCount + 5]);
+            //    }
+            //}
+            //private void OpenSubCafe_6(object sender, EventArgs e)
+            //{
+            //    GlobalVar.btn_select_img = btn[6].Background;
+            //    GlobalVar.btn_select_sticker_img = sticker[6].Background;
 
-            Sub_cafe sub_cafe = new Sub_cafe(variable);
-            sub_cafe.ShowDialog();
+            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
+            //    sub_cafe.ShowDialog();
 
-            if (variable.btClick == 1)
-            {
-                LoadListView(beverage_number[beveragePageCount + 8]);
-            }
-        }
-        #endregion
+            //    if (variable.btClick == 1)
+            //    {
+            //        LoadListView(beverage_number[beveragePageCount + 6]);
+            //    }
+            //}
+            //private void OpenSubCafe_7(object sender, EventArgs e)
+            //{
+            //    GlobalVar.btn_select_img = btn[7].Background;
+            //    GlobalVar.btn_select_sticker_img = sticker[7].Background;
 
-#region //페이지 전환 버튼
+            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
+            //    sub_cafe.ShowDialog();
+
+            //    if (variable.btClick == 1)
+            //    {
+            //        LoadListView(beverage_number[beveragePageCount + 7]);
+            //    }
+            //}
+            //private void OpenSubCafe_8(object sender, EventArgs e)
+            //{
+            //    GlobalVar.btn_select_img = btn[8].Background;
+            //    GlobalVar.btn_select_sticker_img = sticker[8].Background;
+
+            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
+            //    sub_cafe.ShowDialog();
+
+            //    if (variable.btClick == 1)
+            //    {
+            //        LoadListView(beverage_number[beveragePageCount + 8]);
+            //    }
+            //}
+            #endregion
+
+            #region //페이지 전환 버튼
         private void btn_Next_Click(object sender, RoutedEventArgs e)
-        {   //현재 버튼 개수는 9개고 다음 버튼이 7개 일때 나머지 2개가 끝에 남아있음을 방지
+        {              
+            //현재 버튼 개수는 9개고 다음 버튼이 7개 일때 나머지 2개가 끝에 남아있음을 방지
             if (Page < GlobalVar.Total_page - 1)
             {
                 for (int i = 0; i < 9; i++)
@@ -554,13 +560,12 @@ namespace WPF_project_Cafe
                 }
                 Page++;
                 Menu_btn_add();
-            }         
-            // MessageBox.Show("다음");                     
+            }                          
         }
 
         private void btn_Previous_Click(object sender, RoutedEventArgs e)
         {
-            //MessageBox.Show("이전");
+           
 
             //현재 버튼이 7개 이고 이전 버튼 개수는 9개일때 인덱스 오버 방지
             if (Page == GlobalVar.Total_page - 1)
@@ -608,20 +613,25 @@ namespace WPF_project_Cafe
                 GlobalVar.counter = GlobalVar.etc_counter;
             }
 
-            try
+            //현재 버튼이 7개 이고 이전 버튼 개수는 9개일때 인덱스 오버 방지
+            if (Page == GlobalVar.Total_page - 1)
             {
-                //메뉴바 이동시 이전 버튼이 남는것을 방지
-                for (int i = 0; i < GlobalVar.counter - 9 * Page; i++)
-                {
-                    btn[i].Visibility = Visibility.Hidden;
-                    btn[i].IsEnabled = false;
-                    sticker[i].Visibility = Visibility.Hidden;
-                    sticker[i].IsEnabled = false;
-                }
+                Previous_counter = GlobalVar.counter - 9 * Page;
             }
-            catch (Exception ex)
+            else
             {
+                Previous_counter = 9;
             }
+            //메뉴바 이동시 이전 버튼이 남는것을 방지
+            for (int i = 0; i < Previous_counter; i++)
+            {
+                btn[i].Visibility = Visibility.Hidden;
+                btn[i].IsEnabled = false;
+                sticker[i].Visibility = Visibility.Hidden;
+                sticker[i].IsEnabled = false;
+            }
+            
+           
             //메뉴바 선택
             MenuBar = "beverage";
 
@@ -649,19 +659,25 @@ namespace WPF_project_Cafe
             {
                 GlobalVar.counter = GlobalVar.etc_counter;
             }
-            try
+
+            //현재 버튼이 7개 이고 이전 버튼 개수는 9개일때 인덱스 오버 방지
+            if (Page == GlobalVar.Total_page - 1)
             {
-                for (int i = 0; i < GlobalVar.counter - 9 * Page; i++)
-                {
-                    btn[i].Visibility = Visibility.Hidden;
-                    btn[i].IsEnabled = false;
-                    sticker[i].Visibility = Visibility.Hidden;
-                    sticker[i].IsEnabled = false;
-                }
+                Previous_counter = GlobalVar.counter - 9 * Page;
             }
-            catch (Exception ex)
+            else
             {
+                Previous_counter = 9;
             }
+
+            for (int i = 0; i < Previous_counter; i++)
+            {
+                btn[i].Visibility = Visibility.Hidden;
+                btn[i].IsEnabled = false;
+                sticker[i].Visibility = Visibility.Hidden;
+                sticker[i].IsEnabled = false;
+            }
+          
             //메뉴바 선택
             MenuBar = "dessert";
 
@@ -690,19 +706,25 @@ namespace WPF_project_Cafe
                 GlobalVar.counter = GlobalVar.etc_counter;
             }
 
-            try
+            //현재 버튼이 7개 이고 이전 버튼 개수는 9개일때 인덱스 오버 방지
+            if (Page == GlobalVar.Total_page - 1)
             {
-                for (int i = 0; i < GlobalVar.counter - 9 * Page; i++)
-                {
-                    btn[i].Visibility = Visibility.Hidden;
-                    btn[i].IsEnabled = false;
-                    sticker[i].Visibility = Visibility.Hidden;
-                    sticker[i].IsEnabled = false;
-                }
+                Previous_counter = GlobalVar.counter - 9 * Page;
             }
-            catch (Exception ex)
+            else
             {
+                Previous_counter = 9;
             }
+            for (int i = 0; i < Previous_counter; i++)
+            {
+                btn[i].Visibility = Visibility.Hidden;
+                btn[i].IsEnabled = false;
+                sticker[i].Visibility = Visibility.Hidden;
+                sticker[i].IsEnabled = false;
+            }
+            
+          
+            
             //메뉴바 선택
             MenuBar = "etc";
 
@@ -857,55 +879,6 @@ namespace WPF_project_Cafe
         }
         #endregion
 
-        /*      #region 스티커 생성 , 한번에 최대 3개의 스티커까지 생성가능     
-      public void sticker_add(int set_sticker_col, int set_sticker_row)
-      {
-
-
-          //int sticker_num=0;
-          int[] Colum_set = { 0, 3, 6 };
-          int[] Row_set = { 0, 3, 6 };
-          int col_cnt = 0;
-          int row_cnt = 0;
-
-          Label[] sticker = new Label[9];
-
-          for (int sticker_num = 0; sticker_num < Menu_count; sticker_num++)
-          {
-              //스티커 테스트
-              sticker[sticker_num] = new Label();
-
-              if (sticker_mode == "new")
-              {
-                  sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.png")));
-              }
-              else if (sticker_mode == "hot")
-              {
-                  sticker[sticker_num].Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\hot.png")));
-              }
-
-              Grid.SetColumn(sticker[sticker_num], Colum_set[set_sticker_col]);
-              Grid.SetRow(sticker[sticker_num], Row_set[set_sticker_row]);
-
-
-              Menu.Children.Add(sticker[sticker_num]);
-              ////전체 스티커 씌우기
-              //col_cnt++;
-              //if (col_cnt > 2)
-              //{
-              //    col_cnt = 0;
-              //    row_cnt++;
-
-              //    if (row_cnt > 2)
-              //    {
-              //        row_cnt = 0;
-              //    }
-              //}
-          }
-
-
-      }
-      #endregion */
 
         #region // 리스트뷰 컬럼 사이즈 조정
         private void paymentListView_SizeChanged(object sender, SizeChangedEventArgs e)
