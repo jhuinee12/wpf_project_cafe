@@ -20,8 +20,11 @@ namespace WPF_project_Cafe
     public partial class Sub_cafe : Window
     {
         MainWindow mw = new MainWindow();
+
         Variable variable = new Variable();
+
         DBSqlite DB = new DBSqlite();
+
         public Sub_cafe(Variable variable)
         {
             this.variable = variable;
@@ -45,6 +48,56 @@ namespace WPF_project_Cafe
             sub_cafe_border.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sub_cafe\background_img3.jpg")));
             menu_img.Background = GlobalVar.btn_select_img;
             menu_sticker_img.Background = GlobalVar.btn_select_sticker_img;
+        }
+
+        private void btn_short_Click(object sender, RoutedEventArgs e)
+        {
+            btn_short.Background = yClick();
+            btn_tall.Background = gClick();
+            btn_grande.Background = gClick();
+            btn_venti.Background = gClick();
+
+        }
+
+        private void btn_tall_Click(object sender, RoutedEventArgs e)
+        {
+            btn_short.Background = gClick();
+            btn_tall.Background = yClick();
+            btn_grande.Background = gClick();
+            btn_venti.Background = gClick();
+        }
+
+        private void btn_grande_Click(object sender, RoutedEventArgs e)
+        {
+            btn_short.Background = gClick();
+            btn_tall.Background = gClick();
+            btn_grande.Background = yClick();
+            btn_venti.Background = gClick();
+        }
+
+        private void btn_venti_Click(object sender, RoutedEventArgs e)
+        {
+            btn_short.Background = gClick();
+            btn_tall.Background = gClick();
+            btn_grande.Background = gClick();
+            btn_venti.Background = yClick();
+        }
+        
+        
+        
+        //델리게이트로 끌고 와야하는데 리턴방식이 solid방식이라 끌어오지못함..그래서 메서드 추가시킴
+        private SolidColorBrush yClick()
+        {
+            Color ycolor = Color.FromRgb(255, 255, 0);
+            SolidColorBrush ybrush = new SolidColorBrush(ycolor);
+            return ybrush;
+        }
+
+        private SolidColorBrush gClick()
+        {
+            Color gcolor = Color.FromRgb(112, 112, 112);
+            SolidColorBrush gbrush = new SolidColorBrush(gcolor);
+            return gbrush;
         }
     }
 }

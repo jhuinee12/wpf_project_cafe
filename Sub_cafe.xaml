@@ -12,13 +12,13 @@
 
     <Grid Name ="sub_cafe_border">
         <Grid.RowDefinitions>
-            <RowDefinition Height="2.5*"/>
+            <RowDefinition Height="1.5*"/>
             <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
 
 
-        <Grid Grid.Row="0" Margin="10,30,10,10">
+        <Grid Grid.Row="0" Margin="10,20,10,10">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
@@ -54,11 +54,38 @@
         <Grid Grid.Row="1">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2.5*"/>
+                    <RowDefinition Height="1.2*"/>
                 </Grid.RowDefinitions>
-
+                <Grid Grid.Row="0">
+                    <StackPanel>
+                        <Grid>
+                            <TextBlock Text="Size" Margin="5,0,0,0" FontWeight="Bold"/>
+                        </Grid>
+                        <Grid Margin="5,0,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" Margin="0,0,5,0">
+                                <Button x:Name="btn_short" Content="Short" Click="btn_short_Click"/>
+                            </Grid>
+                            <Grid Grid.Column="1" Margin="0,0,5,0">
+                                <Button x:Name="btn_tall" Content="Tall" Click="btn_tall_Click"/>
+                            </Grid>
+                            <Grid Grid.Column="2" Margin="0,0,5,0">
+                                <Button x:Name="btn_grande" Content="Grande" Click="btn_grande_Click"/>
+                            </Grid>
+                            <Grid Grid.Column="3" Margin="0,0,5,0">
+                                <Button x:Name="btn_venti" Content="Venti" Click="btn_venti_Click"/>
+                            </Grid>
+                        </Grid>
+                        
+                    </StackPanel>
+                </Grid>
+                
                 <Grid Grid.Row="1">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -69,7 +96,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Grid Grid.Column="1">
-                            <Button x:Name="btn_cancel" FontWeight="Bold" Content="취소" Margin="0,0,5,0" Background="SkyBlue" Click="btn_cancel_Click">
+                            <Button x:Name="btn_cancel" FontWeight="Bold" Content="취소" Margin="0,0,10,20" Background="SkyBlue" Click="btn_cancel_Click">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="10 10 10 10" />
@@ -78,7 +105,7 @@
                             </Button>
                         </Grid>
                         <Grid Grid.Column="2">
-                            <Button x:Name="btn_save" FontWeight="Bold" Content="담기" Margin="5,0,0,0"  Background="SkyBlue" Click="btn_save_Click">
+                            <Button x:Name="btn_save" FontWeight="Bold" Content="담기" Margin="5,0,5,20"  Background="SkyBlue" Click="btn_save_Click">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="10 10 10 10" />
