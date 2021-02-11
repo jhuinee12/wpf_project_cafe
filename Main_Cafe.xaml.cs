@@ -348,14 +348,15 @@ namespace WPF_project_Cafe
 #region //버튼 이벤트    
         private void OpenSubCafe_Click(object sender, EventArgs e)
         {          
-            Button SelectBtn = sender as Button;           
-          
+            Button SelectBtn = sender as Button;
+            
             GlobalVar.btn_select_img = SelectBtn.Background;
             //해당 버튼에 있는 스티커 다시 뿌려주기        
             for (int i = 0; i < GlobalVar.counter; i++)
             {
                 if (MenuBar == "beverage")
                 {
+                    GlobalVar.counter = GlobalVar.beverage_counter;
                     if ((string)SelectBtn.Content == beverage_name[i])
                     {
                         if (Beverage[i].sticker == "new")
@@ -375,6 +376,7 @@ namespace WPF_project_Cafe
                 }
                 else if (MenuBar == "dessert")
                 {
+                    GlobalVar.counter = GlobalVar.dessert_counter;
                     if ((string)SelectBtn.Content == dessert_name[i])
                     {
                         if (Dessert[i].sticker == "new")
@@ -394,6 +396,7 @@ namespace WPF_project_Cafe
                 }
                 else if (MenuBar == "etc")
                 {
+                    GlobalVar.counter = GlobalVar.etc_counter;
                     if ((string)SelectBtn.Content == etc_name[i])
                     {
                         if (Etc[i].sticker == "new")
