@@ -26,14 +26,17 @@ namespace WPF_project_Cafe
         public string[] beverage_name;
         public string[] beverage_sticker;
         public string[] beverage_image;
+        public string[] beverage_explain;
 
         public string[] dessert_name;
         public string[] dessert_sticker;
         public string[] dessert_image;
+        public string[] dessert_explain;
 
         public string[] etc_name;
         public string[] etc_sticker;
         public string[] etc_image;
+        public string[] etc_explain;
 
         public beverage[] Beverage;
         public dessert[] Dessert;
@@ -82,16 +85,19 @@ namespace WPF_project_Cafe
             beverage_name = new string[GlobalVar.beverage_counter];
             beverage_sticker = new string[GlobalVar.beverage_counter];
             beverage_image = new string[GlobalVar.beverage_counter];
+            beverage_explain = new string[GlobalVar.beverage_counter];
 
             Dessert = new dessert[GlobalVar.dessert_counter];
             dessert_name = new string[GlobalVar.dessert_counter];
             dessert_sticker = new string[GlobalVar.dessert_counter];
             dessert_image = new string[GlobalVar.dessert_counter];
+            dessert_explain = new string[GlobalVar.dessert_counter];
 
             Etc = new etc[GlobalVar.etc_counter];
             etc_name = new string[GlobalVar.etc_counter];
             etc_sticker = new string[GlobalVar.etc_counter];
             etc_image = new string[GlobalVar.etc_counter];
+            etc_explain = new string[GlobalVar.etc_counter];
 
             //DB 음료 데이터들을 옮겨준다
             for (int i = 0; i < GlobalVar.beverage_counter; i++)
@@ -99,10 +105,15 @@ namespace WPF_project_Cafe
                 beverage_name[i] = GlobalVar.BEVERAGE_NAME[i];
                 beverage_sticker[i] = GlobalVar.BEVERAGE_STICKER[i];
                 beverage_image[i] = GlobalVar.BEVERAGE_IMAGE[i];
+                beverage_explain[i] = GlobalVar.BEVERAGE_EXPLAIN[i];
 
                 Beverage[i].Name = beverage_name[i];
                 Beverage[i].sticker = beverage_sticker[i];
                 Beverage[i].img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + beverage_image[i])));
+                Beverage[i].explain = beverage_explain[i];
+
+
+
             }
             //DB 디저트 데이터들을 옮겨준다
             for (int i = 0; i < GlobalVar.dessert_counter; i++)
@@ -110,10 +121,12 @@ namespace WPF_project_Cafe
                 dessert_name[i] = GlobalVar.DESSERT_NAME[i];
                 dessert_sticker[i] = GlobalVar.DESSERT_STICKER[i];
                 dessert_image[i] = GlobalVar.DESSERT_IMAGE[i];
+                dessert_explain[i] = GlobalVar.DESSERT_EXPLAIN[i];
 
                 Dessert[i].Name = dessert_name[i];
                 Dessert[i].sticker = dessert_sticker[i];
                 Dessert[i].img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + dessert_image[i])));
+                Dessert[i].explain = dessert_explain[i];
             }
             //DB 기타 데이터들을 옮겨준다
             for (int i = 0; i < GlobalVar.etc_counter; i++)
@@ -121,10 +134,12 @@ namespace WPF_project_Cafe
                 etc_name[i] = GlobalVar.ETC_NAME[i];
                 etc_sticker[i] = GlobalVar.ETC_STICKER[i];
                 etc_image[i] = GlobalVar.ETC_IMAGE[i];
+                etc_explain[i] = GlobalVar.ETC_EXPLAIN[i];
 
                 Etc[i].Name = etc_name[i];
                 Etc[i].sticker = etc_sticker[i];
                 Etc[i].img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + etc_image[i])));
+                Etc[i].explain = etc_explain[i];
             }
 
             //음료 총 페이지 구하기
@@ -351,7 +366,8 @@ namespace WPF_project_Cafe
             Button SelectBtn = sender as Button;
             
             GlobalVar.btn_select_img = SelectBtn.Background;
-            //해당 버튼에 있는 스티커 다시 뿌려주기        
+            GlobalVar.btn_select_explain_img = null;
+
             if (MenuBar == "beverage")
             {
                 GlobalVar.counter = GlobalVar.beverage_counter;
@@ -361,6 +377,13 @@ namespace WPF_project_Cafe
                     
                     if ((string)SelectBtn.Content == beverage_name[i])
                     {
+                        //해당 버튼의 설명이 비어있으면 이미지가 안나옴
+                        if (Beverage[i].explain != "none")
+                        {
+                            GlobalVar.btn_select_explain_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + Beverage[i].explain)));
+                        }
+
+                        //해당 버튼에 있는 스티커 다시 뿌려주기      
                         if (Beverage[i].sticker == "new")
                         {
                             GlobalVar.btn_select_sticker_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.png")));
@@ -386,6 +409,12 @@ namespace WPF_project_Cafe
 
                     if ((string)SelectBtn.Content == beverage_name[i])
                     {
+                        //해당 버튼의 설명이 비어있으면 이미지가 안나옴
+                        if (Dessert[i].explain != "none")
+                        {
+                            GlobalVar.btn_select_explain_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + Dessert[i].explain)));
+                        }
+                        //해당 버튼에 있는 스티커 다시 뿌려주기      
                         if (Dessert[i].sticker == "new")
                         {
                             GlobalVar.btn_select_sticker_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.png")));
@@ -411,6 +440,12 @@ namespace WPF_project_Cafe
 
                     if ((string)SelectBtn.Content == beverage_name[i])
                     {
+                        //해당 버튼의 설명이 비어있으면 이미지가 안나옴
+                        if (Etc[i].explain != "none")
+                        {
+                            GlobalVar.btn_select_explain_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + Etc[i].explain)));
+                        }
+                        //해당 버튼에 있는 스티커 다시 뿌려주기   
                         if (Etc[i].sticker == "new")
                         {
                             GlobalVar.btn_select_sticker_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sticker\new.png")));
@@ -432,6 +467,8 @@ namespace WPF_project_Cafe
 
             Sub_cafe sub_cafe = new Sub_cafe(variable);
             sub_cafe.ShowDialog();
+
+            
 
             if (variable.btClick == 1)
             {

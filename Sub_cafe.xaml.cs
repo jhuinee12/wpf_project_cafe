@@ -48,6 +48,7 @@ namespace WPF_project_Cafe
             sub_cafe_border.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sub_cafe\background_img3.jpg")));
             menu_img.Background = GlobalVar.btn_select_img;
             menu_sticker_img.Background = GlobalVar.btn_select_sticker_img;
+            explain.Background = GlobalVar.btn_select_explain_img;
         }
 
         private void btn_short_Click(object sender, RoutedEventArgs e)
@@ -82,9 +83,19 @@ namespace WPF_project_Cafe
             btn_grande.Background = gClick();
             btn_venti.Background = yClick();
         }
-        
-        
-        
+        private void btn_hot_Click(object sender, RoutedEventArgs e)
+        {
+            btn_hot.Background = yClick();
+            btn_ice.Background = gClick();
+        }
+
+        private void btn_ice_Click(object sender, RoutedEventArgs e)
+        {
+            btn_hot.Background = gClick();
+            btn_ice.Background = yClick();
+        }
+
+
         //델리게이트로 끌고 와야하는데 리턴방식이 solid방식이라 끌어오지못함..그래서 메서드 추가시킴
         private SolidColorBrush yClick()
         {
@@ -99,5 +110,7 @@ namespace WPF_project_Cafe
             SolidColorBrush gbrush = new SolidColorBrush(gcolor);
             return gbrush;
         }
+
+       
     }
 }

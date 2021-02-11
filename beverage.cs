@@ -12,6 +12,7 @@ namespace WPF_project_Cafe
         public string Name;
         public string sticker;
         public string image;
+        public string explain;
 
         public ImageBrush img;
     }
@@ -20,6 +21,7 @@ namespace WPF_project_Cafe
         public string Name;
         public string sticker;
         public string image;
+        public string explain;
 
         public ImageBrush img;
     }
@@ -28,6 +30,7 @@ namespace WPF_project_Cafe
         public string Name;
         public string sticker;
         public string image;
+        public string explain;
 
         public ImageBrush img;
     }

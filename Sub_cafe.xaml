@@ -44,8 +44,8 @@
                 </Grid>
 
                 <Grid Grid.Column="1">
-                    <Border BorderThickness="1,1,1,1" BorderBrush="Black">
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text=" 이미지에 대한 설명"/>
+                    <Border x:Name="explain">
+                        
                     </Border>
                 </Grid>
             </Grid>
@@ -82,7 +82,29 @@
                                 <Button x:Name="btn_venti" Content="Venti" Click="btn_venti_Click"/>
                             </Grid>
                         </Grid>
-                        
+                        <Grid>
+                            <TextBlock Text="Hot / Ice" Margin="5,0,0,0" FontWeight="Bold"/>
+                        </Grid>
+                        <Grid Margin="5,0,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" Margin="0,0,5,0">
+                                <Button x:Name="btn_hot" Content="Hot" Click="btn_hot_Click"/>
+                            </Grid>
+                            <Grid Grid.Column="1" Margin="0,0,5,0">
+                                <Button x:Name="btn_ice" Content="ICE" Click="btn_ice_Click"/>
+                            </Grid>
+                            <Grid Grid.Column="2" Margin="0,0,5,0">
+                               
+                            </Grid>
+                            <Grid Grid.Column="3" Margin="0,0,5,0">
+                               
+                            </Grid>
+                        </Grid>
                     </StackPanel>
                 </Grid>
                 
