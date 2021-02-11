@@ -352,11 +352,13 @@ namespace WPF_project_Cafe
             
             GlobalVar.btn_select_img = SelectBtn.Background;
             //해당 버튼에 있는 스티커 다시 뿌려주기        
-            for (int i = 0; i < GlobalVar.counter; i++)
+            if (MenuBar == "beverage")
             {
-                if (MenuBar == "beverage")
+                GlobalVar.counter = GlobalVar.beverage_counter;
+               
+                for (int i = 0; i < GlobalVar.counter; i++)
                 {
-                    GlobalVar.counter = GlobalVar.beverage_counter;
+                    
                     if ((string)SelectBtn.Content == beverage_name[i])
                     {
                         if (Beverage[i].sticker == "new")
@@ -374,10 +376,15 @@ namespace WPF_project_Cafe
 
                     }
                 }
-                else if (MenuBar == "dessert")
+            }
+            else if (MenuBar == "dessert")
+            {
+                GlobalVar.counter = GlobalVar.dessert_counter;
+
+                for (int i = 0; i < GlobalVar.counter; i++)
                 {
-                    GlobalVar.counter = GlobalVar.dessert_counter;
-                    if ((string)SelectBtn.Content == dessert_name[i])
+
+                    if ((string)SelectBtn.Content == beverage_name[i])
                     {
                         if (Dessert[i].sticker == "new")
                         {
@@ -394,10 +401,15 @@ namespace WPF_project_Cafe
 
                     }
                 }
-                else if (MenuBar == "etc")
+            }
+            else if (MenuBar == "etc")
+            {
+                GlobalVar.counter = GlobalVar.etc_counter;
+
+                for (int i = 0; i < GlobalVar.counter; i++)
                 {
-                    GlobalVar.counter = GlobalVar.etc_counter;
-                    if ((string)SelectBtn.Content == etc_name[i])
+
+                    if ((string)SelectBtn.Content == beverage_name[i])
                     {
                         if (Etc[i].sticker == "new")
                         {
@@ -415,7 +427,8 @@ namespace WPF_project_Cafe
                     }
                 }
             }
-          
+
+  
 
             Sub_cafe sub_cafe = new Sub_cafe(variable);
             sub_cafe.ShowDialog();

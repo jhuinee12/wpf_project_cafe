@@ -90,6 +90,7 @@ namespace WPF_project_Cafe
                     GlobalVar.BEVERAGE_NAME[GlobalVar.beverage_counter] = (string)rdr["name"];
                     GlobalVar.BEVERAGE_STICKER[GlobalVar.beverage_counter] = (string)rdr["new_hot_none"];
                     GlobalVar.BEVERAGE_IMAGE[GlobalVar.beverage_counter] = (string)rdr["image"];
+                    GlobalVar.BEVERAGE_EXPLAIN[GlobalVar.beverage_counter] = (string)rdr["explain"];
 
                     GlobalVar.beverage_counter++;
                 }//디저트 읽어오기
@@ -98,15 +99,17 @@ namespace WPF_project_Cafe
                     GlobalVar.DESSERT_NAME[GlobalVar.dessert_counter] = (string)rdr["name"];
                     GlobalVar.DESSERT_STICKER[GlobalVar.dessert_counter] = (string)rdr["new_hot_none"];
                     GlobalVar.DESSERT_IMAGE[GlobalVar.dessert_counter] = (string)rdr["image"];
+                    GlobalVar.DESSERT_EXPLAIN[GlobalVar.dessert_counter] = (string)rdr["explain"];
 
                     GlobalVar.dessert_counter++;
                 }
 
                 else if ((string)rdr["beverage_dessert_etc"] == "etc")
                 {
-                    GlobalVar.ETC_NAME[GlobalVar.dessert_counter] = (string)rdr["name"];
-                    GlobalVar.ETC_STICKER[GlobalVar.dessert_counter] = (string)rdr["new_hot_none"];
-                    GlobalVar.ETC_IMAGE[GlobalVar.dessert_counter] = (string)rdr["image"];
+                    GlobalVar.ETC_NAME[GlobalVar.etc_counter] = (string)rdr["name"];
+                    GlobalVar.ETC_STICKER[GlobalVar.etc_counter] = (string)rdr["new_hot_none"];
+                    GlobalVar.ETC_IMAGE[GlobalVar.etc_counter] = (string)rdr["image"];
+                    GlobalVar.ETC_EXPLAIN[GlobalVar.etc_counter] = (string)rdr["explain"];
 
                     GlobalVar.etc_counter++;
                 }
