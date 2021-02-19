@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -159,7 +160,7 @@ namespace WPF_project_Cafe
             // 총합 계산
             for (int i = 0; i < payment_list.Length; i++)
             {
-                if (i % 2 == 0)
+                if (i % 4 == 0)
                 {
                     int price = 0;
                     string productQuery = "select * from product where product_number = \"" + payment_list[i] + "\"";
@@ -168,15 +169,16 @@ namespace WPF_project_Cafe
                     while (rdr.Read())
                     {
                         price = Int32.Parse(rdr["price"] + "");
-                        sw.WriteLine(rdr["product_number"] + " | " + rdr["name"] + " | " + payment_list[i + 1] + " | " + price * Int32.Parse(payment_list[i + 1])); // 테스트용
+                        sw.WriteLine(rdr["product_number"] + " | " + rdr["name"] + " | " + payment_list[i + 3]
+                            + " | " + payment_list[i + 1] + " | " + payment_list[i + 2]); // 테스트용
                     }
-                    sum_price += price * Int32.Parse(payment_list[i + 1]);
+                    sum_price += Int32.Parse(payment_list[i + 2], NumberStyles.AllowThousands);
 
-                    TableQuit();
+            TableQuit();
                 }
             }
             sw.WriteLine("***************************************************");
-            sw.WriteLine(stlm_number + "번 영수증의 구매 총합 : " + sum_price); // 테스트용
+            sw.WriteLine(stlm_number + "번 영수증의 구매 총합 : " + String.Format("{0:#,0}", sum_price)); // 테스트용
             sw.Close();
         }
 
@@ -187,7 +189,7 @@ namespace WPF_project_Cafe
 
             for (int i = 0; i < payment_list.Length; i++)
             {
-                if (i % 2 == 0)
+                if (i % 4 == 0)
                 {
                     string productQuery = "select * from product where product_number = \"" + payment_list[i] + "\"";
                     TableLoad(productQuery);
@@ -219,7 +221,7 @@ namespace WPF_project_Cafe
 
             for (int i = 0; i < payment_list.Length; i++)
             {
-                if (i % 2 != 0)
+                if (i % 4 == 1)
                 {
                     product_quantity += payment_list[i] + "\n\n";
                 }
@@ -234,21 +236,14 @@ namespace WPF_project_Cafe
 
             for (int i = 0; i < payment_list.Length; i++)
             {
-                if (i % 2 == 0)
+                if (i % 4 == 2)
                 {
-                    int price = 0;
-                    string productQuery = "select * from product where product_number = \"" + payment_list[i] + "\"";
-                    TableLoad(productQuery);
-                    while (rdr.Read())
-                    {
-                        price = Int32.Parse(rdr["price"] + "");
-                    }
-                    product_price += price * Int32.Parse(payment_list[i + 1]) + "\n\n";
+                    product_price += Int32.Parse(payment_list[i], NumberStyles.AllowThousands) + "\n\n";
 
                     TableQuit();
                 }
             }
-            return String.Format("{0:#,0}", product_price);
+            return String.Format("{0:#,0}", int.Parse(product_price));
         }
     }
 }

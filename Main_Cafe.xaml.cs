@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,11 +49,7 @@ namespace WPF_project_Cafe
         //public string sticker_mode = "nomal";
       
         public int Page = 0;
-        public int j;
-        public int beveragePageCount = 0;  // 배열 위치 count
-        public int dessertPageCount = 0;  // 배열 위치 count
-
-        public string[] beverage_number;    // 음료번호 배열
+        public int ListViewPage = 1;
         public string[] dessert_number;    // 음료번호 배열
 
         Button[] btn = new Button[9];
@@ -342,20 +339,6 @@ namespace WPF_project_Cafe
                     btn[i].Click += new RoutedEventHandler(OpenSubCafe_Click);
                     
                 }
-            }
-                       
-            //pn = new string[DB.ColumnCount()];
-            beverage_number = new string[16];
-            for (int i = 0; i < beverage_number.Length; i++)
-            {
-                //beverage_number[i] = DB.DataLoad("product", "where beverage_dessert_etc = \"beverage\" limit " + (i + 1), "product_number");
-                beverage_number[i] = DB.DataLoad("product", "where beverage_dessert_etc = \"beverage\" limit " + (i + 1), "product_number");
-            }
-            dessert_number = new string[16];
-            for (int i = 0; i < dessert_number.Length; i++)
-            {
-                //beverage_number[i] = DB.DataLoad("product", "where beverage_dessert_etc = \"beverage\" limit " + (i + 1), "product_number");
-                dessert_number[i] = DB.DataLoad("product", "where beverage_dessert_etc = \"dessert\" limit " + (i + 1), "product_number");
             }
         }
   
@@ -845,7 +828,7 @@ namespace WPF_project_Cafe
                 ProductNumber = variable.product_number,
                 ProductName = DB.PaymentListLoad(variable.product_number),
                 ProductQuantity = 1,
-                ProductPrice = String.Format("{0:#,0}", variable.product_price.ToString()),
+                ProductPrice = String.Format("{0:#,0}", variable.product_price),
                 ProductOption = variable.beverage_Option
             });
 
@@ -853,7 +836,49 @@ namespace WPF_project_Cafe
             paymentListView.Items.Refresh();
         }
 
-#region     // 리스트뷰 버튼 클릭 이벤트       
+#region       // 리스트뷰 페이지 previous
+        private void btn_listView_Previous_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion
+
+
+#region       // 리스트뷰 페이지 next
+        private void btn_listView_Next_Click(object sender, RoutedEventArgs e)
+        {
+            int totalPage = 0;
+
+            if (paymentListView.Items.Count % 5 != 0)
+            {
+                totalPage = paymentListView.Items.Count / 5 + 1;
+            }
+            else
+            {
+                totalPage = paymentListView.Items.Count / 5;
+            }
+
+            if (ListViewPage+1 <= totalPage)
+            {
+                for (int i = 5 * ListViewPage - 5; i < 5 * ListViewPage; i++)
+                {
+                    // paymentListView 목록을 지우고 i 위치에 있는 리스트 내용을 가져올 생각이었음
+                    // ItemsSource를 사용하는 경우 Clear() 불가 -> PaymentInfo 자체를 clear 해야함
+                    // PaymentInfo.GetInstance().ElementAt(i) 오류남
+/*                    paymentListView.Items.Clear();
+                    paymentListView.ItemsSource = PaymentInfo.GetInstance().ElementAt(i);*/
+                    paymentListView.Items.Refresh();
+
+                    if (i==paymentListView.Items.Count)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region     // 리스트뷰 버튼 클릭 이벤트       
         // 수량  -1 버튼
         private void BtnMinus_Click(object sender, RoutedEventArgs e)
         {
@@ -864,8 +889,7 @@ namespace WPF_project_Cafe
             if (pi.ProductQuantity > 1)
             {
                 pi.ProductQuantity--;   // 현재 리스트의 ProductQuantity--
-                variable.product_price = Int32.Parse(DB.DataLoad("Product", "where product_number = \"" + pi.ProductNumber + "\"", "price"));
-                pi.ProductPrice = variable.product_price * pi.ProductQuantity + "";
+                pi.ProductPrice = String.Format("{0:#,0}", int.Parse(pi.ProductPrice, NumberStyles.AllowThousands) /(pi.ProductQuantity+1)*pi.ProductQuantity);
                 paymentListView.Items.Refresh();
             }
             else
@@ -883,8 +907,7 @@ namespace WPF_project_Cafe
             PaymentInfo pi = (PaymentInfo)selectBtn.DataContext;
 
             pi.ProductQuantity++;   // 현재 리스트의 ProductQuantity++
-            variable.product_price = Int32.Parse(DB.DataLoad("Product", "where product_number = \"" + pi.ProductNumber + "\"", "price"));
-            pi.ProductPrice = variable.product_price * pi.ProductQuantity + "";
+            pi.ProductPrice = String.Format("{0:#,0}", int.Parse(pi.ProductPrice, NumberStyles.AllowThousands) / (pi.ProductQuantity - 1) * pi.ProductQuantity);
             paymentListView.Items.Refresh();
         }
 
@@ -928,13 +951,17 @@ namespace WPF_project_Cafe
                         {
                             variable.payment_list += pi.ProductNumber + "|";
                             variable.payment_list += pi.ProductQuantity + "|";
+                            variable.payment_list += pi.ProductPrice + "|";
+                            variable.payment_list += pi.ProductOption + "|";
                             variable.sum_price += int.Parse(pi.ProductPrice);
                         }
                         else // 마지막 행이 아니면 수량 다음 "|" 입력X
                         {
                             variable.payment_list += pi.ProductNumber + "|";
-                            variable.payment_list += pi.ProductQuantity;
-                            variable.sum_price += int.Parse(pi.ProductPrice);
+                            variable.payment_list += pi.ProductQuantity + "|";
+                            variable.payment_list += pi.ProductPrice + "|";
+                            variable.payment_list += pi.ProductOption;
+                            variable.sum_price += int.Parse(pi.ProductPrice, NumberStyles.AllowThousands);
                         }
                     }
                 }

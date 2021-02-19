@@ -82,6 +82,7 @@ namespace WPF_project_Cafe
 
                 variable.beverage_size = "none";
                 variable.beverage_type = "none";
+                variable.product_price = 0;
             }
         }
 
