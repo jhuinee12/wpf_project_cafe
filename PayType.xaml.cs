@@ -121,7 +121,7 @@ namespace WPF_project_Cafe
 
             // 위에서 뽑아낸 값들을 stlm 테이블에 insert
             string query = "insert into stlm values ("
-                + variable.stlm_number + ",\"" + variable.payment_list + "\"," + variable.sum_price + ", \""
+                + variable.stlm_number + ",\"" + variable.payment_list + "\",\"" + String.Format("{0:#,0}", variable.sum_price) + "\",\""
                 + variable.payment_method + "\",\"" + variable.place + "\",\"" + variable.datetime + "\")";
             dbs.InsertColumn(query);
 

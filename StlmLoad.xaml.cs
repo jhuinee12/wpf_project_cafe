@@ -47,7 +47,7 @@ namespace WPF_project_Cafe
             // 카드/현금 결제방법 구분
             String paytype = dbs.DataLoad("stlm", "where stlm_number = " + variable.stlm_number, "card_cash");
 
-            txt_sum_price.Text = variable.sum_price + "원";
+            txt_sum_price.Text = dbs.DataLoad("stlm", "where stlm_number = " + variable.stlm_number, "sum_price") + "원";
             txt_date.Text = dbs.DataLoad("stlm", "where stlm_number = " + variable.stlm_number, "datetime");
             txt_stlm_number.Text = variable.stlm_number.ToString();
             txt_payType.Text = (paytype == "card") ? "카드결제" : "현금결제";

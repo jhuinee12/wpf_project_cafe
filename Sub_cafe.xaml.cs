@@ -40,8 +40,15 @@ namespace WPF_project_Cafe
 
         private void btn_save_Click(object sender, RoutedEventArgs e)
         {
-            variable.btClick = 1;
-            this.Close();
+            if (variable.beverage_size != "" && variable.beverage_type != "")
+            {
+                variable.btClick = 1;
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("음료 타입이 선택되지 않았습니다.");
+            }
         }
         public void Load()
         {
@@ -49,19 +56,49 @@ namespace WPF_project_Cafe
             menu_img.Background = GlobalVar.btn_select_img;
             menu_sticker_img.Background = GlobalVar.btn_select_sticker_img;
             explain.Background = GlobalVar.btn_select_explain_img;
+
+            // 음료이면 옵션 버튼 보이기
+            if (variable.product_number.StartsWith("B"))
+            {
+                btn_short.Visibility = Visibility.Visible;
+                btn_tall.Visibility = Visibility.Visible;
+                btn_grande.Visibility = Visibility.Visible;
+                btn_venti.Visibility = Visibility.Visible;
+                btn_hot.Visibility = Visibility.Visible;
+                btn_ice.Visibility = Visibility.Visible;
+
+                variable.beverage_size = "";
+                variable.beverage_type = "";
+            }
+            // 음료가 아니면 옵션 버튼 감추기
+            else
+            {
+                btn_short.Visibility = Visibility.Hidden;
+                btn_tall.Visibility = Visibility.Hidden;
+                btn_grande.Visibility = Visibility.Hidden;
+                btn_venti.Visibility = Visibility.Hidden;
+                btn_hot.Visibility = Visibility.Hidden;
+                btn_ice.Visibility = Visibility.Hidden;
+
+                variable.beverage_size = "none";
+                variable.beverage_type = "none";
+            }
         }
 
         private void btn_short_Click(object sender, RoutedEventArgs e)
         {
+            variable.beverage_size = "short";
+            variable.product_price = 0;
             btn_short.Background = yClick();
             btn_tall.Background = gClick();
             btn_grande.Background = gClick();
             btn_venti.Background = gClick();
-
         }
 
         private void btn_tall_Click(object sender, RoutedEventArgs e)
         {
+            variable.beverage_size = "tall";
+            variable.product_price = 500;
             btn_short.Background = gClick();
             btn_tall.Background = yClick();
             btn_grande.Background = gClick();
@@ -70,6 +107,8 @@ namespace WPF_project_Cafe
 
         private void btn_grande_Click(object sender, RoutedEventArgs e)
         {
+            variable.beverage_size = "grande";
+            variable.product_price = 1000;
             btn_short.Background = gClick();
             btn_tall.Background = gClick();
             btn_grande.Background = yClick();
@@ -78,6 +117,8 @@ namespace WPF_project_Cafe
 
         private void btn_venti_Click(object sender, RoutedEventArgs e)
         {
+            variable.beverage_size = "venti";
+            variable.product_price = 1500;
             btn_short.Background = gClick();
             btn_tall.Background = gClick();
             btn_grande.Background = gClick();
@@ -85,12 +126,14 @@ namespace WPF_project_Cafe
         }
         private void btn_hot_Click(object sender, RoutedEventArgs e)
         {
+            variable.beverage_type = "hot";
             btn_hot.Background = yClick();
             btn_ice.Background = gClick();
         }
 
         private void btn_ice_Click(object sender, RoutedEventArgs e)
         {
+            variable.beverage_type = "hot";
             btn_hot.Background = gClick();
             btn_ice.Background = yClick();
         }

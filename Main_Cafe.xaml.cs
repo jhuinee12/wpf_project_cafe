@@ -368,6 +368,9 @@ namespace WPF_project_Cafe
             GlobalVar.btn_select_img = SelectBtn.Background;
             GlobalVar.btn_select_explain_img = null;
 
+            // 클릭한 버튼의 제품번호
+            variable.product_number = DB.DataLoad("product", "where name = \'" + SelectBtn.Content + "\'", "product_number");
+
             if (MenuBar == "beverage")
             {
                 GlobalVar.counter = GlobalVar.beverage_counter;
@@ -472,7 +475,7 @@ namespace WPF_project_Cafe
 
             if (variable.btClick == 1)
             {
-                LoadListView(beverage_number[beveragePageCount + 0]);
+                LoadListView(variable.product_number);
             }
         }
        
@@ -827,12 +830,23 @@ namespace WPF_project_Cafe
         public void LoadListView(string pn)
         {
             variable.product_number = pn;
+            variable.product_price += int.Parse(DB.DataLoad("Product", "where product_number = \"" + variable.product_number + "\"", "price"));
+            if (pn.StartsWith("B")) // 음료이면 옵션 상태 추가
+            {
+                variable.beverage_Option = "size : " + variable.beverage_size + ", type : " + variable.beverage_type;
+            }
+            else
+            {
+                variable.beverage_Option = "";
+            }
+
             PaymentInfo.GetInstance().Add(new PaymentInfo()
             {
                 ProductNumber = variable.product_number,
                 ProductName = DB.PaymentListLoad(variable.product_number),
                 ProductQuantity = 1,
-                ProductPrice = Int32.Parse(DB.DataLoad("Product", "where product_number = \"" + variable.product_number + "\"", "price"))
+                ProductPrice = String.Format("{0:#,0}", variable.product_price.ToString()),
+                ProductOption = variable.beverage_Option
             });
 
             paymentListView.ItemsSource = PaymentInfo.GetInstance();
@@ -851,7 +865,7 @@ namespace WPF_project_Cafe
             {
                 pi.ProductQuantity--;   // 현재 리스트의 ProductQuantity--
                 variable.product_price = Int32.Parse(DB.DataLoad("Product", "where product_number = \"" + pi.ProductNumber + "\"", "price"));
-                pi.ProductPrice = variable.product_price * pi.ProductQuantity;
+                pi.ProductPrice = variable.product_price * pi.ProductQuantity + "";
                 paymentListView.Items.Refresh();
             }
             else
@@ -870,7 +884,7 @@ namespace WPF_project_Cafe
 
             pi.ProductQuantity++;   // 현재 리스트의 ProductQuantity++
             variable.product_price = Int32.Parse(DB.DataLoad("Product", "where product_number = \"" + pi.ProductNumber + "\"", "price"));
-            pi.ProductPrice = variable.product_price * pi.ProductQuantity;
+            pi.ProductPrice = variable.product_price * pi.ProductQuantity + "";
             paymentListView.Items.Refresh();
         }
 
@@ -914,13 +928,13 @@ namespace WPF_project_Cafe
                         {
                             variable.payment_list += pi.ProductNumber + "|";
                             variable.payment_list += pi.ProductQuantity + "|";
-                            variable.sum_price += pi.ProductPrice;
+                            variable.sum_price += int.Parse(pi.ProductPrice);
                         }
                         else // 마지막 행이 아니면 수량 다음 "|" 입력X
                         {
                             variable.payment_list += pi.ProductNumber + "|";
                             variable.payment_list += pi.ProductQuantity;
-                            variable.sum_price += pi.ProductPrice;
+                            variable.sum_price += int.Parse(pi.ProductPrice);
                         }
                     }
                 }

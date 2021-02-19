@@ -248,7 +248,7 @@ namespace WPF_project_Cafe
                     TableQuit();
                 }
             }
-            return product_price;
+            return String.Format("{0:#,0}", product_price);
         }
     }
 }

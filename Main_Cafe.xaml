@@ -360,7 +360,16 @@
                     </ListView.Resources>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="제품명" DisplayMemberBinding="{Binding ProductName}"/>
+                            <GridViewColumn Header="제품명">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                            <TextBlock Text="{Binding ProductName}" FontWeight="Bold"/>
+                                            <TextBlock Text="{Binding ProductOption}" FontSize="10"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Header="수량">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
