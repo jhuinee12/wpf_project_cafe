@@ -97,10 +97,6 @@
     <Compile Include="beverage.cs" />
     <Compile Include="DBSqlite.cs" />
     <Compile Include="GlobalVar.cs" />
-    <Compile Include="Main_Cafe.xaml.cs">
-      <DependentUpon>Main_Cafe.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Page Include="PayType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
