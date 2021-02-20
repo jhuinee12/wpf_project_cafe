@@ -86,10 +86,6 @@
     <Compile Include="Sub_cafe.xaml.cs">
       <DependentUpon>Sub_cafe.xaml</DependentUpon>
     </Compile>
-    <Page Include="Main_Cafe.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
