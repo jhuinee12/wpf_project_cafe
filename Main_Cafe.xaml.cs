@@ -61,6 +61,7 @@ namespace WPF_project_Cafe
 
         public MainWindow()
         {
+           
             //DB 데이터(음료이름,스티커여부) 불러오기
             DB.ProductLoadData();
 
@@ -68,7 +69,10 @@ namespace WPF_project_Cafe
             hand_over_data();
 
             InitializeComponent();
-
+            
+            //페이지 전환버튼 스타일 변경
+            page_move_btn_style();
+            
             //국가 이미지 설정
             Init();
 
@@ -78,6 +82,7 @@ namespace WPF_project_Cafe
             //동적 버튼과스티커 생성하기
             Menu_btn_add();
         }
+       
         public void hand_over_data()
         {
             Beverage = new beverage[GlobalVar.beverage_counter];
@@ -185,6 +190,7 @@ namespace WPF_project_Cafe
                 Eng.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_country\amelica.jpg"));
                 Chn.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_country\china.jpg"));
                 Jpn.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_country\japan.jpg"));
+                         
             }
             catch (Exception ex)
             {
@@ -481,10 +487,20 @@ namespace WPF_project_Cafe
                 LoadListView(GlobalVar.product_number);
             }
         }
-    
-            #endregion
 
-            #region //페이지 전환 버튼
+        #endregion
+
+        #region //페이지 전환 버튼
+        //페이지 전환버튼 스타일 변경
+        public void page_move_btn_style()
+        {
+            btn_Previous.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\Previous.png")));
+            btn_Next.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\Next.png")));
+            //listbtn_Style 재사용
+            btn_Previous.Style = FindResource("listBtn_Style") as Style;
+            btn_Next.Style = FindResource("listBtn_Style") as Style;
+
+        }
         private void btn_Next_Click(object sender, RoutedEventArgs e)
         {              
             //현재 버튼 개수는 9개고 다음 버튼이 7개 일때 나머지 2개가 끝에 남아있음을 방지
@@ -505,6 +521,7 @@ namespace WPF_project_Cafe
 
         private void btn_Previous_Click(object sender, RoutedEventArgs e)
         {
+ 
            
 
             //현재 버튼이 7개 이고 이전 버튼 개수는 9개일때 인덱스 오버 방지
@@ -685,6 +702,7 @@ namespace WPF_project_Cafe
             }
             for (int i = 0; i < cnt; i++)
             {
+                btn[i].Content = null;
                 btn[i].Visibility = Visibility.Hidden;
                 btn[i].IsEnabled = false;
                 sticker[i].Visibility = Visibility.Hidden;
@@ -722,6 +740,7 @@ namespace WPF_project_Cafe
             }
             for (int i = 0; i < cnt; i++)
             {
+                btn[i].Content = null;
                 btn[i].Visibility = Visibility.Hidden;
                 btn[i].IsEnabled = false;
                 sticker[i].Visibility = Visibility.Hidden;

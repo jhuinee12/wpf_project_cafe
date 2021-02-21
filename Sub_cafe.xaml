@@ -48,7 +48,7 @@
                     </Grid>
 
                     <Grid  Grid.Row="2" >
-                        <TextBlock x:Name="SELECT_NAME" FontSize="25" FontWeight="Bold"  TextAlignment="Center"  Background="#eee"/>
+                        <TextBlock x:Name="SELECT_NAME"  FontSize="23" FontWeight="Bold"  TextAlignment="Center"  Background="#eee"/>
                     </Grid>
 
                 </Grid>
