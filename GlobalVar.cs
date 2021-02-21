@@ -10,6 +10,8 @@ namespace WPF_project_Cafe
 {
     class GlobalVar
     {
+        public static string Language = "Kor_name";        
+
         public static string[] BEVERAGE_NAME = new string[10000];
         public static string[] BEVERAGE_STICKER = new string[10000];
         public static string[] BEVERAGE_IMAGE = new string[10000];
@@ -43,20 +45,20 @@ namespace WPF_project_Cafe
         public static int dessert_counter = 0;
         public static int etc_counter = 0;
 
-        public int product_price;       // 제품 가격
-        public int sum_price;           // 총 구매 가격
-        public int count;               // 리스트뷰 개수
+        public static int product_price;       // 제품 가격
+        public static int sum_price;           // 총 구매 가격
+        public static int count;               // 리스트뷰 개수
 
-        public string datetime;         // 구매시간
-        public string stlm_number;      // 영수증 번호
-        public string product_number;   // 제품번호
-        public string payment_list;     // 리스트뷰에 담은 제품 목록
-        public string place;            // 장소 선택
-        public string payment_method;   // 결제방법
+        public static string datetime;         // 구매시간
+        public static string stlm_number;      // 영수증 번호
+        public static string product_number;   // 제품번호
+        public static string payment_list;     // 리스트뷰에 담은 제품 목록
+        public static string place;            // 장소 선택
+        public static string payment_method;   // 결제방법
 
-        public int btClick;             // 버튼 클릭 여부
-        public string beverage_size;    // 음료 사이즈
-        public string beverage_type;    // 음료 상태(hot/ice)
-        public string beverage_Option;  // 음료 사이즈+상태 옵션
+        public static int btClick;             // 버튼 클릭 여부
+        public static string beverage_size;    // 음료 사이즈
+        public static string beverage_type;    // 음료 상태(hot/ice)
+        public static string beverage_Option;  // 음료 사이즈+상태 옵션
     }
 }

@@ -21,7 +21,7 @@ namespace WPF_project_Cafe
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static Variable variable = new Variable();
+       
         DBSqlite DB = new DBSqlite(); // db 생성자
 
         public string[] beverage_name;
@@ -56,6 +56,8 @@ namespace WPF_project_Cafe
         Label[] sticker = new Label[9];
         
         public int Previous_counter;
+        
+        public int cnt;//다국어선택에서 사용
 
         public MainWindow()
         {
@@ -352,7 +354,15 @@ namespace WPF_project_Cafe
             GlobalVar.btn_select_explain_img = null;
 
             // 클릭한 버튼의 제품번호
-            variable.product_number = DB.DataLoad("product", "where name = \'" + SelectBtn.Content + "\'", "product_number");
+            if (GlobalVar.Language == "Kor_name")
+            {
+                GlobalVar.product_number = DB.DataLoad("product", "where Kor_name = \'" + SelectBtn.Content + "\'", "product_number");
+            }
+            else if (GlobalVar.Language == "Eng_name")
+            {
+                GlobalVar.product_number = DB.DataLoad("product", "where Eng_name = \'" + SelectBtn.Content + "\'", "product_number");
+            }
+
 
             if (MenuBar == "beverage")
             {
@@ -451,136 +461,17 @@ namespace WPF_project_Cafe
 
   
 
-            Sub_cafe sub_cafe = new Sub_cafe(variable);
+            Sub_cafe sub_cafe = new Sub_cafe();
             sub_cafe.ShowDialog();
 
             
 
-            if (variable.btClick == 1)
+            if (GlobalVar.btClick == 1)
             {
-                LoadListView(variable.product_number);
+                LoadListView(GlobalVar.product_number);
             }
         }
-       
-
-
-            //private void OpenSubCafe_0(object sender, EventArgs e)
-            //{
-            //    GlobalVar.btn_select_img = btn[0].Background;
-            //    GlobalVar.btn_select_sticker_img = sticker[0].Background;
-
-            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
-            //    sub_cafe.ShowDialog();
-
-            //    if (variable.btClick == 1)
-            //    {
-            //        LoadListView(beverage_number[beveragePageCount + 0]);
-            //    }
-            //}
-            //private void OpenSubCafe_1(object sender, EventArgs e)
-            //{
-            //    GlobalVar.btn_select_img = btn[1].Background;
-            //    GlobalVar.btn_select_sticker_img = sticker[1].Background;
-
-            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
-            //    sub_cafe.ShowDialog();
-
-            //    if (variable.btClick == 1)
-            //    {
-            //        LoadListView(beverage_number[beveragePageCount + 1]);
-            //    }
-            //}
-            //private void OpenSubCafe_2(object sender, EventArgs e)
-            //{
-            //    GlobalVar.btn_select_img = btn[2].Background;
-            //    GlobalVar.btn_select_sticker_img = sticker[2].Background;
-
-            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
-            //    sub_cafe.ShowDialog();
-
-            //    if (variable.btClick == 1)
-            //    {
-            //        LoadListView(beverage_number[beveragePageCount + 2]);
-            //    }
-            //}
-            //private void OpenSubCafe_3(object sender, EventArgs e)
-            //{
-            //    GlobalVar.btn_select_img = btn[3].Background;
-            //    GlobalVar.btn_select_sticker_img = sticker[3].Background;
-
-            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
-            //    sub_cafe.ShowDialog();
-
-            //    if (variable.btClick == 1)
-            //    {
-            //        LoadListView(beverage_number[beveragePageCount + 3]);
-            //    }
-            //}
-            //private void OpenSubCafe_4(object sender, EventArgs e)
-            //{
-            //    GlobalVar.btn_select_img = btn[4].Background;
-            //    GlobalVar.btn_select_sticker_img = sticker[4].Background;
-
-            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
-            //    sub_cafe.ShowDialog();
-
-            //    if (variable.btClick == 1)
-            //    {
-            //        LoadListView(beverage_number[beveragePageCount + 4]);
-            //    }
-            //}
-            //private void OpenSubCafe_5(object sender, EventArgs e)
-            //{
-            //    GlobalVar.btn_select_img = btn[5].Background;
-            //    GlobalVar.btn_select_sticker_img = sticker[5].Background;
-
-            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
-            //    sub_cafe.ShowDialog();
-
-            //    if (variable.btClick == 1)
-            //    {
-            //        LoadListView(beverage_number[beveragePageCount + 5]);
-            //    }
-            //}
-            //private void OpenSubCafe_6(object sender, EventArgs e)
-            //{
-            //    GlobalVar.btn_select_img = btn[6].Background;
-            //    GlobalVar.btn_select_sticker_img = sticker[6].Background;
-
-            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
-            //    sub_cafe.ShowDialog();
-
-            //    if (variable.btClick == 1)
-            //    {
-            //        LoadListView(beverage_number[beveragePageCount + 6]);
-            //    }
-            //}
-            //private void OpenSubCafe_7(object sender, EventArgs e)
-            //{
-            //    GlobalVar.btn_select_img = btn[7].Background;
-            //    GlobalVar.btn_select_sticker_img = sticker[7].Background;
-
-            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
-            //    sub_cafe.ShowDialog();
-
-            //    if (variable.btClick == 1)
-            //    {
-            //        LoadListView(beverage_number[beveragePageCount + 7]);
-            //    }
-            //}
-            //private void OpenSubCafe_8(object sender, EventArgs e)
-            //{
-            //    GlobalVar.btn_select_img = btn[8].Background;
-            //    GlobalVar.btn_select_sticker_img = sticker[8].Background;
-
-            //    Sub_cafe sub_cafe = new Sub_cafe(variable);
-            //    sub_cafe.ShowDialog();
-
-            //    if (variable.btClick == 1)
-            //    {
-            //        LoadListView(beverage_number[beveragePageCount + 8]);
-            //    }
-            //}
+    
             #endregion
 
             #region //페이지 전환 버튼
@@ -775,6 +666,30 @@ namespace WPF_project_Cafe
 
         private void btn_kor_Click(object sender, RoutedEventArgs e)
         {
+            GlobalVar.Language = "Kor_name";
+            
+            //이전 언어로 된것들을 안보이게
+            if (GlobalVar.counter > 9)
+            {
+                cnt = 9;
+            }
+            for (int i = 0; i < cnt; i++)
+            {
+                btn[i].Visibility = Visibility.Hidden;
+                btn[i].IsEnabled = false;
+                sticker[i].Visibility = Visibility.Hidden;
+                sticker[i].IsEnabled = false;
+            }
+            
+            //DB 데이터(음료이름,스티커여부) 불러오기
+            DB.ProductLoadData();
+           
+            //데이터(음료,디저트,기타등등 이름,스티커여부)를 옮겨주고 옮긴 이름을 이미지와 매칭시킴
+            hand_over_data();
+
+            //동적 버튼과스티커 생성하기
+            Menu_btn_add();
+
             //선택된 섹션은 흰색으로 선택되지 않는 섹션은 회색으로 하여 표현  
             btn_kor.Background = Brushes.White;
             btn_eng.Background = Brushes.LightGray;
@@ -784,6 +699,30 @@ namespace WPF_project_Cafe
 
         private void btn_eng_Click(object sender, RoutedEventArgs e)
         {
+            GlobalVar.Language = "Eng_name";
+           
+            //이전 언어로 된것들을 안보이게
+            if (GlobalVar.counter > 9)
+            {
+                cnt = 9;
+            }
+            for (int i = 0; i < cnt; i++)
+            {
+                btn[i].Visibility = Visibility.Hidden;
+                btn[i].IsEnabled = false;
+                sticker[i].Visibility = Visibility.Hidden;
+                sticker[i].IsEnabled = false;
+            }
+
+            //DB 데이터(음료이름,스티커여부) 불러오기
+            DB.ProductLoadData();
+            
+            //데이터(음료,디저트,기타등등 이름,스티커여부)를 옮겨주고 옮긴 이름을 이미지와 매칭시킴
+            hand_over_data();
+
+            //동적 버튼과스티커 생성하기
+            Menu_btn_add();
+
             //선택된 섹션은 흰색으로 선택되지 않는 섹션은 회색으로 하여 표현  
             btn_kor.Background = Brushes.LightGray;
             btn_eng.Background = Brushes.White;
@@ -793,6 +732,7 @@ namespace WPF_project_Cafe
 
         private void btn_chn_Click(object sender, RoutedEventArgs e)
         {
+            GlobalVar.Language = "Chn_name";
             //선택된 섹션은 흰색으로 선택되지 않는 섹션은 회색으로 하여 표현  
             btn_kor.Background = Brushes.LightGray;
             btn_eng.Background = Brushes.LightGray;
@@ -802,6 +742,7 @@ namespace WPF_project_Cafe
 
         private void btn_jpn_Click(object sender, RoutedEventArgs e)
         {
+            GlobalVar.Language = "Jpn_name";
             //선택된 섹션은 흰색으로 선택되지 않는 섹션은 회색으로 하여 표현  
             btn_kor.Background = Brushes.LightGray;
             btn_eng.Background = Brushes.LightGray;
@@ -812,24 +753,24 @@ namespace WPF_project_Cafe
         /* 결제선(리스트뷰) 출력하기 > 메뉴 버튼 클릭 시 해당 product_number를 끌어와서 넣도록 변경할 것 */
         public void LoadListView(string pn)
         {
-            variable.product_number = pn;
-            variable.product_price += int.Parse(DB.DataLoad("Product", "where product_number = \"" + variable.product_number + "\"", "price"));
+            GlobalVar.product_number = pn;
+            GlobalVar.product_price += int.Parse(DB.DataLoad("Product", "where product_number = \"" + GlobalVar.product_number + "\"", "price"));
             if (pn.StartsWith("B")) // 음료이면 옵션 상태 추가
             {
-                variable.beverage_Option = "size : " + variable.beverage_size + ", type : " + variable.beverage_type;
+                GlobalVar.beverage_Option = "size : " + GlobalVar.beverage_size + ", type : " + GlobalVar.beverage_type;
             }
             else
             {
-                variable.beverage_Option = "";
+                GlobalVar.beverage_Option = "";
             }
 
             PaymentInfo.GetInstance().Add(new PaymentInfo()
             {
-                ProductNumber = variable.product_number,
-                ProductName = DB.PaymentListLoad(variable.product_number),
+                ProductNumber = GlobalVar.product_number,
+                ProductName = DB.PaymentListLoad(GlobalVar.product_number),
                 ProductQuantity = 1,
-                ProductPrice = String.Format("{0:#,0}", variable.product_price),
-                ProductOption = variable.beverage_Option
+                ProductPrice = String.Format("{0:#,0}", GlobalVar.product_price),
+                ProductOption = GlobalVar.beverage_Option
             });
 
             paymentListView.ItemsSource = PaymentInfo.GetInstance();
@@ -932,41 +873,41 @@ namespace WPF_project_Cafe
 #region       // 결제하기 버튼
         private void BtnPay_Click(object sender, RoutedEventArgs e)
         {
-            variable.count = paymentListView.Items.Count;   // 현재 리스트뷰의 행 개수
+            GlobalVar.count = paymentListView.Items.Count;   // 현재 리스트뷰의 행 개수
 
-            if (variable.count == 0)
+            if (GlobalVar.count == 0)
             {
                 MessageBox.Show("구매 메뉴를 선택해주세요");
             }
             else
             {
                 // 현재 리스트뷰에 있는 행들을 payment_list에 한줄로 넣기
-                for (int i = 0; i < variable.count; i++)
+                for (int i = 0; i < GlobalVar.count; i++)
                 {
                     PaymentInfo pi = PaymentInfo.GetInstance().ElementAt(i);
 
                     if (pi.ProductQuantity > 0) // 상품 개수가 0개보다 많은 경우만 계산
                     {
-                        if (i != variable.count - 1)     // 마지막 행이 아니면 수량 다음 "|" 입력
+                        if (i != GlobalVar.count - 1)     // 마지막 행이 아니면 수량 다음 "|" 입력
                         {
-                            variable.payment_list += pi.ProductNumber + "|";
-                            variable.payment_list += pi.ProductQuantity + "|";
-                            variable.payment_list += pi.ProductPrice + "|";
-                            variable.payment_list += pi.ProductOption + "|";
-                            variable.sum_price += int.Parse(pi.ProductPrice);
+                            GlobalVar.payment_list += pi.ProductNumber + "|";
+                            GlobalVar.payment_list += pi.ProductQuantity + "|";
+                            GlobalVar.payment_list += pi.ProductPrice + "|";
+                            GlobalVar.payment_list += pi.ProductOption + "|";
+                            GlobalVar.sum_price += int.Parse(pi.ProductPrice, NumberStyles.AllowThousands);
                         }
                         else // 마지막 행이 아니면 수량 다음 "|" 입력X
                         {
-                            variable.payment_list += pi.ProductNumber + "|";
-                            variable.payment_list += pi.ProductQuantity + "|";
-                            variable.payment_list += pi.ProductPrice + "|";
-                            variable.payment_list += pi.ProductOption;
-                            variable.sum_price += int.Parse(pi.ProductPrice, NumberStyles.AllowThousands);
+                            GlobalVar.payment_list += pi.ProductNumber + "|";
+                            GlobalVar.payment_list += pi.ProductQuantity + "|";
+                            GlobalVar.payment_list += pi.ProductPrice + "|";
+                            GlobalVar.payment_list += pi.ProductOption;
+                            GlobalVar.sum_price += int.Parse(pi.ProductPrice, NumberStyles.AllowThousands);
                         }
                     }
                 }
 
-                PayType pt = new PayType(variable);
+                PayType pt = new PayType();
                 this.Close();
                 pt.ShowDialog();
             }

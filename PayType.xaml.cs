@@ -19,12 +19,11 @@ namespace WPF_project_Cafe
     /// </summary>
     public partial class PayType : Window
     {
-        Variable variable = new Variable();
+       
         DBSqlite dbs = new DBSqlite();
 
-        public PayType(Variable variable)
-        {
-            this.variable = variable;
+        public PayType()
+        { 
             InitializeComponent();
         }
 
@@ -44,26 +43,26 @@ namespace WPF_project_Cafe
 
         private void btn_Store_Click(object sender, RoutedEventArgs e)
         {
-            variable.place = "here";
+            GlobalVar.place = "here";
             btn_Store.Background = yClick();
             btn_TakeOut.Background = gClick();
         }
         private void btn_TakeOut_Click(object sender, RoutedEventArgs e)
         {
-            variable.place = "takeout";
+            GlobalVar.place = "takeout";
             btn_TakeOut.Background = yClick();
             btn_Store.Background = gClick();
         }
 
         private void btn_Card_Click(object sender, RoutedEventArgs e)
         {
-            if (variable.place == null)
+            if (GlobalVar.place == null)
             {
                 MessageBox.Show("식사 장소를 선택해주세요");
             }
-            else if (variable.place == "here")
+            else if (GlobalVar.place == "here")
             {
-                variable.payment_method = "card";
+                GlobalVar.payment_method = "card";
                 btn_Card.Background = yClick();
                 btn_Pay.Background = gClick();
 
@@ -72,9 +71,9 @@ namespace WPF_project_Cafe
                     LoadStlm();
                 }
             }
-            else if (variable.place == "takeout")
+            else if (GlobalVar.place == "takeout")
             {
-                variable.payment_method = "card";
+                GlobalVar.payment_method = "card";
                 btn_Card.Background = yClick();
                 btn_Pay.Background = gClick();
 
@@ -86,13 +85,13 @@ namespace WPF_project_Cafe
         }
         private void btn_Pay_Click(object sender, RoutedEventArgs e)
         {
-            if (variable.place == null)
+            if (GlobalVar.place == null)
             {
                 MessageBox.Show("식사 장소를 선택해주세요");
             }
-            else if (variable.place == "here")
+            else if (GlobalVar.place == "here")
             {
-                variable.payment_method = "cash";
+                GlobalVar.payment_method = "cash";
                 btn_Pay.Background = yClick();
                 btn_Card.Background = gClick();
 
@@ -101,9 +100,9 @@ namespace WPF_project_Cafe
                     LoadStlm();
                 }
             }
-            else if (variable.place == "takeout")
+            else if (GlobalVar.place == "takeout")
             {
-                variable.payment_method = "cash";
+                GlobalVar.payment_method = "cash";
                 btn_Pay.Background = yClick();
                 btn_Card.Background = gClick();
 
@@ -116,16 +115,16 @@ namespace WPF_project_Cafe
 
         public void LoadStlm()
         {
-            variable.stlm_number = DateTime.Now.ToString("yyyyMMddHHmmss");     // 영수증 번호 생성
-            variable.datetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");   // 현재시간 생성
+            GlobalVar.stlm_number = DateTime.Now.ToString("yyyyMMddHHmmss");     // 영수증 번호 생성
+            GlobalVar.datetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");   // 현재시간 생성
 
             // 위에서 뽑아낸 값들을 stlm 테이블에 insert
             string query = "insert into stlm values ("
-                + variable.stlm_number + ",\"" + variable.payment_list + "\",\"" + String.Format("{0:#,0}", variable.sum_price) + "\",\""
-                + variable.payment_method + "\",\"" + variable.place + "\",\"" + variable.datetime + "\")";
+                + GlobalVar.stlm_number + ",\"" + GlobalVar.payment_list + "\",\"" + String.Format("{0:#,0}", GlobalVar.sum_price) + "\",\""
+                + GlobalVar.payment_method + "\",\"" + GlobalVar.place + "\",\"" + GlobalVar.datetime + "\")";
             dbs.InsertColumn(query);
 
-            StlmLoad stl = new StlmLoad(variable);
+            StlmLoad stl = new StlmLoad();
             this.Close();
             stl.ShowDialog();
         }
