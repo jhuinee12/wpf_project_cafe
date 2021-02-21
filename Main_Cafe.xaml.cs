@@ -373,6 +373,9 @@ namespace WPF_project_Cafe
                     
                     if ((string)SelectBtn.Content == beverage_name[i])
                     {
+                        //해당 이름 뿌려주기
+                        GlobalVar.select_name = beverage_name[i];
+                        
                         //해당 버튼의 설명이 비어있으면 이미지가 안나옴
                         if (Beverage[i].explain != "none")
                         {
@@ -399,12 +402,15 @@ namespace WPF_project_Cafe
             else if (MenuBar == "dessert")
             {
                 GlobalVar.counter = GlobalVar.dessert_counter;
-
+               
                 for (int i = 0; i < GlobalVar.counter; i++)
                 {
-
-                    if ((string)SelectBtn.Content == beverage_name[i])
+                   
+                    if ((string)SelectBtn.Content == dessert_name[i])
                     {
+                        //해당 이름 뿌려주기
+                        GlobalVar.select_name = dessert_name[i];
+
                         //해당 버튼의 설명이 비어있으면 이미지가 안나옴
                         if (Dessert[i].explain != "none")
                         {
@@ -434,13 +440,17 @@ namespace WPF_project_Cafe
                 for (int i = 0; i < GlobalVar.counter; i++)
                 {
 
-                    if ((string)SelectBtn.Content == beverage_name[i])
+                    if ((string)SelectBtn.Content == etc_name[i])
                     {
+                        //해당 이름 뿌려주기
+                        GlobalVar.select_name = etc_name[i];
+
                         //해당 버튼의 설명이 비어있으면 이미지가 안나옴
                         if (Etc[i].explain != "none")
                         {
                             GlobalVar.btn_select_explain_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + Etc[i].explain)));
                         }
+
                         //해당 버튼에 있는 스티커 다시 뿌려주기   
                         if (Etc[i].sticker == "new")
                         {
@@ -695,6 +705,10 @@ namespace WPF_project_Cafe
             btn_eng.Background = Brushes.LightGray;
             btn_chn.Background = Brushes.LightGray;
             btn_jpn.Background = Brushes.LightGray;
+            //다국어선택시 메뉴바 이름설정
+            btn_beverage.Content = "음료";
+            btn_dessert.Content = "디저트";
+            btn_etc.Content = "기타";
         }
 
         private void btn_eng_Click(object sender, RoutedEventArgs e)
@@ -728,6 +742,10 @@ namespace WPF_project_Cafe
             btn_eng.Background = Brushes.White;
             btn_chn.Background = Brushes.LightGray;
             btn_jpn.Background = Brushes.LightGray;
+            //다국어선택시 메뉴바 이름설정
+            btn_beverage.Content = "Beverage";
+            btn_dessert.Content = "Dessert";
+            btn_etc.Content = "Etc";
         }
 
         private void btn_chn_Click(object sender, RoutedEventArgs e)

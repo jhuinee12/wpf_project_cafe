@@ -31,7 +31,8 @@ namespace WPF_project_Cafe
         public static Brush btn_select_img;
         public static Brush btn_select_sticker_img;
         public static Brush btn_select_explain_img;
-        
+        public static string select_name;
+
         public static int Total_page;
       
 

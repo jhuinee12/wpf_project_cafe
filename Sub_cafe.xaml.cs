@@ -20,9 +20,6 @@ namespace WPF_project_Cafe
     public partial class Sub_cafe : Window
     {
         MainWindow mw = new MainWindow();
-
-      
-
         DBSqlite DB = new DBSqlite();
 
         public Sub_cafe()
@@ -56,6 +53,7 @@ namespace WPF_project_Cafe
             menu_img.Background = GlobalVar.btn_select_img;
             menu_sticker_img.Background = GlobalVar.btn_select_sticker_img;
             explain.Background = GlobalVar.btn_select_explain_img;
+            SELECT_NAME.Text = GlobalVar.select_name;
 
             // 음료이면 옵션 버튼 보이기
             if (GlobalVar.product_number.StartsWith("B"))
