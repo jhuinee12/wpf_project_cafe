@@ -325,14 +325,14 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
-                    <ListView x:Name="paymentListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" SizeChanged="paymentListView_SizeChanged" Grid.ColumnSpan="2" Margin="0,0,-0.4,0.2" >
+                    <ListView x:Name="paymentListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" SizeChanged="paymentListView_SizeChanged" Grid.ColumnSpan="2" VerticalContentAlignment="Center" TouchMove="paymentListView_TouchMove" TouchDown="paymentListView_TouchDown" MouseDown="paymentListView_MouseDown" >
                         <ListView.Resources>
                             <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                             </Style>
                         </ListView.Resources>
                         <ListView.View>
-                            <GridView>
+                            <GridView AllowsColumnReorder="False">
                                 <GridView.Columns>
                                     <GridViewColumn Header="제품명">
                                         <GridViewColumn.CellTemplate>
@@ -347,9 +347,8 @@
                                     <GridViewColumn Header="수량">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                                                    <Button Height="25" Width="25" 
-                                                    HorizontalAlignment="Center"  
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                                    <Button Height="25" Width="25"  
                                                     Click="BtnMinus_Click" 
                                                     BorderBrush="{x:Null}" 
                                                     Foreground="{x:Null}"
@@ -358,9 +357,8 @@
                                                             <ImageBrush ImageSource="minus.png"/>
                                                         </Button.Background>
                                                     </Button>
-                                                    <TextBlock  Text="{Binding ProductQuantity}" TextAlignment="Justify" Margin="10,0"/>
-                                                    <Button Height="25" Width="25" 
-                                                    HorizontalAlignment="Center"  
+                                                    <TextBlock  Text="{Binding ProductQuantity}"  Margin="10,0"/>
+                                                    <Button Height="25" Width="25"   
                                                     Click="BtnPlus_Click" 
                                                     BorderBrush="{x:Null}" 
                                                     Foreground="{x:Null}"

@@ -962,7 +962,7 @@ namespace WPF_project_Cafe
             var col1 = 0.40;
             var col2 = 0.25;
             var col3 = 0.25;
-            var col4 = 0.10;
+            var col4 = 0.13;
 
             gView.Columns[0].Width = workingWidth * col1;
             gView.Columns[1].Width = workingWidth * col2;
