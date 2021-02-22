@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_project_Cafe"
         mc:Ignorable="d"
-        Title="Sub_cafe" Height="380" Width="380"
+        Title="Sub_cafe" Height="500" Width="380"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen">
     <!--Left="50" Top="50"-->
 
     <Grid Name ="sub_cafe_border">
         <Grid.RowDefinitions>
-            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1.15*"/>
             <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
@@ -25,21 +25,31 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0" x:Name="menu_img">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1.5*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="1.5*"/>
-                            <RowDefinition Height="3*"/>
-                        </Grid.RowDefinitions>
-
-                        <Grid  Grid.Row="0" x:Name="menu_sticker_img" >
+                <Grid Grid.Column="0" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2.5*"/>
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="1.5*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.RowSpan="2" x:Name="menu_img">
+                        
+                    </Grid>
+                    
+                    
+                    <Grid Grid.Row="0" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.5*"/>
+                                <ColumnDefinition Width="4*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid x:Name="menu_sticker_img">
+                            </Grid>
                         </Grid>
                     </Grid>
 
+                    <Grid  Grid.Row="2" >
+                        <TextBlock x:Name="SELECT_NAME"  FontSize="23" FontWeight="Bold"  TextAlignment="Center"  Background="#eee"/>
+                    </Grid>
 
                 </Grid>
 
@@ -58,11 +68,17 @@
                     <RowDefinition Height="1.2*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <StackPanel>
-                        <Grid>
-                            <TextBlock Text="Size" Margin="5,0,0,0" FontWeight="Bold"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.7*"/>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="0.7*"/>
+                            <RowDefinition Height="1.5*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <TextBlock Text="Size"  Margin="5,0,0,0" FontWeight="Bold"/>
                         </Grid>
-                        <Grid Margin="5,0,0,0">
+                        <Grid Grid.Row="1" Margin="5,0,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
@@ -82,10 +98,10 @@
                                 <Button x:Name="btn_venti" Content="Venti" Click="btn_venti_Click"/>
                             </Grid>
                         </Grid>
-                        <Grid>
+                        <Grid Grid.Row="2">
                             <TextBlock Text="Hot / Ice" Margin="5,0,0,0" FontWeight="Bold"/>
                         </Grid>
-                        <Grid Margin="5,0,0,0">
+                        <Grid Grid.Row="3" Margin="5,0,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
@@ -105,7 +121,7 @@
                                
                             </Grid>
                         </Grid>
-                    </StackPanel>
+                    </Grid>
                 </Grid>
                 
                 <Grid Grid.Row="1">
@@ -118,7 +134,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Grid Grid.Column="1">
-                            <Button x:Name="btn_cancel" FontWeight="Bold" Content="취소" Margin="0,0,10,20" Background="SkyBlue" Click="btn_cancel_Click">
+                            <Button x:Name="btn_cancel" FontWeight="Bold" Content="취소" Margin="0,5,10,10" Background="SkyBlue" Click="btn_cancel_Click">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="10 10 10 10" />
@@ -127,7 +143,7 @@
                             </Button>
                         </Grid>
                         <Grid Grid.Column="2">
-                            <Button x:Name="btn_save" FontWeight="Bold" Content="담기" Margin="5,0,5,20"  Background="SkyBlue" Click="btn_save_Click">
+                            <Button x:Name="btn_save" FontWeight="Bold" Content="담기" Margin="5,5,5,10"  Background="SkyBlue" Click="btn_save_Click">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="10 10 10 10" />

@@ -88,7 +88,7 @@ namespace WPF_project_Cafe
                 //음료 읽어오기
                 if ((string)rdr["beverage_dessert_etc"] == "beverage")
                 {
-                    GlobalVar.BEVERAGE_NAME[GlobalVar.beverage_counter] = (string)rdr["name"];
+                    GlobalVar.BEVERAGE_NAME[GlobalVar.beverage_counter] = (string)rdr[GlobalVar.Language];
                     GlobalVar.BEVERAGE_STICKER[GlobalVar.beverage_counter] = (string)rdr["new_hot_none"];
                     GlobalVar.BEVERAGE_IMAGE[GlobalVar.beverage_counter] = (string)rdr["image"];
                     GlobalVar.BEVERAGE_EXPLAIN[GlobalVar.beverage_counter] = (string)rdr["explain"];
@@ -97,7 +97,7 @@ namespace WPF_project_Cafe
                 }//디저트 읽어오기
                 else if ((string)rdr["beverage_dessert_etc"] == "dessert")
                 {
-                    GlobalVar.DESSERT_NAME[GlobalVar.dessert_counter] = (string)rdr["name"];
+                    GlobalVar.DESSERT_NAME[GlobalVar.dessert_counter] = (string)rdr[GlobalVar.Language];
                     GlobalVar.DESSERT_STICKER[GlobalVar.dessert_counter] = (string)rdr["new_hot_none"];
                     GlobalVar.DESSERT_IMAGE[GlobalVar.dessert_counter] = (string)rdr["image"];
                     GlobalVar.DESSERT_EXPLAIN[GlobalVar.dessert_counter] = (string)rdr["explain"];
@@ -107,7 +107,7 @@ namespace WPF_project_Cafe
 
                 else if ((string)rdr["beverage_dessert_etc"] == "etc")
                 {
-                    GlobalVar.ETC_NAME[GlobalVar.etc_counter] = (string)rdr["name"];
+                    GlobalVar.ETC_NAME[GlobalVar.etc_counter] = (string)rdr[GlobalVar.Language];
                     GlobalVar.ETC_STICKER[GlobalVar.etc_counter] = (string)rdr["new_hot_none"];
                     GlobalVar.ETC_IMAGE[GlobalVar.etc_counter] = (string)rdr["image"];
                     GlobalVar.ETC_EXPLAIN[GlobalVar.etc_counter] = (string)rdr["explain"];
@@ -128,7 +128,15 @@ namespace WPF_project_Cafe
             TableLoad(Query);
             while (rdr.Read())
             {
-                pdata = (rdr["name"] + "");
+                if (GlobalVar.Language == "Kor_name")
+                {
+                    pdata = (rdr["Kor_name"] + "");
+                }
+                else if (GlobalVar.Language == "Eng_name")
+                {
+                    pdata = (rdr["Eng_name"] + "");
+                }
+
             }
             TableQuit();
 
@@ -169,8 +177,17 @@ namespace WPF_project_Cafe
                     while (rdr.Read())
                     {
                         price = Int32.Parse(rdr["price"] + "");
-                        sw.WriteLine(rdr["product_number"] + " | " + rdr["name"] + " | " + payment_list[i + 3]
-                            + " | " + payment_list[i + 1] + " | " + payment_list[i + 2]); // 테스트용
+                        if (GlobalVar.Language == "Kor_name")
+                        {
+                            sw.WriteLine(rdr["product_number"] + " | " + rdr["Kor_name"] + " | " + payment_list[i + 3]
+                             + " | " + payment_list[i + 1] + " | " + payment_list[i + 2]); // 테스트용
+                        }
+                        else if (GlobalVar.Language == "Eng_name")
+                        {
+                            sw.WriteLine(rdr["product_number"] + " | " + rdr["Eng_name"] + " | " + payment_list[i + 3]
+                             + " | " + payment_list[i + 1] + " | " + payment_list[i + 2]); // 테스트용
+                        }
+                       
                     }
                     sum_price += Int32.Parse(payment_list[i + 2], NumberStyles.AllowThousands);
 
@@ -195,18 +212,38 @@ namespace WPF_project_Cafe
                     TableLoad(productQuery);
                     while (rdr.Read())
                     {
-                        if (rdr["beverage_dessert_etc"] + "" == "beverage")
+                        if (GlobalVar.Language == "Kor_name") 
                         {
-                            product_name += ("(음료) " + rdr["name"] + "\n\n");
+                            if (rdr["beverage_dessert_etc"] + "" == "beverage")
+                            {
+                                product_name += ("(음료) " + rdr["Kor_name"] + "\n\n");
+                            }
+                            else if (rdr["beverage_dessert_etc"] + "" == "dessert")
+                            {
+                                product_name += ("(디저트) " + rdr["Kor_name"] + "\n\n");
+                            }
+                            else
+                            {
+                                product_name += ("(기타) " + rdr["Kor_name"] + "\n\n");
+                            }
                         }
-                        else if (rdr["beverage_dessert_etc"] + "" == "dessert")
+                        else if (GlobalVar.Language == "Eng_name")
                         {
-                            product_name += ("(디저트) " + rdr["name"] + "\n\n");
+                            if (rdr["beverage_dessert_etc"] + "" == "beverage")
+                            {
+                                product_name += ("(음료) " + rdr["Eng_name"] + "\n\n");
+                            }
+                            else if (rdr["beverage_dessert_etc"] + "" == "dessert")
+                            {
+                                product_name += ("(디저트) " + rdr["Eng_name"] + "\n\n");
+                            }
+                            else
+                            {
+                                product_name += ("(기타) " + rdr["Eng_name"] + "\n\n");
+                            }
                         }
-                        else
-                        {
-                            product_name += ("(기타) " + rdr["name"] + "\n\n");
-                        }
+                     
+
                     }
                     TableQuit();
                 }
@@ -243,7 +280,7 @@ namespace WPF_project_Cafe
                     TableQuit();
                 }
             }
-            return String.Format("{0:#,0}", int.Parse(product_price));
+            return product_price;
         }
     }
 }

@@ -21,18 +21,18 @@ namespace WPF_project_Cafe
     /// </summary>
     public partial class StlmLoad : Window
     {
-        Variable variable = new Variable();
+     
         DBSqlite dbs = new DBSqlite();
-        public StlmLoad(Variable variable)
+        public StlmLoad()
         {
-            this.variable = variable;
+            
             InitializeComponent();
 
             string dir = Environment.CurrentDirectory + @"\stlm_list\";
 
             if (Exists(dir))
             {
-                dbs.StlmLoadData(variable.stlm_number);
+                dbs.StlmLoadData(GlobalVar.stlm_number);
             }
             else
             {
@@ -45,29 +45,29 @@ namespace WPF_project_Cafe
         public void Stml()
         {
             // 카드/현금 결제방법 구분
-            String paytype = dbs.DataLoad("stlm", "where stlm_number = " + variable.stlm_number, "card_cash");
+            String paytype = dbs.DataLoad("stlm", "where stlm_number = " + GlobalVar.stlm_number, "card_cash");
 
-            txt_sum_price.Text = dbs.DataLoad("stlm", "where stlm_number = " + variable.stlm_number, "sum_price") + "원";
-            txt_date.Text = dbs.DataLoad("stlm", "where stlm_number = " + variable.stlm_number, "datetime");
-            txt_stlm_number.Text = variable.stlm_number.ToString();
+            txt_sum_price.Text = dbs.DataLoad("stlm", "where stlm_number = " + GlobalVar.stlm_number, "sum_price") + "원";
+            txt_date.Text = dbs.DataLoad("stlm", "where stlm_number = " + GlobalVar.stlm_number, "datetime");
+            txt_stlm_number.Text = GlobalVar.stlm_number.ToString();
             txt_payType.Text = (paytype == "card") ? "카드결제" : "현금결제";
 
-            txt_product_name.Text = dbs.StlmProductName(variable.stlm_number.ToString());
-            txt_product_quantity.Text = dbs.StlmProductQuantity(variable.stlm_number.ToString());
-            txt_product_price.Text = dbs.StlmProductPrice(variable.stlm_number.ToString());
+            txt_product_name.Text = dbs.StlmProductName(GlobalVar.stlm_number.ToString());
+            txt_product_quantity.Text = dbs.StlmProductQuantity(GlobalVar.stlm_number.ToString());
+            txt_product_price.Text = dbs.StlmProductPrice(GlobalVar.stlm_number.ToString());
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // variable 리셋
-            variable.product_price = 0;
-            variable.sum_price = 0;
-            variable.datetime = "";
-            variable.stlm_number = "";
-            variable.product_number = "";
-            variable.payment_list = "";
-            variable.place = "";
-            variable.payment_method = "";
+            GlobalVar.product_price = 0;
+            GlobalVar.sum_price = 0;
+            GlobalVar.datetime = "";
+            GlobalVar.stlm_number = "";
+            GlobalVar.product_number = "";
+            GlobalVar.payment_list = "";
+            GlobalVar.place = "";
+            GlobalVar.payment_method = "";
 
             PaymentInfo.GetInstance().Clear();
 
