@@ -325,7 +325,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
-                    <ListView x:Name="paymentListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" SizeChanged="paymentListView_SizeChanged" Grid.ColumnSpan="2" VerticalContentAlignment="Center" TouchMove="paymentListView_TouchMove" TouchDown="paymentListView_TouchDown" MouseDown="paymentListView_MouseDown" >
+                    <ListView x:Name="paymentListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" SizeChanged="paymentListView_SizeChanged" Grid.ColumnSpan="2" VerticalContentAlignment="Center" >
                         <ListView.Resources>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
