@@ -425,6 +425,10 @@ namespace WPF_project_Cafe
                         if (Dessert[i].explain != "none")
                         {
                             GlobalVar.btn_select_explain_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + Dessert[i].explain)));
+                        }                      
+                        else if (Dessert[i].explain == "none")
+                        {
+                            GlobalVar.btn_select_explain_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_explain\NoReady.jpg")));
                         }
                         //해당 버튼에 있는 스티커 다시 뿌려주기      
                         if (Dessert[i].sticker == "new")
@@ -460,7 +464,10 @@ namespace WPF_project_Cafe
                         {
                             GlobalVar.btn_select_explain_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + Etc[i].explain)));
                         }
-
+                        else if (Etc[i].explain == "none")
+                        {
+                            GlobalVar.btn_select_explain_img = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_explain\NoReady.jpg")));
+                        }
                         //해당 버튼에 있는 스티커 다시 뿌려주기   
                         if (Etc[i].sticker == "new")
                         {
