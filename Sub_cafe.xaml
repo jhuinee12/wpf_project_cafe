@@ -19,44 +19,55 @@
 
 
         <Grid Grid.Row="0" Margin="10,20,10,10">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            <Grid x:Name="greenbord">
+                <Grid Margin="15,15,10,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Grid Grid.Column="0" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="2.5*"/>
-                        <RowDefinition Height="4*"/>
-                        <RowDefinition Height="1.5*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.RowSpan="2" x:Name="menu_img">
-                        
-                    </Grid>
-                    
-                    
-                    <Grid Grid.Row="0" >
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1.5*"/>
-                                <ColumnDefinition Width="4*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid x:Name="menu_sticker_img">
+                    <Grid Grid.Column="0" Margin="0,0,5,0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2.5*"/>
+                            <RowDefinition Height="4*"/>
+                            <RowDefinition Height="1.5*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.RowSpan="2" x:Name="menu_img">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="156*"/>
+                                <RowDefinition Height="17*"/>
+                            </Grid.RowDefinitions>
+
+                        </Grid>
+                                       
+                        <Grid Grid.Row="0" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.5*"/>
+                                    <ColumnDefinition Width="4*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid x:Name="menu_sticker_img">
+                                </Grid>
                             </Grid>
                         </Grid>
+
+                        <Grid  Grid.Row="2" >
+                            <TextBlock x:Name="SELECT_NAME" Foreground="White" FontSize="23" FontWeight="Bold"  TextAlignment="Center"/>
+                        </Grid>
+
                     </Grid>
 
-                    <Grid  Grid.Row="2" >
-                        <TextBlock x:Name="SELECT_NAME"  FontSize="23" FontWeight="Bold"  TextAlignment="Center"  Background="#eee"/>
+                    <Grid Grid.Column="1">
+                        <Border x:Name="explain">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="4.5*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" x:Name="explain_no"/>
+                            </Grid>
+                        </Border>
                     </Grid>
-
-                </Grid>
-
-                <Grid Grid.Column="1">
-                    <Border x:Name="explain">
-                        
-                    </Border>
                 </Grid>
             </Grid>
         </Grid>

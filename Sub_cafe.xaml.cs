@@ -49,10 +49,20 @@ namespace WPF_project_Cafe
         }
         public void Load()
         {
+
+            greenbord.Background= new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sub_cafe\greenbord.jpg")));
             sub_cafe_border.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_sub_cafe\background_img3.jpg")));
             menu_img.Background = GlobalVar.btn_select_img;
             menu_sticker_img.Background = GlobalVar.btn_select_sticker_img;
-            explain.Background = GlobalVar.btn_select_explain_img;
+            if (GlobalVar.btn_select_explain_img == null)
+            {
+                explain_no.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_explain\NoReady.jpg")));
+            }
+            else if (GlobalVar.btn_select_explain_img != null)
+            {
+                explain.Background = GlobalVar.btn_select_explain_img;
+            }
+               
             SELECT_NAME.Text = GlobalVar.select_name;
 
             // 음료이면 옵션 버튼 보이기
