@@ -59,6 +59,8 @@ namespace WPF_project_Cafe
         
         public int cnt;//다국어선택에서 사용
 
+        public List<PaymentInfo> DataList = new List<PaymentInfo>();
+
         public MainWindow()
         {
            
@@ -501,7 +503,7 @@ namespace WPF_project_Cafe
 
         #endregion
 
-        #region //페이지 전환 버튼
+#region //페이지 전환 버튼
         //페이지 전환버튼 스타일 변경
         public void page_move_btn_style()
         {
@@ -513,7 +515,7 @@ namespace WPF_project_Cafe
 
         }
         private void btn_Next_Click(object sender, RoutedEventArgs e)
-        {              
+        {
             //현재 버튼 개수는 9개고 다음 버튼이 7개 일때 나머지 2개가 끝에 남아있음을 방지
             if (Page < GlobalVar.Total_page - 1)
             {
@@ -801,6 +803,8 @@ namespace WPF_project_Cafe
         /* 결제선(리스트뷰) 출력하기 > 메뉴 버튼 클릭 시 해당 product_number를 끌어와서 넣도록 변경할 것 */
         public void LoadListView(string pn)
         {
+            int totalPage = 0;
+
             GlobalVar.product_number = pn;
             GlobalVar.product_price += int.Parse(DB.DataLoad("Product", "where product_number = \"" + GlobalVar.product_number + "\"", "price"));
             if (pn.StartsWith("B")) // 음료이면 옵션 상태 추가
@@ -821,14 +825,74 @@ namespace WPF_project_Cafe
                 ProductOption = GlobalVar.beverage_Option
             });
 
-            paymentListView.ItemsSource = PaymentInfo.GetInstance();
+            if (PaymentInfo.GetInstance().Count % 5 != 0)
+            {
+                totalPage = PaymentInfo.GetInstance().Count / 5 + 1;
+                if (PaymentInfo.GetInstance().Count!=1 && PaymentInfo.GetInstance().Count % 5 == 1)
+                    ListViewPage++;
+            }
+            else
+            {
+                totalPage = PaymentInfo.GetInstance().Count / 5;
+            }
+
+            DataList.Clear();
+            if (5 * ListViewPage < PaymentInfo.GetInstance().Count)
+            {
+                for (int i = 5 * ListViewPage - 5; i < 5 * ListViewPage; i++)
+                {
+                    DataList.Add(PaymentInfo.GetInstance().ElementAt(i));
+                }
+            }
+            else
+            {
+                for (int i = 5 * ListViewPage - 5; i < PaymentInfo.GetInstance().Count; i++)
+                {
+                    DataList.Add(PaymentInfo.GetInstance().ElementAt(i));
+                }
+            }
+
+            paymentListView.ItemsSource = DataList;
             paymentListView.Items.Refresh();
         }
 
 #region       // 리스트뷰 페이지 previous
         private void btn_listView_Previous_Click(object sender, RoutedEventArgs e)
         {
+            DataList.Clear();
+            int totalPage = 0;
 
+            if (PaymentInfo.GetInstance().Count % 5 != 0)
+            {
+                totalPage = PaymentInfo.GetInstance().Count / 5 + 1;
+            }
+            else
+            {
+                totalPage = PaymentInfo.GetInstance().Count / 5;
+            }
+
+            if (ListViewPage > 1)
+            {
+                ListViewPage--;
+                DataList.Clear();
+                if (5 * ListViewPage < PaymentInfo.GetInstance().Count)
+                {
+                    for (int i = 5 * ListViewPage - 5; i < 5 * ListViewPage; i++)
+                    {
+                        DataList.Add(PaymentInfo.GetInstance().ElementAt(i));
+                    }
+                }
+                else
+                {
+                    for (int i = 5 * ListViewPage - 5; i < PaymentInfo.GetInstance().Count; i++)
+                    {
+                        DataList.Add(PaymentInfo.GetInstance().ElementAt(i));
+                    }
+                }
+
+                paymentListView.ItemsSource = DataList;
+                paymentListView.Items.Refresh();
+            }
         }
         #endregion
 
@@ -838,31 +902,36 @@ namespace WPF_project_Cafe
         {
             int totalPage = 0;
 
-            if (paymentListView.Items.Count % 5 != 0)
+            if (PaymentInfo.GetInstance().Count % 5 != 0)
             {
-                totalPage = paymentListView.Items.Count / 5 + 1;
+                totalPage = PaymentInfo.GetInstance().Count / 5 + 1;
             }
             else
             {
-                totalPage = paymentListView.Items.Count / 5;
+                totalPage = PaymentInfo.GetInstance().Count / 5;
             }
 
-            if (ListViewPage+1 <= totalPage)
+            if (ListViewPage < totalPage)
             {
-                for (int i = 5 * ListViewPage - 5; i < 5 * ListViewPage; i++)
+                ListViewPage++;
+                DataList.Clear();
+                if (5*ListViewPage < PaymentInfo.GetInstance().Count)
                 {
-                    // paymentListView 목록을 지우고 i 위치에 있는 리스트 내용을 가져올 생각이었음
-                    // ItemsSource를 사용하는 경우 Clear() 불가 -> PaymentInfo 자체를 clear 해야함
-                    // PaymentInfo.GetInstance().ElementAt(i) 오류남
-/*                    paymentListView.Items.Clear();
-                    paymentListView.ItemsSource = PaymentInfo.GetInstance().ElementAt(i);*/
-                    paymentListView.Items.Refresh();
-
-                    if (i==paymentListView.Items.Count)
+                    for (int i = 5 * ListViewPage - 5; i < 5 * ListViewPage; i++)
                     {
-                        break;
+                        DataList.Add(PaymentInfo.GetInstance().ElementAt(i));
                     }
                 }
+                else
+                {
+                    for (int i = 5 * ListViewPage - 5; i < PaymentInfo.GetInstance().Count; i++)
+                    {
+                        DataList.Add(PaymentInfo.GetInstance().ElementAt(i));
+                    }
+                }
+
+                paymentListView.ItemsSource = DataList;
+                paymentListView.Items.Refresh();
             }
         }
         #endregion
@@ -921,7 +990,7 @@ namespace WPF_project_Cafe
 #region       // 결제하기 버튼
         private void BtnPay_Click(object sender, RoutedEventArgs e)
         {
-            GlobalVar.count = paymentListView.Items.Count;   // 현재 리스트뷰의 행 개수
+            GlobalVar.count = PaymentInfo.GetInstance().Count;   // 현재 리스트뷰의 행 개수
 
             if (GlobalVar.count == 0)
             {

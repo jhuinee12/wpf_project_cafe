@@ -82,10 +82,13 @@
     <Compile Include="StlmLoad.xaml.cs">
       <DependentUpon>StlmLoad.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Variable.cs" />
     <Compile Include="Sub_cafe.xaml.cs">
       <DependentUpon>Sub_cafe.xaml</DependentUpon>
     </Compile>
+    <Page Include="Main_Cafe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -93,6 +96,10 @@
     <Compile Include="beverage.cs" />
     <Compile Include="DBSqlite.cs" />
     <Compile Include="GlobalVar.cs" />
+    <Compile Include="Main_Cafe.xaml.cs">
+      <DependentUpon>Main_Cafe.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Page Include="PayType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
