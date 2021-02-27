@@ -1005,15 +1005,15 @@ namespace WPF_project_Cafe
             Button selectBtn = sender as Button;
             PaymentInfo pi = (PaymentInfo)selectBtn.DataContext;
 
-            for (int i=0; i< paymentListView.Items.Count; i++)
+            for (int i=0; i< PaymentInfo.GetInstance().Count; i++)
             {
                 PaymentInfo pie = PaymentInfo.GetInstance().ElementAt(i);
-                if (pi.ProductNumber == pie.ProductNumber)
+                if (pi.ProductNumber == pie.ProductNumber && pi.ProductOption == pie.ProductOption)
                 {
                     PaymentInfo.GetInstance().RemoveAt(i);
                 }
             }
-            paymentListView.Items.Refresh();
+            ListView();
         }
         #endregion
 
