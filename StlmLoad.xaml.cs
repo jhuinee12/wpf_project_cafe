@@ -28,6 +28,9 @@ namespace WPF_project_Cafe
             
             InitializeComponent();
 
+            btn_home.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\home.png")));
+            btn_home.Style = FindResource("Btn_Style") as Style;
+
             string dir = Environment.CurrentDirectory + @"\stlm_list\";
 
             if (Exists(dir))

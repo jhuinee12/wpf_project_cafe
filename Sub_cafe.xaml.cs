@@ -39,8 +39,37 @@ namespace WPF_project_Cafe
         {
             if (GlobalVar.beverage_size != "" && GlobalVar.beverage_type != "")
             {
-                GlobalVar.btClick = 1;
-                this.Close();
+
+                if (GlobalVar.product_number.StartsWith("B")) // 음료이면 옵션 상태 추가
+                {
+                    GlobalVar.beverage_Option = "size : " + GlobalVar.beverage_size + ", type : " + GlobalVar.beverage_type;
+                }
+                else
+                {
+                    GlobalVar.beverage_Option = "";
+                }
+                if (PaymentInfo.GetInstance().Count != 0)
+                {
+                    for (int i = 0; i < PaymentInfo.GetInstance().Count; i++)
+                    {
+                        if (GlobalVar.product_number.Equals(PaymentInfo.GetInstance().ElementAt(i).ProductNumber)
+                            && GlobalVar.beverage_Option.Equals(PaymentInfo.GetInstance().ElementAt(i).ProductOption))
+                        {
+                            MessageBox.Show("이미 선택된 상품입니다.");
+                            GlobalVar.btClick = 0;
+                        }
+                        else
+                        {
+                            GlobalVar.btClick = 1;
+                            this.Close();
+                        }
+                    }
+                }
+                else
+                {
+                    GlobalVar.btClick = 1;
+                    this.Close();
+                }
             }
             else
             {

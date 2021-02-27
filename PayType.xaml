@@ -5,24 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_project_Cafe"
         mc:Ignorable="d"
-        Title="PayType" Height="800" Width="400">
+        Title="PayType" Height="800" Width="400"
+        WindowStartupLocation="CenterScreen" WindowStyle="None">
+
+    <Window.Resources>
+        <Style x:Key="Btn_Style" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" BorderThickness="0" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="2.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="2.5*"/>
+            <RowDefinition Height="0.5*"/>
             <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="1" x:Name="btnWrap1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.7*"/>
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <Label Content="장소를 선택해주세요" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Label Content="장소를 선택해주세요" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="24"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -30,21 +51,21 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
-                    <Button x:Name="btn_Store" Content="매장에서" Margin="15 50" Click="btn_Store_Click" />
+                    <Button x:Name="btn_Store" Margin="15 15" Click="btn_Store_Click" FontSize="24" />
                 </Grid>
                 <Grid Grid.Column="1">
-                    <Button x:Name="btn_TakeOut" Content="테이크아웃" Margin="15 50" Click="btn_TakeOut_Click" />
+                    <Button x:Name="btn_TakeOut" Margin="15 15" Click="btn_TakeOut_Click" />
                 </Grid>
             </Grid>
         </Grid>
 
         <Grid Grid.Row="3" x:Name="btnWrap2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.7*"/>
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <Label Content="결제 수단을 선택해주세요" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Label Content="결제 수단을 선택해주세요" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="Bold"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -52,11 +73,25 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
-                    <Button x:Name="btn_Card" Content="IC카드 결제" Margin="15 50" Click="btn_Card_Click" />
+                    <Button x:Name="btn_Card" Margin="15 15" Click="btn_Card_Click" />
                 </Grid>
                 <Grid Grid.Column="1">
-                    <Button x:Name="btn_Pay" Content="페이 결제" Margin="15 50" Click="btn_Pay_Click" />
+                    <Button x:Name="btn_Cash" Margin="15 15" Click="btn_Cash_Click" />
                 </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Button x:Name="btn_Back" Click="btn_Back_Click"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Button x:Name="btn_Pay" Click="btn_Pay_Click"/>
             </Grid>
         </Grid>
     </Grid>

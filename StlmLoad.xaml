@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_project_Cafe"
         mc:Ignorable="d"
-        Title="StlmLoad" Height="800" Width="400">
-
+        Title="StlmLoad" Height="800" Width="400"
+        WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Window.Resources>
+        <Style x:Key="Btn_Style" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" BorderThickness="0" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -131,10 +150,7 @@
             </Grid>
 
             <Grid Grid.Row="3">
-                <Button Content="홈으로" 
-                        FontWeight="Bold" 
-                        FontSize="24"
-                        Click="Button_Click"/>
+                <Button x:Name="btn_home" Click="Button_Click" Margin="100,0"/>
             </Grid>
         </Grid>
     </Grid>

@@ -25,92 +25,74 @@ namespace WPF_project_Cafe
         public PayType()
         { 
             InitializeComponent();
-        }
-
-        public SolidColorBrush yClick()
-        {
-            Color ycolor = Color.FromRgb(255, 255, 0);
-            SolidColorBrush ybrush = new SolidColorBrush(ycolor);
-            return ybrush;
-        }
-
-        public SolidColorBrush gClick()
-        {
-            Color gcolor = Color.FromRgb(112, 112, 112);
-            SolidColorBrush gbrush = new SolidColorBrush(gcolor);
-            return gbrush;
+            btn_Store.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\store.png")));
+            btn_TakeOut.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\takeout.png")));
+            btn_Card.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\card.png")));
+            btn_Cash.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\pay.png")));
+            btn_Back.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\home.png")));
+            btn_Pay.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\payment.png")));
+            btn_Store.Style = FindResource("Btn_Style") as Style;
+            btn_TakeOut.Style = FindResource("Btn_Style") as Style;
+            btn_Card.Style = FindResource("Btn_Style") as Style;
+            btn_Cash.Style = FindResource("Btn_Style") as Style;
+            btn_Back.Style = FindResource("Btn_Style") as Style;
+            btn_Pay.Style = FindResource("Btn_Style") as Style;
         }
 
         private void btn_Store_Click(object sender, RoutedEventArgs e)
         {
             GlobalVar.place = "here";
-            btn_Store.Background = yClick();
-            btn_TakeOut.Background = gClick();
+            btn_Store.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\store_click.png")));
+            btn_TakeOut.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\takeout.png")));
         }
         private void btn_TakeOut_Click(object sender, RoutedEventArgs e)
         {
             GlobalVar.place = "takeout";
-            btn_TakeOut.Background = yClick();
-            btn_Store.Background = gClick();
+            btn_Store.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\store.png")));
+            btn_TakeOut.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\takeout_click.png")));
         }
 
         private void btn_Card_Click(object sender, RoutedEventArgs e)
         {
+            GlobalVar.payment_method = "card";
+            btn_Card.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\card_click.png")));
+            btn_Cash.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\pay.png")));
+        }
+        private void btn_Cash_Click(object sender, RoutedEventArgs e)
+        {
+            GlobalVar.payment_method = "cash";
+            btn_Card.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\card.png")));
+            btn_Cash.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\pay_click.png")));
+        }
+
+        private void btn_Pay_Click(object sender, RoutedEventArgs e)
+        {
+
             if (GlobalVar.place == null)
             {
                 MessageBox.Show("식사 장소를 선택해주세요");
             }
-            else if (GlobalVar.place == "here")
+            else if (GlobalVar.payment_method == null)
             {
-                GlobalVar.payment_method = "card";
-                btn_Card.Background = yClick();
-                btn_Pay.Background = gClick();
-
-                if (MessageBox.Show("매장식사 / 카드결제\n" + "결제를 진행하시겠습니까?", "확인", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    LoadStlm();
-                }
+                MessageBox.Show("결제 방법을 선택해주세요");
             }
-            else if (GlobalVar.place == "takeout")
+            else
             {
-                GlobalVar.payment_method = "card";
-                btn_Card.Background = yClick();
-                btn_Pay.Background = gClick();
-
-                if (MessageBox.Show("포장 / 카드결제\n" + "결제를 진행하시겠습니까?", "확인", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                string pm = GlobalVar.payment_method == "card" ? "카드결제" : "현금결제";
+                string pp = GlobalVar.place == "here" ? "매장식사" : "포장";
+                if (MessageBox.Show(pp + " / " + pm + "\n결제를 진행하시겠습니까?", "확인", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     LoadStlm();
                 }
             }
         }
-        private void btn_Pay_Click(object sender, RoutedEventArgs e)
+        private void btn_Back_Click(object sender, RoutedEventArgs e)
         {
-            if (GlobalVar.place == null)
-            {
-                MessageBox.Show("식사 장소를 선택해주세요");
-            }
-            else if (GlobalVar.place == "here")
-            {
-                GlobalVar.payment_method = "cash";
-                btn_Pay.Background = yClick();
-                btn_Card.Background = gClick();
-
-                if (MessageBox.Show("매장식사 / 현금결제\n" + "결제를 진행하시겠습니까?", "확인", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    LoadStlm();
-                }
-            }
-            else if (GlobalVar.place == "takeout")
-            {
-                GlobalVar.payment_method = "cash";
-                btn_Pay.Background = yClick();
-                btn_Card.Background = gClick();
-
-                if (MessageBox.Show("포장 / 현금결제\n" + "결제를 진행하시겠습니까?", "확인", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    LoadStlm();
-                }
-            }
+            GlobalVar.payment_list = "";
+            GlobalVar.sum_price = 0;
+            MainWindow mw = new MainWindow();
+            this.Close();
+            mw.ShowDialog();
         }
 
         public void LoadStlm()

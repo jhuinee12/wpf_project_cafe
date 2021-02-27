@@ -83,6 +83,8 @@ namespace WPF_project_Cafe
 
             //동적 버튼과스티커 생성하기
             Menu_btn_add();
+
+            ListView();
         }
        
         public void hand_over_data()
@@ -509,10 +511,15 @@ namespace WPF_project_Cafe
         {
             btn_Previous.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\Previous.png")));
             btn_Next.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\Next.png")));
+            btn_listView_Previous.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\Previous.png")));
+            btn_listView_Next.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\Next.png")));
+            btn_Pay.Background = new ImageBrush(new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Image_btn\payment.png")));
             //listbtn_Style 재사용
             btn_Previous.Style = FindResource("listBtn_Style") as Style;
             btn_Next.Style = FindResource("listBtn_Style") as Style;
-
+            btn_listView_Previous.Style = FindResource("listBtn_Style") as Style;
+            btn_listView_Next.Style = FindResource("listBtn_Style") as Style;
+            btn_Pay.Style = FindResource("listBtn_Style") as Style;
         }
         private void btn_Next_Click(object sender, RoutedEventArgs e)
         {
@@ -534,9 +541,6 @@ namespace WPF_project_Cafe
 
         private void btn_Previous_Click(object sender, RoutedEventArgs e)
         {
- 
-           
-
             //현재 버튼이 7개 이고 이전 버튼 개수는 9개일때 인덱스 오버 방지
             if (Page == GlobalVar.Total_page - 1)
             {
@@ -800,21 +804,47 @@ namespace WPF_project_Cafe
             btn_jpn.Background = Brushes.White;
         }
 
-        /* 결제선(리스트뷰) 출력하기 > 메뉴 버튼 클릭 시 해당 product_number를 끌어와서 넣도록 변경할 것 */
+        public void ListView()
+        {
+            if (PaymentInfo.GetInstance() != null)
+            {
+                int totalPage = 0;
+
+                if (PaymentInfo.GetInstance().Count % 5 != 0)
+                {
+                    totalPage = PaymentInfo.GetInstance().Count / 5 + 1;
+                }
+                else
+                {
+                    totalPage = PaymentInfo.GetInstance().Count / 5;
+                }
+
+                DataList.Clear();
+                if (5 * ListViewPage < PaymentInfo.GetInstance().Count)
+                {
+                    for (int i = 5 * ListViewPage - 5; i < 5 * ListViewPage; i++)
+                    {
+                        DataList.Add(PaymentInfo.GetInstance().ElementAt(i));
+                    }
+                }
+                else
+                {
+                    for (int i = 5 * ListViewPage - 5; i < PaymentInfo.GetInstance().Count; i++)
+                    {
+                        DataList.Add(PaymentInfo.GetInstance().ElementAt(i));
+                    }
+                }
+
+                paymentListView.ItemsSource = DataList;
+            }
+            paymentListView.Items.Refresh();
+        }
         public void LoadListView(string pn)
         {
             int totalPage = 0;
 
             GlobalVar.product_number = pn;
             GlobalVar.product_price += int.Parse(DB.DataLoad("Product", "where product_number = \"" + GlobalVar.product_number + "\"", "price"));
-            if (pn.StartsWith("B")) // 음료이면 옵션 상태 추가
-            {
-                GlobalVar.beverage_Option = "size : " + GlobalVar.beverage_size + ", type : " + GlobalVar.beverage_type;
-            }
-            else
-            {
-                GlobalVar.beverage_Option = "";
-            }
 
             PaymentInfo.GetInstance().Add(new PaymentInfo()
             {
