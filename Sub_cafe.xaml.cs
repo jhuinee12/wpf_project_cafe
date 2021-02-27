@@ -37,6 +37,7 @@ namespace WPF_project_Cafe
 
         private void btn_save_Click(object sender, RoutedEventArgs e)
         {
+            bool check = true;
             if (GlobalVar.beverage_size != "" && GlobalVar.beverage_type != "")
             {
 
@@ -48,6 +49,7 @@ namespace WPF_project_Cafe
                 {
                     GlobalVar.beverage_Option = "";
                 }
+
                 if (PaymentInfo.GetInstance().Count != 0)
                 {
                     for (int i = 0; i < PaymentInfo.GetInstance().Count; i++)
@@ -56,16 +58,13 @@ namespace WPF_project_Cafe
                             && GlobalVar.beverage_Option.Equals(PaymentInfo.GetInstance().ElementAt(i).ProductOption))
                         {
                             MessageBox.Show("이미 선택된 상품입니다.");
-                            GlobalVar.btClick = 0;
-                        }
-                        else
-                        {
-                            GlobalVar.btClick = 1;
-                            this.Close();
+                            check = false;
+                            break;
                         }
                     }
                 }
-                else
+                
+                if (check)
                 {
                     GlobalVar.btClick = 1;
                     this.Close();
@@ -171,7 +170,7 @@ namespace WPF_project_Cafe
 
         private void btn_ice_Click(object sender, RoutedEventArgs e)
         {
-            GlobalVar.beverage_type = "hot";
+            GlobalVar.beverage_type = "ice";
             btn_hot.Background = gClick();
             btn_ice.Background = yClick();
         }
